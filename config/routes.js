@@ -28,7 +28,7 @@ module.exports.routes = {
     view: 'pages/homepage'
   },
 
-  '/test': 'test.addSubToGroup'
+  '/test1/add' : 'test1.test'
 
   /***************************************************************************
   *                                                                          *

@@ -23,5 +23,19 @@ module.exports = {
         }
     },
 
+    beforeDestroy: (criteria, proceed) => {
+        Major.find(criteria).populate('marks').exec((err, rs) => {
+            if (err) {
+                return proceed(err);
+            }
+            rs.forEach(major => {
+                major.marks.forEach(async el => {
+                    await Mark.destroy({id: el.id});
+                });
+            });
+            return proceed();
+        });
+    }
+
 };
 

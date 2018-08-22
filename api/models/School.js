@@ -12,7 +12,8 @@ module.exports = {
             type: 'string'
         },
         code: {
-            type: 'string'
+            type: 'string',
+            unique: true
         },
         description: {
             type: 'string'
@@ -29,6 +30,20 @@ module.exports = {
             via: 'school'
         }
     },
+
+    beforeDestroy: (criteria, proceed) => {
+        School.find(criteria).populate('majors').exec((err, rs) => {
+            if (err) {
+                return proceed(err);
+            }
+            rs.forEach(school => {
+                school.majors.forEach(async el => {
+                    await Major.destroy({id: el.id});
+                });
+            });
+            return proceed();
+        });
+    }
 
 };
 
