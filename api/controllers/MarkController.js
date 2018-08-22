@@ -9,72 +9,76 @@ module.exports = {
 
     // t
     add: async (req, res) => {
-        let mark = {
-            year: req.query.year,
-            mark: req.query.mark,
-            aspiration: req.query.aspiration,
-            note: req.query.note,
-            major: req.query.major,
-            school: req.query.school
-        }
-        let major = await Major.findOne({ id: mark.major });
-        let school = await School.findOne({ id: mark.school });
-        if (major && school) {
-            let s = await Mark.create(mark).fetch();
-            if (s) {
-                return res.status(200).json(s);
+        try {
+            let mark = JSON.parse(req.param('data'));
+            if (mark.subjectGroups) {
+                mark.subjectGroups.forEach(async ele => {
+                    let sg = await SubjectGroup.findOne({ id: ele });
+                    if (!sg) {
+                        return res.status(404).send();
+                    }
+                });
+                mark.subjectGroups = JSON.stringify(mark.subjectGroups);
             } else {
-                return res.status(304);
+                return res.status(500).send();
             }
-        } else {
-            return res.status(404);
+            let major = await Major.findOne({ id: mark.major });
+            let school = await School.findOne({ id: mark.school });
+            if (major && school) {
+                let s = await Mark.create(mark).fetch();
+                return res.status(s ? 200 : 304).send();
+            } else {
+                return res.status(404).send();
+            }
+        } catch (error) {
+            res.status(500).send();
         }
     },
 
     delete: async (req, res) => {
-        let rs = await mark.destroy({ id: req.params.id });
-        if (rs && rs.length !== 0) {
-            return res.status(200).send(rs);
+        let id = req.param('id');
+        if (id) {
+            let rs = await mark.destroy({ id: id }).fetch();
+            return res.status((rs && rs.length !== 0) ? 200 : 304).send();
         } else {
-            return res.status(304);
+            return res.status(500).send();
         }
     },
 
     // t
     update: async (req, res) => {
-        let mark = {
-            id: req.query.id,
-            year: req.query.year,
-            mark: req.query.mark,
-            aspiration: req.query.aspiration,
-            note: req.query.note,
-            major: req.query.major,
-            school: req.query.school
-        }
-        let major = await Major.findOne({ id: mark.major });
-        let school = await School.findOne({ id: mark.school });
-        if (major && school) {
-            let s = await Mark.update({id: mark.id},mark).fetch();
-            if (s) {
-                return res.status(200).json(s);
+        try {
+            let mark = JSON.parse(req.param('data'));
+            mark.subjectGroups.forEach(async ele => {
+                let sg = await SubjectGroup.findOne({ id: ele });
+                if (!sg) {
+                    return res.status(404).send();
+                }
+            });
+            mark.subjectGroups = JSON.stringify(mark.subjectGroups);
+            let major = await Major.findOne({ id: mark.major });
+            let school = await School.findOne({ id: mark.school });
+            if (major && school) {
+                let s = await Mark.update({ id: mark.id }, mark).fetch();
+                return res.status(s ? 200 : 304).send();
             } else {
-                return res.status(304);
+                return res.status(404).send();
             }
-        } else {
-            return res.status(404);
+        } catch (error) {
+            res.status(500).send();
         }
     },
 
     // /mark/getall/:page
     getAll: async (req, res) => {
-        let page = req.params.page | 1;
+        let page = req.param('page') || 1;
         let list = await Mark.find().limit(10).skip((page - 1) * 10);
         return rs.send(list);
     },
 
     // /mark/getone/:id
     getOne: async (req, res) => {
-        let id = req.params.id | 1;
+        let id = req.param('id') || 1;
         let mark = await Mark.find({ id: id });
         return res.send(mark);
     }

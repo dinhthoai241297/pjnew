@@ -8,67 +8,61 @@
 module.exports = {
 
     add: async (req, res) => {
-        let school = {
-            name: req.query.name,
-            code: req.query.code,
-            description: req.query.description,
-            idProvince: req.query.idProvince
-        }
-        let province = await Province.findOne({ id: school.idProvince });
-        if (province) {
-            let s = await School.create(school).fetch();
-            if (s) {
-                return res.status(200).json(s);
+        try {
+            let school = JSON.parse(req.param('data'));
+            let province = await Province.findOne({ id: school.idProvince });
+            if (province) {
+                let s = await School.create(school).fetch();
+                return res.status(s ? 200 : 304).send();
             } else {
-                return res.status(304);
+                return res.status(404).send();
             }
-        } else {
-            return res.status(404);
+        } catch (error) {
+            res.status(500).send();
         }
     },
 
     delete: async (req, res) => {
-        let rs = await School.destroy({id: req.params.id});
-        if (rs && rs.length !== 0) {
-            return res.status(200).send(rs);
+        let id = req.param('id');
+        if (id) {
+            let rs = await School.destroy({ id: id }).fetch();
+            if (rs && rs.length !== 0) {
+                return res.status(200).send();
+            } else {
+                return res.status(304).send();
+            }
         } else {
-            return res.status(304);
+            res.status(500).send();
         }
     },
 
     // t
     update: async (req, res) => {
-        let school = {
-            id: req.query.id,
-            name: req.query.name,
-            code: req.query.code,
-            description: req.query.description,
-            idProvince: req.query.idProvince
-        }
-        let province = await Province.findOne({ id: school.idProvince });
-        if (province) {
-            let s = await School.update({id: school.id}, school).fetch();
-            if (s) {
-                return res.status(200).json(s);
+        try {
+            let school = JSON.parse(req.param('data'));
+            let province = await Province.findOne({ id: school.province });
+            if (province) {
+                let s = await School.update({id : school.id}, school).fetch();
+                return res.status(s ? 200 : 304).send();
             } else {
-                return res.status(304);
+                return res.status(404).send();
             }
-        } else {
-            return res.status(404);
+        } catch (error) {
+            res.status(500).send();
         }
     },
 
     // /school/getall/:page
     getAll: async (req, res) => {
-        let page = req.params.page | 1;
+        let page = req.param('page') || 1;
         let list = await School.find().limit(10).skip((page - 1) * 10);
         return rs.send(list);
     },
 
     // /school/getone/:id
     getOne: async (req, res) => {
-        let id = req.params.id | 1;
-        let school = await School.find({id: id});
+        let id = req.param('id') || 1;
+        let school = await School.find({ id: id });
         return res.send(school);
     }
 

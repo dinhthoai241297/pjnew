@@ -7,64 +7,57 @@
 
 module.exports = {
     add: async (req, res) => {
-        let major = {
-            name: req.query.name,
-            code: req.query.code,
-            school: req.query.school
-        }
-        let school = await School.findOne({ id: mark.school });
-        if (school) {
-            let s = await Major.create(major).fetch();
-            if (s) {
-                return res.status(200).json(s);
+        try {
+            let major = JSON.parse(req.param('data'));
+            let school = await School.findOne({ id: mark.school });
+            if (school) {
+                let s = await Major.create(major).fetch();
+                return res.status(s ? 200 : 304).send();
             } else {
-                return res.status(304);
+                return res.status(404).send();
             }
-        } else {
-            return res.status(404);
+        } catch (error) {
+            res.status(500).send();
         }
     },
 
     delete: async (req, res) => {
-        let rs = await Major.destroy({id: req.params.id});
-        if (rs && rs.length !== 0) {
-            return res.status(200).send(rs);
+        let id = req.param('id');
+        if (id) {
+            let rs = await Major.destroy({ id: id }).fetch();
+            return res.status((rs && rs.length !== 0) ? 200 : 304).send();
         } else {
-            return res.status(304);
+            return res.status(500).send();
         }
     },
 
     // t
     update: async (req, res) => {
-        let major = {
-            name: req.query.name,
-            code: req.query.code,
-            school: req.query.school
-        }
-        let school = await School.findOne({ id: mark.school });
-        if (school) {
-            let s = await Major.update({id: major.id}, major).fetch();
-            if (s) {
-                return res.status(200).json(s);
+        try {
+            let major = JSON.parse(req.param('data'));
+            let school = await School.findOne({ id: mark.school });
+            if (school) {
+                let s = await Major.update({ id: major.id }, major).fetch();
+                return res.status(s ? 200 : 304).send();
             } else {
-                return res.status(304);
+                return res.status(404).send();
             }
-        } else {
-            return res.status(404);
+        } catch (error) {
+            res.status(500).send();
         }
     },
 
     // /major/getall/:page
     getAll: async (req, res) => {
-        let page = req.params.page | 1;
+        let page = req.param('page') || 1;
         let list = await Major.find().limit(10).skip((page - 1) * 10);
         return rs.send(list);
     },
 
     // /major/getone/:id
     getOne: async (req, res) => {
-        let id = req.params.id | 1;
-        let major = await Major.find({id: id});
+        let id = req.param('id') || 1;
+        let major = await Major.find({ id: id });
         return res.send(major);
     }
 

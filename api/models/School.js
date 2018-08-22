@@ -9,11 +9,13 @@ module.exports = {
     // School
     attributes: {
         name: {
-            type: 'string'
+            type: 'string',
+            required: true
         },
         code: {
             type: 'string',
-            unique: true
+            unique: true,
+            required: true
         },
         description: {
             type: 'string'

@@ -9,6 +9,11 @@ module.exports = {
     // SubjectGroup
     attributes: {
         name: {
+            type: 'string',
+            unique: true,
+            required: true
+        },
+        description: {
             type: 'string'
         },
         subjects: {

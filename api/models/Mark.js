@@ -26,7 +26,7 @@ module.exports = {
         school: {
             model : 'school'
         },
-        subjectgroups: {
+        subjectGroups: {
             type: 'json'
         }
     },

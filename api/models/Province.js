@@ -9,6 +9,11 @@ module.exports = {
     // Province
     attributes: {
         name: {
+            type: 'string',
+            unique: true,
+            required: true
+        },
+        description: {
             type: 'string'
         },
         sector: {
