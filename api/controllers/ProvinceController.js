@@ -85,7 +85,7 @@ module.exports = {
                 next: false
             }
         }
-        return rs.json({code, message, list});
+        return res.json({code, message, data});
     },
 
     // /province/getone/:id

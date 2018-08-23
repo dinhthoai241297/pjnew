@@ -86,7 +86,7 @@ module.exports = {
                 next: false
             }
         }
-        res.json({ code: code, message: message, data: data });
+        res.json({ code, message, data});
     },
 
     // /major/getone/:id

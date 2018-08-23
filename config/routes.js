@@ -28,47 +28,51 @@ module.exports.routes = {
     view: 'pages/homepage'
   },
 
+  '/test': {
+      view: 'test'
+  },
+
   'POST /major/add' : 'major.add',
-  'POST /major/delete/:id' : 'major.delete',
+  'POST /major/delete' : 'major.delete',
   'POST /major/update' : 'major.update',
-  'POST /major/getall/:page' : 'major.getAll',
-  'POST /major/getOne/:id' : 'major.getOne',
+  'POST /major/getall' : 'major.getAll',
+  'POST /major/getone' : 'major.getOne',
 
   'POST /mark/add' : 'mark.add',
-  'POST /mark/delete/:id' : 'mark.delete',
+  'POST /mark/delete' : 'mark.delete',
   'POST /mark/update' : 'mark.update',
-  'POST /mark/getall/:page' : 'mark.getAll',
-  'POST /mark/getOne/:id' : 'mark.getOne',
+  'POST /mark/getall' : 'mark.getAll',
+  'POST /mark/getone' : 'mark.getOne',
 
   'POST /province/add' : 'province.add',
-  'POST /province/delete/:id' : 'province.delete',
+  'POST /province/delete' : 'province.delete',
   'POST /province/update' : 'province.update',
-  'POST /province/getall/:page' : 'province.getAll',
-  'POST /province/getOne/:id' : 'province.getOne',
+  'POST /province/getall' : 'province.getAll',
+  'POST /province/getone' : 'province.getOne',
 
   'POST /school/add' : 'school.add',
-  'POST /school/delete/:id' : 'school.delete',
+  'POST /school/delete' : 'school.delete',
   'POST /school/update' : 'school.update',
-  'POST /school/getall/:page' : 'school.getAll',
-  'POST /school/getOne/:id' : 'school.getOne',
+  'POST /school/getall' : 'school.getAll',
+  'POST /school/getone' : 'school.getOne',
 
   'POST /sector/add' : 'sector.add',
-  'POST /sector/delete/:id' : 'sector.delete',
+  'POST /sector/delete' : 'sector.delete',
   'POST /sector/update' : 'sector.update',
-  'POST /sector/getall/:page' : 'sector.getAll',
-  'POST /sector/getOne/:id' : 'sector.getOne',
+  'POST /sector/getall' : 'sector.getAll',
+  'POST /sector/getone' : 'sector.getOne',
 
   'POST /subject/add' : 'subject.add',
-  'POST /subject/delete/:id' : 'subject.delete',
+  'POST /subject/delete' : 'subject.delete',
   'POST /subject/update' : 'subject.update',
-  'POST /subject/getall/:page' : 'subject.getAll',
-  'POST /subject/getOne/:id' : 'subject.getOne',
+  'POST /subject/getall' : 'subject.getAll',
+  'POST /subject/getone' : 'subject.getOne',
 
   'POST /subjectgroup/add' : 'subjectGroup.add',
-  'POST /subjectgroup/delete/:id' : 'subjectGroup.delete',
+  'POST /subjectgroup/delete' : 'subjectGroup.delete',
   'POST /subjectgroup/update' : 'subjectGroup.update',
-  'POST /subjectgroup/getall/:page' : 'subjectGroup.getAll',
-  'POST /subjectgroup/getOne/:id' : 'subjectGroup.getOne'
+  'POST /subjectgroup/getall' : 'subjectGroup.getAll',
+  'POST /subjectgroup/getone' : 'subjectGroup.getOne'
 
   /***************************************************************************
   *                                                                          *
