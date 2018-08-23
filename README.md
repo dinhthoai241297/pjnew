@@ -1,27 +1,39 @@
-# sailsjs-model
+#Mã lỗi
 
-a [Sails v1](https://sailsjs.com) application
+###Tất cả
+    200: Thành công
 
+###Major 1 -> 99
+    01: Dữ liệu gửi lên không hợp lệ
+    02: có lỗi xảy ra, không có gì được thay đổi
+    03: không tìm thấy dữ liệu trong database
 
-### Links
+###Mark 101 -> 199
+    101: Dữ liệu gửi lên không hợp lệ
+    102: có lỗi xảy ra, không có gì được thay đổi
+    103: không tìm thấy dữ liệu trong database
 
-+ [Get started](https://sailsjs.com/get-started)
-+ [Sails framework documentation](https://sailsjs.com/documentation)
-+ [Version notes / upgrading](https://sailsjs.com/documentation/upgrading)
-+ [Deployment tips](https://sailsjs.com/documentation/concepts/deployment)
-+ [Community support options](https://sailsjs.com/support)
-+ [Professional / enterprise options](https://sailsjs.com/enterprise)
+###Province 201 -> 299
+    201: Dữ liệu gửi lên không hợp lệ
+    202: có lỗi xảy ra, không có gì được thay đổi
+    203: không tìm thấy dữ liệu trong database
 
+###School 301 -> 399
+    301: Dữ liệu gửi lên không hợp lệ
+    302: có lỗi xảy ra, không có gì được thay đổi
+    303: không tìm thấy dữ liệu trong database
 
-### Version info
+###Sector 401 -> 499
+    401: Dữ liệu gửi lên không hợp lệ
+    402: có lỗi xảy ra, không có gì được thay đổi
+    403: không tìm thấy dữ liệu trong database
 
-This app was originally generated on Tue Aug 21 2018 11:36:58 GMT+0700 (SE Asia Standard Time) using Sails v1.0.2.
+###Subject 501 -> 599
+    501: Dữ liệu gửi lên không hợp lệ
+    502: có lỗi xảy ra, không có gì được thay đổi
+    503: không tìm thấy dữ liệu trong database
 
-<!-- Internally, Sails used [`sails-generate@1.15.28`](https://github.com/balderdashy/sails-generate/tree/v1.15.28/lib/core-generators/new). -->
-
-
-
-<!--
-Note:  Generators are usually run using the globally-installed `sails` CLI (command-line interface).  This CLI version is _environment-specific_ rather than app-specific, thus over time, as a project's dependencies are upgraded or the project is worked on by different developers on different computers using different versions of Node.js, the Sails dependency in its package.json file may differ from the globally-installed Sails CLI release it was originally generated with.  (Be sure to always check out the relevant [upgrading guides](https://sailsjs.com/upgrading) before upgrading the version of Sails used by your app.  If you're stuck, [get help here](https://sailsjs.com/support).)
--->
-
+###SubjectGroup 601 -> 699
+    601: Dữ liệu gửi lên không hợp lệ
+    602: có lỗi xảy ra, không có gì được thay đổi
+    603: không tìm thấy dữ liệu trong database

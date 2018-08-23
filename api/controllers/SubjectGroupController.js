@@ -6,68 +6,105 @@
  */
 
 module.exports = {
+
+    // 601 dữ liệu gửi lên không hợp lệ
+    // 602 có lỗi xảy ra, không có gì được thay đổi
+    // 603 không tìm thấy dữ liệu trong database
+
     add: async (req, res) => {
+        res.status(200);
+        let code = 603, message = 'error';
         try {
             let subjectGroup = JSON.parse(req.param('data'));
-            if (subjectGroup.subjects) {
-                // kiểm tra từng tổ hợp môn có tồn tại hay k
-                subjectGroup.subjects.forEach(async ele => {
-                    let sub = await Subject.findOne({ id: ele });
-                    if (!sub) {
-                        return res.status(404).send();
-                    }
-                });
-                subjectGroup.subjects = JSON.stringify(subjectGroup.subjects);
-            }
+            subjectGroup.subjects.forEach(async ele => {
+                let sub = await Subject.findOne({ id: ele });
+                if (!sub) {
+                    return res.json({ code, message });
+                }
+            });
+            subjectGroup.subjects = JSON.stringify(subjectGroup.subjects);
             let s = await SubjectGroup.create(subjectGroup).fetch();
-            return res.status(s ? 200 : 304).json(s);
+            if (s) {
+                code = 200;
+                message = 'success';
+            } else {
+                code = 602;
+            }
         } catch (error) {
-            return res.status(500).send();
+            code = 601;
         }
+        return res.json({code ,message});
     },
 
     delete: async (req, res) => {
-        let id = req.param('id');
+        res.status(200);
+        let code = 601, message = 'error', id = req.param('id');
         if (id) {
             let rs = await SubjectGroup.destroy({ id: id }).fetch();
-            return res.status((rs && rs.length !== 0) ? 200 : 304).send();
-        } else {
-            return res.status(500).send();
+            if (rs && rs.length !== 0) {
+                code = 200;
+                message = 'success';
+            } else {
+                code = 602;
+            }
         }
+        return res.json({code, message});
     },
 
     // t
     update: async (req, res) => {
+        res.status(200);
+        let code = 603, message = 'error';
         try {
             let subjectGroup = JSON.parse(req.param('data'));
-            if (subjectGroup.subjects) {
-                // kiểm tra từng tổ hợp môn có tồn tại hay k
-                subjectGroup.subjects.forEach(async ele => {
-                    let sub = await Subject.findOne({ id: ele });
-                    if (!sub) {
-                        return res.status(404).send();
-                    }
-                });
-                subjectGroup.subjects = JSON.stringify(subjectGroup.subjects);
-            }
+            subjectGroup.subjects.forEach(async ele => {
+                let sub = await Subject.findOne({ id: ele });
+                if (!sub) {
+                    return res.json({ code, message });
+                }
+            });
+            subjectGroup.subjects = JSON.stringify(subjectGroup.subjects);
             let s = await SubjectGroup.update({id: subjectGroup.id}, subjectGroup).fetch();
-            return res.status(s ? 200 : 304).send();
+            if (s) {
+                code = 200;
+                message = 'success';
+            } else {
+                code = 602;
+            }
         } catch (error) {
-            return res.status(500).send();
+            code = 601;
         }
+        return res.json({code ,message});
     },
 
     // /subjectGroup/getall/:page
     getAll: async (req, res) => {
-        let page = req.param('page') || 1;
-        let list = await SubjectGroup.find().limit(10).skip((page - 1) * 10);
-        return rs.send(list);
+        res.status(200);
+        let code = 200, message = 'success', data = undefined, page = req.param('page') || 1;
+        let list = await SubjectGroup.find().limit(11).skip((page - 1) * 10);
+        if (list.length > 10) {
+            data = {
+                list: list.slice(0, 10),
+                next: true
+            }
+        } else {
+            data = {
+                lsit: list,
+                next: false
+            }
+        }
+        return rs.json({code, message, list});
     },
 
     // /subjectGroup/getone/:id
     getOne: async (req, res) => {
-        let id = req.param('id') || 1;
-        let subjectGroup = await SubjectGroup.find({ id: id });
-        return res.send(subjectGroup);
+        res.status(200);
+        let code = 603, message = 'error', data = undefined, id = req.param('id') || 1;
+        data = await SubjectGroup.findOne({ id: id });
+        if (data) {
+            code = 200;
+            message = 'success';
+        }
+        return res.json({code, message, data});
     }
 };

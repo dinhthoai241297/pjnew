@@ -7,49 +7,91 @@
 
 module.exports = {
 
+    // 401 dữ liệu gửi lên không hợp lệ
+    // 402 có lỗi xảy ra, không có gì được thay đổi
+    // 403 không tìm thấy dữ liệu trong database
+
     add: async (req, res) => {
+        res.status(200);
+        let code = 403, message = 'error';
         try {
             let sector = JSON.parse(req.param('data'));
             let s = await Sector.create(sector).fetch();
-            return res.status(s ? 200 : 304).send();
+            if (s) {
+                code = 200;
+                message = 'success';
+            } else {
+                code = 402;
+            }
         } catch (error) {
-            return res.status(500).send();
+            code = 401;
         }
+        return res.json({code ,message});
     },
 
     delete: async (req, res) => {
-        let id = req.param('id');
+        res.status(200);
+        let code = 401, message = 'error', id = req.param('id');
         if (id) {
-            let s = await Sector.destroy({ id: id }).fetch();
-            return res.status((s && s.length !== 0) ? 200 : 304).send(s);
-        } else {
-            return res.status(500).send();
+            let rs = await Sector.destroy({ id: id }).fetch();
+            if (rs && rs.length !== 0) {
+                code = 200;
+                message = 'success';
+            } else {
+                code = 402;
+            }
         }
+        return res.json({code, message});
     },
 
     // t
     update: async (req, res) => {
+        res.status(200);
+        let code = 403, message = 'error';
         try {
             let sector = JSON.parse(req.param('data'));
-            let s = await Sector.update({ id: sector.id }, sector).fetch();
-            return res.status(s ? 200 : 304).send();
+            let s = await Sector.update({id: sector.id}, sector).fetch();
+            if (s) {
+                code = 200;
+                message = 'success';
+            } else {
+                code = 402;
+            }
         } catch (error) {
-            return res.status(500).send();
+            code = 401;
         }
+        return res.json({code ,message});
     },
 
     // /major/getall/:page
     getAll: async (req, res) => {
-        let page = req.param('page') || 1;
-        let list = await Sector.find().limit(10).skip((page - 1) * 10);
-        return rs.send(list);
+        res.status(200);
+        let code = 200, message = 'success', data = undefined, page = req.param('page') || 1;
+        let list = await Sector.find().limit(11).skip((page - 1) * 10);
+        if (list.length > 10) {
+            data = {
+                list: list.slice(0, 10),
+                next: true
+            }
+        } else {
+            data = {
+                lsit: list,
+                next: false
+            }
+        }
+        return rs.json({code, message, list});
     },
 
     // /major/getone/:id
     getOne: async (req, res) => {
-        let id = req.param('id') || 1;
-        let sector = await Sector.find({ id: id });
-        return res.send(sector);
+        res.status(200);
+        let code = 403, message = 'error', data = undefined, id = req.param('id') || 1;
+        data = await Sector.findOne({ id: id });
+        if (data) {
+            code = 200;
+            message = 'success';
+        }
+        return res.json({code, message, data});
     }
 
 };

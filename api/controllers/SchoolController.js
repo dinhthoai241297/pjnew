@@ -7,63 +7,98 @@
 
 module.exports = {
 
+    // 301 dữ liệu gửi lên không hợp lệ
+    // 302 có lỗi xảy ra, không có gì được thay đổi
+    // 303 không tìm thấy dữ liệu trong database
+
     add: async (req, res) => {
+        res.status(200);
+        let code = 303, message = 'error';
         try {
             let school = JSON.parse(req.param('data'));
             let province = await Province.findOne({ id: school.idProvince });
             if (province) {
                 let s = await School.create(school).fetch();
-                return res.status(s ? 200 : 304).send();
-            } else {
-                return res.status(404).send();
+                if (e) {
+                    code = 200;
+                    message = 'success';
+                } else {
+                    code = 302;
+                }
             }
         } catch (error) {
-            res.status(500).send();
+            code = 301;
         }
+        return res.json({code ,message});
     },
 
     delete: async (req, res) => {
+        res.status(200);
+        let code = 301, message = 'error';
         let id = req.param('id');
         if (id) {
             let rs = await School.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
-                return res.status(200).send();
+                code = 200;
+                message = 'success';
             } else {
-                return res.status(304).send();
+                code = 302;
             }
-        } else {
-            res.status(500).send();
         }
+        return res.json({code, message});
     },
 
     // t
     update: async (req, res) => {
+        res.status(200);
+        let code = 303, message = 'error';
         try {
             let school = JSON.parse(req.param('data'));
-            let province = await Province.findOne({ id: school.province });
+            let province = await Province.findOne({ id: school.idProvince });
             if (province) {
-                let s = await School.update({id : school.id}, school).fetch();
-                return res.status(s ? 200 : 304).send();
-            } else {
-                return res.status(404).send();
+                let s = await School.update({id: school.id}, school).fetch();
+                if (e) {
+                    code = 200;
+                    message = 'success';
+                } else {
+                    code = 302;
+                }
             }
         } catch (error) {
-            res.status(500).send();
+            code = 301;
         }
+        return res.json({code ,message});
     },
 
     // /school/getall/:page
     getAll: async (req, res) => {
-        let page = req.param('page') || 1;
-        let list = await School.find().limit(10).skip((page - 1) * 10);
-        return rs.send(list);
+        res.status(200);
+        let code = 200, message = 'success', data = undefined, page = req.param('page') || 1;
+        let list = await School.find().limit(11).skip((page - 1) * 10);
+        if (list.length > 10) {
+            data = {
+                list: list.slice(0, 10),
+                next: true
+            }
+        } else {
+            data = {
+                lsit: list,
+                next: false
+            }
+        }
+        return rs.json({code, message, list});
     },
 
     // /school/getone/:id
     getOne: async (req, res) => {
-        let id = req.param('id') || 1;
-        let school = await School.find({ id: id });
-        return res.send(school);
+        res.status(200);
+        let code = 303, message = 'error', data = undefined, id = req.param('id') || 1;
+        data = await School.findOne({ id: id });
+        if (data) {
+            code = 200;
+            message = 'success';
+        }
+        return res.json({code, message, data});
     }
 
 };

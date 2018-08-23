@@ -7,14 +7,13 @@
 
 module.exports = {
 
-    // 415 invalid data
-    // 200 success
-    // 304 not modified
-    // 404 not found data
+    // 01 dữ liệu gửi lên không hợp lệ
+    // 02 có lỗi xảy ra, không có gì được thay đổi
+    // 03 không tìm thấy dữ liệu trong database
 
     add: async (req, res) => {
         res.status(200);
-        let code = 404, data = null, message = 'error';
+        let code = 03, message = 'error';
         try {
             let major = JSON.parse(req.param('data'));
             let school = await School.findOne({ id: mark.school });
@@ -23,55 +22,52 @@ module.exports = {
                 if (s) {
                     code = 200;
                     message = 'success';
-                    data = s;
                 } else {
-                    code = 304;
+                    code = 02;
                 }
             }
         } catch (error) {
-            code = 415;
+            code = 01;
         }
-        res.json({ code: code, message: message, data: data });
+        res.json({ code: code, message: message});
     },
 
     delete: async (req, res) => {
         res.status(200);
-        let code = 404, data = null, message = 'error';
+        let code = 03, message = 'error';
         let id = req.param('id');
         if (id) {
             let rs = await Major.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
                 code = 200;
                 message = 'success';
-                data = rs;
             } else {
-                code = 304;
+                code = 02;
             }
         }
-        res.json({ code: code, message: message, data: data });
+        res.json({ code: code, message: message});
     },
 
     // t
     update: async (req, res) => {
         res.status(200);
-        let code = 404, data = null, message = 'error';
+        let code = 03, message = 'error';
         try {
             let major = JSON.parse(req.param('data'));
             let school = await School.findOne({ id: mark.school });
             if (school) {
-                let s = await Major.update({id: school.id}, major).fetch();
+                let s = await Major.update({id: major.id}, major).fetch();
                 if (s) {
                     code = 200;
                     message = 'success';
-                    data = s;
                 } else {
-                    code = 304;
+                    code = 02;
                 }
             }
         } catch (error) {
-            code = 415;
+            code = 01;
         }
-        res.json({ code: code, message: message, data: data });
+        res.json({ code: code, message: message});
     },
 
     // /major/getall/:page
@@ -96,15 +92,18 @@ module.exports = {
     // /major/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 404, data = null, message = 'error', id = req.param('id') || -1;
+        let rs = {
+            code: 03,
+            message: 'error'
+        }
+        let id = req.param('id') || -1;
         let major = await Major.findOne({ id: id });
         if (major) {
-            code = 200;
-            data = major;
-            message = 'success';
+            rs.code = 200;
+            rs.message = 'success';
+            rs.data = major
         }
-        return res.json({code: code, message: message, data: data});
+        return res.json(rs);
     }
-
 };
 

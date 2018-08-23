@@ -7,49 +7,87 @@
 
 module.exports = {
 
+    // 501 dữ liệu gửi lên không hợp lệ
+    // 502 có lỗi xảy ra, không có gì được thay đổi
+    // 503 không tìm thấy dữ liệu trong database
+
     add: async (req, res) => {
+        res.status(200);
+        let code = 503, message = 'error';
         try {
             let subject = JSON.parse(req.param('data'));
             let s = await Subject.create(subject).fetch();
-            return res.status(s ? 200 : 304).send();
+            if (s) {
+                code = 200;
+                message = 'success';
+            }
         } catch (error) {
-            res.status(500).send();
+            code = 501;
         }
+        return res.json({code ,message});
     },
 
     delete: async (req, res) => {
-        let id = req.param('id');
+        res.status(200);
+        let code = 501, message = 'error', id = req.param('id');
         if (id) {
-            let rs = await Subject.destroy({ id: id });
-            return res.status((rs && rs.length !== 0) ? 200 : 304).send(rs);
-        } else {
-            res.status(500).send();
+            let rs = await Subject.destroy({ id: id }).fetch();
+            if (rs && rs.length !== 0) {
+                code = 200;
+                message = 'success';
+            } else {
+                code = 502;
+            }
         }
+        return res.json({code, message});
     },
 
     // t
     update: async (req, res) => {
+        res.status(200);
+        let code = 503, message = 'error';
         try {
             let subject = JSON.parse(req.param('data'));
-            let s = await Subject.update({ id: subject.id }, subject).fetch();
-            return res.status(s ? 200 : 304).send();
+            let s = await Subject.update({id: subject.id}, subject).fetch();
+            if (s) {
+                code = 200;
+                message = 'success';
+            }
         } catch (error) {
-            res.status(500).send();
+            code = 501;
         }
+        return res.json({code ,message});
     },
 
     // /subject/getall/:page
     getAll: async (req, res) => {
-        let page = req.param('page') || 1;
-        let list = await Subject.find().limit(10).skip((page - 1) * 10);
-        return rs.send(list);
+        res.status(200);
+        let code = 200, message = 'success', data = undefined, page = req.param('page') || 1;
+        let list = await Subject.find().limit(11).skip((page - 1) * 10);
+        if (list.length > 10) {
+            data = {
+                list: list.slice(0, 10),
+                next: true
+            }
+        } else {
+            data = {
+                lsit: list,
+                next: false
+            }
+        }
+        return rs.json({code, message, list});
     },
 
     // /subject/getone/:id
     getOne: async (req, res) => {
-        let id = req.param('id') || 1;
-        let subject = await Subject.find({ id: id });
-        return res.send(subject);
+        res.status(200);
+        let code = 503, message = 'error', data = undefined, id = req.param('id') || 1;
+        data = await Subject.findOne({ id: id });
+        if (data) {
+            code = 200;
+            message = 'success';
+        }
+        return res.json({code, message, data});
     }
 };
 
