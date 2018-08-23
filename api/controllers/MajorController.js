@@ -103,7 +103,7 @@ module.exports = {
             data = major;
             message = 'success';
         }
-        return res.send(major);
+        return res.json({code: code, message: message, data: data});
     }
 
 };
