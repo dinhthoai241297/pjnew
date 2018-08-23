@@ -16,10 +16,10 @@ module.exports = {
         let code = 303, message = 'error';
         try {
             let school = JSON.parse(req.param('data'));
-            let province = await Province.findOne({ id: school.idProvince });
+            let province = await Province.findOne({ id: school.province });
             if (province) {
                 let s = await School.create(school).fetch();
-                if (e) {
+                if (s) {
                     code = 200;
                     message = 'success';
                 } else {
@@ -54,10 +54,10 @@ module.exports = {
         let code = 303, message = 'error';
         try {
             let school = JSON.parse(req.param('data'));
-            let province = await Province.findOne({ id: school.idProvince });
+            let province = await Province.findOne({ id: school.province });
             if (province) {
                 let s = await School.update({id: school.id}, school).fetch();
-                if (e) {
+                if (s) {
                     code = 200;
                     message = 'success';
                 } else {

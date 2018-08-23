@@ -45,7 +45,7 @@ module.exports = {
         res.status(200);
         let code = 101, message = 'error', id = req.param('id');
         if (id) {
-            let rs = await mark.destroy({ id: id }).fetch();
+            let rs = await Mark.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
                 code = 200;
                 message = 'success';

@@ -16,7 +16,7 @@ module.exports = {
         let code = 03, message = 'error';
         try {
             let major = JSON.parse(req.param('data'));
-            let school = await School.findOne({ id: mark.school });
+            let school = await School.findOne({ id: major.school });
             if (school) {
                 let s = await Major.create(major).fetch();
                 if (s) {
@@ -54,7 +54,7 @@ module.exports = {
         let code = 03, message = 'error';
         try {
             let major = JSON.parse(req.param('data'));
-            let school = await School.findOne({ id: mark.school });
+            let school = await School.findOne({ id: major.school });
             if (school) {
                 let s = await Major.update({id: major.id}, major).fetch();
                 if (s) {

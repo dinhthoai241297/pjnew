@@ -16,7 +16,7 @@ module.exports = {
         let code = 103, message = 'error';
         try {
             let province = JSON.parse(req.param('data'));
-            let sector = await Sector.findOne({ id: mark.sector });
+            let sector = await Sector.findOne({ id: province.sector });
             if (sector) {
                 let s = await Province.create(province).fetch();
                 if (s) {
@@ -44,7 +44,7 @@ module.exports = {
                 code = 202;
             }
         }
-        return res.json(code, message);
+        return res.json({code, message});
     },
 
     // t
@@ -53,7 +53,7 @@ module.exports = {
         let code = 103, message = 'error';
         try {
             let province = JSON.parse(req.param('data'));
-            let sector = await Sector.findOne({ id: mark.sector });
+            let sector = await Sector.findOne({ id: province.sector });
             if (sector) {
                 let s = await Province.update({ id: province.id }, province).fetch();
                 if (s) {
