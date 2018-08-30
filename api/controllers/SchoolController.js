@@ -29,7 +29,7 @@ module.exports = {
         } catch (error) {
             code = 301;
         }
-        return res.json({code ,message});
+        return res.json({ code, message });
     },
 
     delete: async (req, res) => {
@@ -45,7 +45,7 @@ module.exports = {
                 code = 302;
             }
         }
-        return res.json({code, message});
+        return res.json({ code, message });
     },
 
     // t
@@ -56,7 +56,7 @@ module.exports = {
             let school = JSON.parse(req.param('data'));
             let province = await Province.findOne({ id: school.province });
             if (province) {
-                let s = await School.update({id: school.id}, school).fetch();
+                let s = await School.update({ id: school.id }, school).fetch();
                 if (s) {
                     code = 200;
                     message = 'success';
@@ -67,7 +67,7 @@ module.exports = {
         } catch (error) {
             code = 301;
         }
-        return res.json({code ,message});
+        return res.json({ code, message });
     },
 
     // /school/getall/:page
@@ -82,11 +82,11 @@ module.exports = {
             }
         } else {
             data = {
-                lsit: list,
+                list,
                 next: false
             }
         }
-        return res.json({code, message, data});
+        return res.json({ code, message, data });
     },
 
     // /school/getone/:id
@@ -98,7 +98,7 @@ module.exports = {
             code = 200;
             message = 'success';
         }
-        return res.json({code, message, data});
+        return res.json({ code, message, data });
     }
 
 };

@@ -20,7 +20,7 @@ module.exports = {
             mark.subjectGroups.forEach(async ele => {
                 let sg = await SubjectGroup.findOne({ id: ele });
                 if (!sg) {
-                    return res.json({code, message});
+                    return res.json({ code, message });
                 }
             });
             mark.subjectGroups = JSON.stringify(mark.subjectGroups);
@@ -38,7 +38,7 @@ module.exports = {
         } catch (error) {
             code = 101;
         }
-        return res.json({code ,message});
+        return res.json({ code, message });
     },
 
     delete: async (req, res) => {
@@ -53,7 +53,7 @@ module.exports = {
                 code = 102;
             }
         }
-        return res.json({code, message});
+        return res.json({ code, message });
     },
 
     // t
@@ -75,7 +75,7 @@ module.exports = {
             let major = await Major.findOne({ id: mark.major });
             let school = await School.findOne({ id: mark.school });
             if (major && school) {
-                let s = await Mark.update({id: mark.id}, mark).fetch();
+                let s = await Mark.update({ id: mark.id }, mark).fetch();
                 if (s) {
                     code = 200;
                     message = 'success';
@@ -86,7 +86,7 @@ module.exports = {
         } catch (error) {
             code = 101;
         }
-        return res.json({code ,message});
+        return res.json({ code, message });
     },
 
     // /mark/getall/:page
@@ -101,11 +101,11 @@ module.exports = {
             }
         } else {
             data = {
-                lsit: list,
+                list,
                 next: false
             }
         }
-        return res.json({code, message, data});
+        return res.json({ code, message, data });
     },
 
     // /mark/getone/:id
@@ -117,7 +117,7 @@ module.exports = {
             code = 200;
             message = 'success';
         }
-        return res.json({code, message, data});
+        return res.json({ code, message, data });
     }
 };
 

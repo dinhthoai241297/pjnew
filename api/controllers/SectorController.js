@@ -75,7 +75,7 @@ module.exports = {
             }
         } else {
             data = {
-                lsit: list,
+                list,
                 next: false
             }
         }

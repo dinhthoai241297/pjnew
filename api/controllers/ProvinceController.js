@@ -44,7 +44,7 @@ module.exports = {
                 code = 202;
             }
         }
-        return res.json({code, message});
+        return res.json({ code, message });
     },
 
     // t
@@ -81,11 +81,11 @@ module.exports = {
             }
         } else {
             data = {
-                lsit: list,
+                list,
                 next: false
             }
         }
-        return res.json({code, message, data});
+        return res.json({ code, message, data });
     },
 
     // /province/getone/:id
@@ -97,7 +97,7 @@ module.exports = {
             code = 200;
             message = 'success';
         }
-        return res.json({code, message, data});
+        return res.json({ code, message, data });
     }
 
 };

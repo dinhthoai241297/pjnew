@@ -29,7 +29,7 @@ module.exports = {
         } catch (error) {
             code = 01;
         }
-        res.json({ code: code, message: message});
+        res.json({ code: code, message: message });
     },
 
     delete: async (req, res) => {
@@ -45,7 +45,7 @@ module.exports = {
                 code = 02;
             }
         }
-        res.json({ code: code, message: message});
+        res.json({ code: code, message: message });
     },
 
     // t
@@ -56,7 +56,7 @@ module.exports = {
             let major = JSON.parse(req.param('data'));
             let school = await School.findOne({ id: major.school });
             if (school) {
-                let s = await Major.update({id: major.id}, major).fetch();
+                let s = await Major.update({ id: major.id }, major).fetch();
                 if (s) {
                     code = 200;
                     message = 'success';
@@ -67,7 +67,7 @@ module.exports = {
         } catch (error) {
             code = 01;
         }
-        res.json({ code: code, message: message});
+        res.json({ code: code, message: message });
     },
 
     // /major/getall/:page
@@ -82,11 +82,11 @@ module.exports = {
             }
         } else {
             data = {
-                list: list,
+                list,
                 next: false
             }
         }
-        res.json({ code, message, data});
+        res.json({ code, message, data });
     },
 
     // /major/getone/:id

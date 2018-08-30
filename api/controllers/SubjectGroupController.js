@@ -33,7 +33,7 @@ module.exports = {
         } catch (error) {
             code = 601;
         }
-        return res.json({code ,message});
+        return res.json({ code, message });
     },
 
     delete: async (req, res) => {
@@ -48,7 +48,7 @@ module.exports = {
                 code = 602;
             }
         }
-        return res.json({code, message});
+        return res.json({ code, message });
     },
 
     // t
@@ -64,7 +64,7 @@ module.exports = {
                 }
             });
             subjectGroup.subjects = JSON.stringify(subjectGroup.subjects);
-            let s = await SubjectGroup.update({id: subjectGroup.id}, subjectGroup).fetch();
+            let s = await SubjectGroup.update({ id: subjectGroup.id }, subjectGroup).fetch();
             if (s) {
                 code = 200;
                 message = 'success';
@@ -74,7 +74,7 @@ module.exports = {
         } catch (error) {
             code = 601;
         }
-        return res.json({code ,message});
+        return res.json({ code, message });
     },
 
     // /subjectGroup/getall/:page
@@ -89,11 +89,11 @@ module.exports = {
             }
         } else {
             data = {
-                lsit: list,
+                list,
                 next: false
             }
         }
-        return res.json({code, message, data});
+        return res.json({ code, message, data });
     },
 
     // /subjectGroup/getone/:id
@@ -105,6 +105,6 @@ module.exports = {
             code = 200;
             message = 'success';
         }
-        return res.json({code, message, data});
+        return res.json({ code, message, data });
     }
 };
