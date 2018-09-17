@@ -17,12 +17,26 @@ module.exports = {
         let code = 103, message = 'error';
         try {
             let mark = JSON.parse(req.param('data'));
-            mark.subjectGroups.forEach(async ele => {
-                let sg = await SubjectGroup.findOne({ id: ele });
-                if (!sg) {
+            for (let i = 0; i < mark.subjectGroups.length; i++) {
+                try {
+                    let sg = await SubjectGroup.findOne({ id: mark.subjectGroups.length[i] });
+                    if (!sg) {
+                        return res.json({ code, message });
+                    }
+                } catch (error) {
                     return res.json({ code, message });
                 }
-            });
+            }
+            // mark.subjectGroups.forEach(async ele => {
+            //     try {
+            //         let sg = await SubjectGroup.findOne({ id: ele });
+            //         if (!sg) {
+            //             return res.json({ code, message });
+            //         }
+            //     } catch (error) {
+            //         return res.json({ code, message });
+            //     }
+            // });
             mark.subjectGroups = JSON.stringify(mark.subjectGroups);
             let major = await Major.findOne({ id: mark.major });
             let school = await School.findOne({ id: mark.school });
@@ -62,15 +76,27 @@ module.exports = {
         let code = 103, message = 'error';
         try {
             let mark = JSON.parse(req.param('data'));
-            mark.subjectGroups.forEach(async ele => {
-                let sg = await SubjectGroup.findOne({ id: ele });
-                if (!sg) {
-                    return res.json({
-                        code: code,
-                        message: message
-                    });
+            console.log(mark);
+            for (let i = 0; i < mark.subjectGroups.length; i++) {
+                try {
+                    let sg = await SubjectGroup.findOne({ id: mark.subjectGroups.length[i] });
+                    if (!sg) {
+                        return res.json({ code, message });
+                    }
+                } catch (error) {
+                    return res.json({ code, message });
                 }
-            });
+            }
+            // mark.subjectGroups.forEach(async ele => {
+            //     let sg = await SubjectGroup.findOne({ id: ele });
+            //     if (!sg) {
+            //         res.json({
+            //             code: code,
+            //             message: message
+            //         });
+            //         return;
+            //     }
+            // });
             mark.subjectGroups = JSON.stringify(mark.subjectGroups);
             let major = await Major.findOne({ id: mark.major });
             let school = await School.findOne({ id: mark.school });

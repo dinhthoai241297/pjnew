@@ -16,12 +16,26 @@ module.exports = {
         let code = 603, message = 'error';
         try {
             let subjectGroup = JSON.parse(req.param('data'));
-            subjectGroup.subjects.forEach(async ele => {
-                let sub = await Subject.findOne({ id: ele });
-                if (!sub) {
+            for (let i = 0; i < subjectGroup.subjects.length; i++) {
+                try {
+                    let sub = await Subject.findOne({ id: subjectGroup.subjects[i] });
+                    if (!sub) {
+                        return res.json({ code, message });
+                    }
+                } catch (error) {
                     return res.json({ code, message });
                 }
-            });
+            }
+            // subjectGroup.subjects.forEach(async ele => {
+            //     try {
+            //         let sub = await Subject.findOne({ id: ele });
+            //         if (!sub) {
+            //             return res.json({ code, message });
+            //         }
+            //     } catch (error) {
+            //         return res.json({ code, message });
+            //     }
+            // });
             subjectGroup.subjects = JSON.stringify(subjectGroup.subjects);
             let s = await SubjectGroup.create(subjectGroup).fetch();
             if (s) {
@@ -57,12 +71,26 @@ module.exports = {
         let code = 603, message = 'error';
         try {
             let subjectGroup = JSON.parse(req.param('data'));
-            subjectGroup.subjects.forEach(async ele => {
-                let sub = await Subject.findOne({ id: ele });
-                if (!sub) {
+                        for (let i = 0; i < subjectGroup.subjects.length; i++) {
+                try {
+                    let sub = await Subject.findOne({ id: subjectGroup.subjects[i] });
+                    if (!sub) {
+                        return res.json({ code, message });
+                    }
+                } catch (error) {
                     return res.json({ code, message });
                 }
-            });
+            }
+            // subjectGroup.subjects.forEach(async ele => {
+            //     try {
+            //         let sub = await Subject.findOne({ id: ele });
+            //         if (!sub) {
+            //             return res.json({ code, message });
+            //         }
+            //     } catch (error) {
+            //         return res.json({ code, message });
+            //     }
+            // });
             subjectGroup.subjects = JSON.stringify(subjectGroup.subjects);
             let s = await SubjectGroup.update({ id: subjectGroup.id }, subjectGroup).fetch();
             if (s) {

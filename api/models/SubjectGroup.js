@@ -8,7 +8,7 @@
 module.exports = {
     // SubjectGroup
     attributes: {
-        name: {
+        code: {
             type: 'string',
             unique: true,
             required: true

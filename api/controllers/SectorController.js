@@ -26,7 +26,7 @@ module.exports = {
         } catch (error) {
             code = 401;
         }
-        return res.json({code ,message});
+        return res.json({ code, message });
     },
 
     delete: async (req, res) => {
@@ -41,7 +41,7 @@ module.exports = {
                 code = 402;
             }
         }
-        return res.json({code, message});
+        return res.json({ code, message });
     },
 
     // t
@@ -50,7 +50,7 @@ module.exports = {
         let code = 403, message = 'error';
         try {
             let sector = JSON.parse(req.param('data'));
-            let s = await Sector.update({id: sector.id}, sector).fetch();
+            let s = await Sector.update({ id: sector.id }, sector).fetch();
             if (s) {
                 code = 200;
                 message = 'success';
@@ -60,7 +60,7 @@ module.exports = {
         } catch (error) {
             code = 401;
         }
-        return res.json({code ,message});
+        return res.json({ code, message });
     },
 
     // /major/getall/:page
@@ -79,7 +79,7 @@ module.exports = {
                 next: false
             }
         }
-        return res.json({code, message, data});
+        return res.json({ code, message, data });
     },
 
     // /major/getone/:id
@@ -91,7 +91,7 @@ module.exports = {
             code = 200;
             message = 'success';
         }
-        return res.json({code, message, data});
+        return res.json({ code, message, data });
     }
 
 };
