@@ -19,11 +19,12 @@ module.exports = {
             let mark = JSON.parse(req.param('data'));
             for (let i = 0; i < mark.subjectGroups.length; i++) {
                 try {
-                    let sg = await SubjectGroup.findOne({ id: mark.subjectGroups.length[i] });
+                    let sg = await SubjectGroup.findOne({ id: mark.subjectGroups[i] });
                     if (!sg) {
                         return res.json({ code, message });
                     }
                 } catch (error) {
+                    code = 101;
                     return res.json({ code, message });
                 }
             }
@@ -76,14 +77,14 @@ module.exports = {
         let code = 103, message = 'error';
         try {
             let mark = JSON.parse(req.param('data'));
-            console.log(mark);
             for (let i = 0; i < mark.subjectGroups.length; i++) {
                 try {
-                    let sg = await SubjectGroup.findOne({ id: mark.subjectGroups.length[i] });
+                    let sg = await SubjectGroup.findOne({ id: mark.subjectGroups[i] });
                     if (!sg) {
                         return res.json({ code, message });
                     }
                 } catch (error) {
+                    code = 101;
                     return res.json({ code, message });
                 }
             }
