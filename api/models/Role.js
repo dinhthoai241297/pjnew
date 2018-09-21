@@ -27,6 +27,10 @@ module.exports = {
             required: true,
             unique: true
         },
+        name: {
+            type: 'string',
+            require: true
+        },
         users: {
             collection: 'user',
             via: 'role'
