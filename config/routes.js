@@ -37,6 +37,7 @@ module.exports.routes = {
   'POST /major/update' : 'major.update',
   'POST /major/getall' : 'major.getAll',
   'POST /major/getone' : 'major.getOne',
+  'POST /major/getallinschool' : 'major.getAllInSchool',
 
   'POST /mark/add' : 'mark.add',
   'POST /mark/delete' : 'mark.delete',
@@ -72,7 +73,20 @@ module.exports.routes = {
   'POST /subjectgroup/delete' : 'subjectGroup.delete',
   'POST /subjectgroup/update' : 'subjectGroup.update',
   'POST /subjectgroup/getall' : 'subjectGroup.getAll',
-  'POST /subjectgroup/getone' : 'subjectGroup.getOne'
+  'POST /subjectgroup/getone' : 'subjectGroup.getOne',
+
+  'POST /user/add' : 'user.add',
+  'POST /user/delete' : 'user.delete',
+  'POST /user/update' : 'user.update',
+  'POST /user/getall' : 'user.getAll',
+  'POST /user/getone' : 'user.getOne',
+  'POST /user/getbyusername' : 'user.getByUsernameAndPassword',
+
+  'POST /role/add' : 'role.add',
+  'POST /role/delete' : 'role.delete',
+  'POST /role/update' : 'role.update',
+  'POST /role/getall' : 'role.getAll',
+  'POST /role/getone' : 'role.getOne',
 
   /***************************************************************************
   *                                                                          *

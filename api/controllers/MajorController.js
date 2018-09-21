@@ -104,6 +104,18 @@ module.exports = {
             rs.data = major
         }
         return res.json(rs);
+    },
+
+    // get all major with id school
+    getAllInSchool: async (req, res) => {
+        res.status(200);
+        let code = 200, data = null, message = 'success', school = req.param('school') || '';
+        let list = await Major.find({school : school});
+        data = {
+            list,
+            next: false
+        }
+        return res.json({ code, message, data });
     }
 };
 
