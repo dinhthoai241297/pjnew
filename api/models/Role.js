@@ -29,7 +29,7 @@ module.exports = {
         },
         name: {
             type: 'string',
-            require: true
+            required: true
         },
         users: {
             collection: 'user',
