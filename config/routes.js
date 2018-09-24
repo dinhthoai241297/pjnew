@@ -80,7 +80,7 @@ module.exports.routes = {
   'POST /user/update' : 'user.update',
   'POST /user/getall' : 'user.getAll',
   'POST /user/getone' : 'user.getOne',
-  'POST /user/getbyusername' : 'user.getByUsernameAndPassword',
+  'POST /user/login' : 'user.login',
 
   'POST /role/add' : 'role.add',
   'POST /role/delete' : 'role.delete',

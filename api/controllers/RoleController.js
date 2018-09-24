@@ -15,6 +15,7 @@ module.exports = {
         let code = 703, message = 'error';
         try {
             let role = JSON.parse(req.param('data'));
+            role.roles = JSON.stringify(role.roles);
             let s = await Role.create(role).fetch();
             if (s) {
                 code = 200;
@@ -49,6 +50,7 @@ module.exports = {
         let code = 703, message = 'error';
         try {
             let role = JSON.parse(req.param('data'));
+            role.roles = JSON.stringify(role.roles);
             let r = await Role.update({ id: role.id }, role).fetch();
             if (r) {
                 code = 200;

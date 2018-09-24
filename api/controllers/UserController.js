@@ -94,15 +94,22 @@ module.exports = {
     },
 
     // login
-    getByUserNameAndPassword: async (req, res) => {
+    login: async (req, res) => {
         res.status(200);
         let code = 803, message = 'error', data = undefined;
         try {
             let { username, password } = JSON.parse(req.param('data'));
             data = await User.findOne({ username: username, password: password });
             if (data) {
-                code = 200;
-                message = 'success';
+                let role = await Role.findOne({ id: data.role });
+                if (role) {
+                    data.roles = JSON.parse(role.roles);
+                    code = 200;
+                    message = 'success';
+                } else {
+                    code = 803;
+                    message = 'error';
+                }
             }
         } catch (error) {
             code = 801;
