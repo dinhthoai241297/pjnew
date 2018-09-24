@@ -30,6 +30,9 @@ module.exports = {
         mark: {
             collection: 'mark',
             via: 'school'
+        },
+        image: {
+            type: 'string'
         }
     },
 
