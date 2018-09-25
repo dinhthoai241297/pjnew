@@ -34,6 +34,9 @@ module.exports = {
         users: {
             collection: 'user',
             via: 'role'
+        },
+        status: {
+            model: 'status'
         }
     },
 

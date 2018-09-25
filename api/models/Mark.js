@@ -28,6 +28,9 @@ module.exports = {
         },
         subjectGroups: {
             type: 'json'
+        },
+        status: {
+            model: 'status'
         }
     },
 

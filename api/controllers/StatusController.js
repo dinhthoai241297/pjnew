@@ -1,44 +1,44 @@
 /**
- * RoleController
+ * StatusController
  *
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
 module.exports = {
-    // 701 dữ liệu gửi lên không hợp lệ
-    // 702 có lỗi xảy ra, không có gì được thay đổi
-    // 703 không tìm thấy dữ liệu trong database
+
+    // 901 dữ liệu gửi lên không hợp lệ
+    // 902 có lỗi xảy ra, không có gì được thay đổi
+    // 903 không tìm thấy dữ liệu trong database
 
     add: async (req, res) => {
         res.status(200);
-        let code = 703, message = 'error';
+        let code = 903, message = 'error';
         try {
-            let role = JSON.parse(req.param('data'));
-            role.roles = JSON.stringify(role.roles);
-            let s = await Role.create(role).fetch();
+            let status = JSON.parse(req.param('data'));
+            let s = await Status.create(status).fetch();
             if (s) {
                 code = 200;
                 message = 'success';
             } else {
-                code = 702;
+                code = 902;
             }
         } catch (error) {
-            code = 701;
+            code = 901;
         }
         return res.json({ code, message });
     },
 
     delete: async (req, res) => {
         res.status(200);
-        let code = 701, message = 'error', id = req.param('id');
+        let code = 901, message = 'error', id = req.param('id');
         if (id) {
-            let rs = await Role.destroy({ id: id }).fetch();
+            let rs = await Status.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
                 code = 200;
                 message = 'success';
             } else {
-                code = 702;
+                code = 902;
             }
         }
         return res.json({ code, message });
@@ -47,28 +47,27 @@ module.exports = {
     // t
     update: async (req, res) => {
         res.status(200);
-        let code = 703, message = 'error';
+        let code = 903, message = 'error';
         try {
-            let role = JSON.parse(req.param('data'));
-            role.roles = JSON.stringify(role.roles);
-            let r = await Role.update({ id: role.id }, role).fetch();
-            if (r) {
+            let status = JSON.parse(req.param('data'));
+            let s = await Status.update({ id: status.id }, status).fetch();
+            if (s) {
                 code = 200;
                 message = 'success';
             } else {
-                code = 702;
+                code = 902;
             }
         } catch (error) {
-            code = 701;
+            code = 901;
         }
         return res.json({ code, message });
     },
 
-    // /major/getall/:page
+    // /status/getall/:page
     getAll: async (req, res) => {
         res.status(200);
         let code = 200, message = 'success', data = undefined, page = req.param('page') || 1;
-        let list = await Role.find().limit(11).skip((page - 1) * 10).populate('status');
+        let list = await Status.find().limit(11).skip((page - 1) * 10);
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),
@@ -83,11 +82,11 @@ module.exports = {
         return res.json({ code, message, data });
     },
 
-    // /major/getone/:id
+    // /status/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 703, message = 'error', data = undefined, id = req.param('id') || -1;
-        data = await Role.findOne({ id: id });
+        let code = 903, message = 'error', data = undefined, id = req.param('id') || 1;
+        data = await Status.findOne({ id: id });
         if (data) {
             code = 200;
             message = 'success';

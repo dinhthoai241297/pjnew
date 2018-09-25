@@ -66,7 +66,7 @@ module.exports = {
     getAll: async (req, res) => {
         res.status(200);
         let code = 200, message = 'success', data = undefined, page = req.param('page') || 1;
-        let list = await User.find().limit(11).skip((page - 1) * 10).populate('role');
+        let list = await User.find().limit(11).skip((page - 1) * 10).populate('role').populate('status');
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),

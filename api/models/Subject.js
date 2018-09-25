@@ -15,6 +15,9 @@ module.exports = {
         },
         description: {
             type: 'string'
+        },
+        status: {
+            model: 'status'
         }
     }
 

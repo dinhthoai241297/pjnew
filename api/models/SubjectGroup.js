@@ -18,6 +18,9 @@ module.exports = {
         },
         subjects: {
             type: 'json'
+        },
+        status: {
+            model: 'status'
         }
     }
 

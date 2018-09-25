@@ -20,6 +20,9 @@ module.exports = {
         marks: {
             collection: 'mark',
             via: 'major'
+        },
+        status: {
+            model: 'status'
         }
     },
 

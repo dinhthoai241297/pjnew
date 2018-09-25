@@ -39,8 +39,11 @@ module.exports = {
         },
         role: {
             model: 'role'
+        },
+        status: {
+            model: 'status'
         }
-    },
+    }
 
 };
 

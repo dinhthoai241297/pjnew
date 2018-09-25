@@ -74,7 +74,7 @@ module.exports = {
     getAll: async (req, res) => {
         res.status(200);
         let code = 200, data = null, message = 'success', page = req.param('page') || 1;
-        let list = await Major.find().limit(11).skip((page - 1) * 10).populate('school');
+        let list = await Major.find().limit(11).skip((page - 1) * 10).populate('school').populate('status');
         if (list.length > 10) {
             data = {
                 list: list.splice(0, 10),

@@ -88,6 +88,12 @@ module.exports.routes = {
   'POST /role/getall' : 'role.getAll',
   'POST /role/getone' : 'role.getOne',
 
+  'POST /status/add' : 'status.add',
+  'POST /status/delete' : 'status.delete',
+  'POST /status/update' : 'status.update',
+  'POST /status/getall' : 'status.getAll',
+  'POST /status/getone' : 'status.getOne',
+
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *

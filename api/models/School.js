@@ -33,6 +33,9 @@ module.exports = {
         },
         image: {
             type: 'string'
+        },
+        status: {
+            model: 'status'
         }
     },
 

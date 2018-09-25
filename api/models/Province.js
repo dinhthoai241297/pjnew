@@ -22,6 +22,9 @@ module.exports = {
         schools: {
             collection: 'school',
             via: 'province'
+        },
+        status: {
+            model: 'status'
         }
     },
 };
