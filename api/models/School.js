@@ -34,6 +34,11 @@ module.exports = {
         image: {
             type: 'string'
         }
+        status: {
+            type: 'string',
+            defaultsTo: '1',
+            required: true
+        }
     },
 
     beforeDestroy: (criteria, proceed) => {

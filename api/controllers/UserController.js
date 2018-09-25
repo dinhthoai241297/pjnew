@@ -66,7 +66,7 @@ module.exports = {
     getAll: async (req, res) => {
         res.status(200);
         let code = 200, message = 'success', data = undefined, page = req.param('page') || 1;
-        let list = await User.find().limit(11).skip((page - 1) * 10).populate('role');
+        let list = await User.find().limit(11).skip((page - 1) * 10);
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),
@@ -115,6 +115,29 @@ module.exports = {
             code = 801;
         }
         return res.json({ code, message, data });
+    }
+
+    editStatus: async (req, res) => {
+        res.status(200);
+        let code = 803, message = 'error';
+        let status = req.param('status');
+        try {
+            let major = JSON.parse(req.param('data'));
+            let status = await Major.findOne({status: major.status})
+            if(status) {
+                let s = await Major.update({ status: major.status }, major).fetch();
+                if (s) {
+                    code = 200;
+                    message = 'success';
+                } else {
+                    code = 802;
+                }
+            }
+        }
+        catch (error){
+            code = 801;
+        }
+        return res.json({ code, message });
     }
 };
 

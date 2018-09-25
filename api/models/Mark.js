@@ -29,6 +29,11 @@ module.exports = {
         subjectGroups: {
             type: 'json'
         }
+        status: {
+            type: 'string',
+            defaultsTo: '1',
+            required: true
+        }
     },
 
 };

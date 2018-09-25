@@ -35,6 +35,11 @@ module.exports = {
             collection: 'user',
             via: 'role'
         }
+        status: {
+            type: 'string',
+            defaultsTo: '1',
+            required: true
+        }
     },
 
 };

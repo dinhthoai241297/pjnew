@@ -16,6 +16,11 @@ module.exports = {
         description: {
             type: 'string'
         }
+        status: {
+            type: 'string',
+            defaultsTo: '1',
+            required: true
+        }
     }
 
 };

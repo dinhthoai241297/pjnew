@@ -23,6 +23,12 @@ module.exports = {
             collection: 'school',
             via: 'province'
         }
+        status: {
+            type: 'string',
+            defaultsTo: '1',
+            required: true
+        }
     },
+
 };
 

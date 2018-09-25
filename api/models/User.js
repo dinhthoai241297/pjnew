@@ -40,6 +40,11 @@ module.exports = {
         role: {
             model: 'role'
         }
+        status: {
+            type: 'string',
+            defaultsTo: '1',
+            required: true
+        }
     },
 
 };

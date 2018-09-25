@@ -20,6 +20,11 @@ module.exports = {
             collection: 'province',
             via: 'sector'
         }
+        status: {
+            type: 'string',
+            defaultsTo: '1',
+            required: true
+        }
     },
 
 };

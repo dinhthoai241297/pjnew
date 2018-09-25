@@ -94,5 +94,28 @@ module.exports = {
         return res.json({ code, message, data });
     }
 
+    editStatus: async (req, res) => {
+        res.status(200);
+        let code = 403, message = 'error';
+        let status = req.param('status');
+        try {
+            let major = JSON.parse(req.param('data'));
+            let status = await Major.findOne({status: major.status})
+            if(status) {
+                let s = await Major.update({ status: major.status }, major).fetch();
+                if (s) {
+                    code = 200;
+                    message = 'success';
+                } else {
+                    code = 402;
+                }
+            }
+        }
+        catch (error){
+            code = 401;
+        }
+        return res.json({ code, message });
+    }
+
 };
 

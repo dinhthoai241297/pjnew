@@ -73,7 +73,7 @@ module.exports = {
     getAll: async (req, res) => {
         res.status(200);
         let code = 200, message = 'success', data = undefined, page = req.param('page') || 1;
-        let list = await Province.find().limit(11).skip((page - 1) * 10).populate('sector');
+        let list = await Province.find().limit(11).skip((page - 1) * 10);
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),
@@ -98,6 +98,29 @@ module.exports = {
             message = 'success';
         }
         return res.json({ code, message, data });
+    }
+
+    editStatus: async (req, res) => {
+        res.status(200);
+        let code = 203, message = 'error';
+        let status = req.param('status');
+        try {
+            let major = JSON.parse(req.param('data'));
+            let status = await Major.findOne({status: major.status})
+            if(status) {
+                let s = await Major.update({ status: major.status }, major).fetch();
+                if (s) {
+                    code = 200;
+                    message = 'success';
+                } else {
+                    code = 202;
+                }
+            }
+        }
+        catch (error){
+            code = 201;
+        }
+        return res.json({ code, message });
     }
 
 };

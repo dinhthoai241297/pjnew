@@ -19,6 +19,11 @@ module.exports = {
         subjects: {
             type: 'json'
         }
+        status: {
+            type: 'string',
+            defaultsTo: '1',
+            required: true
+        }
     }
 
 };

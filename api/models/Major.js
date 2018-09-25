@@ -21,6 +21,11 @@ module.exports = {
             collection: 'mark',
             via: 'major'
         }
+        status: {
+            type: 'string',
+            defaultsTo: '1',
+            required: true
+        }
     },
 
     beforeDestroy: (criteria, proceed) => {
