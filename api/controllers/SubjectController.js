@@ -24,7 +24,7 @@ module.exports = {
         } catch (error) {
             code = 501;
         }
-        return res.json({code ,message});
+        return res.json({ code, message });
     },
 
     delete: async (req, res) => {
@@ -39,7 +39,7 @@ module.exports = {
                 code = 502;
             }
         }
-        return res.json({code, message});
+        return res.json({ code, message });
     },
 
     // t
@@ -48,7 +48,7 @@ module.exports = {
         let code = 503, message = 'error';
         try {
             let subject = JSON.parse(req.param('data'));
-            let s = await Subject.update({id: subject.id}, subject).fetch();
+            let s = await Subject.update({ id: subject.id }, subject).fetch();
             if (s) {
                 code = 200;
                 message = 'success';
@@ -56,7 +56,7 @@ module.exports = {
         } catch (error) {
             code = 501;
         }
-        return res.json({code ,message});
+        return res.json({ code, message });
     },
 
     // /subject/getall/:page
@@ -75,7 +75,7 @@ module.exports = {
                 next: false
             }
         }
-        return res.json({code, message, data});
+        return res.json({ code, message, data });
     },
 
     // /subject/getone/:id
@@ -87,7 +87,25 @@ module.exports = {
             code = 200;
             message = 'success';
         }
-        return res.json({code, message, data});
+        return res.json({ code, message, data });
+    },
+
+    updateStatus: async (req, res) => {
+        res.status(200);
+        let code = 403, message = 'error';
+        try {
+            let { id, status } = req.param('data');
+            let s = await Subject.update({ id }).set({ status }).fetch();
+            if (s) {
+                code = 200;
+                message = 'success';
+            } else {
+                code = 402;
+            }
+        } catch (error) {
+            code = 401;
+        }
+        return res.json({ code, message });
     }
 };
 

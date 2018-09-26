@@ -110,12 +110,30 @@ module.exports = {
     getAllInSchool: async (req, res) => {
         res.status(200);
         let code = 200, data = null, message = 'success', school = req.param('school') || '';
-        let list = await Major.find({school : school});
+        let list = await Major.find({ school: school });
         data = {
             list,
             next: false
         }
         return res.json({ code, message, data });
+    },
+
+    updateStatus: async (req, res) => {
+        res.status(200);
+        let code = 403, message = 'error';
+        try {
+            let { id, status } = req.param('data');
+            let s = await Major.update({ id }).set({ status }).fetch();
+            if (s) {
+                code = 200;
+                message = 'success';
+            } else {
+                code = 402;
+            }
+        } catch (error) {
+            code = 401;
+        }
+        return res.json({ code, message });
     }
 };
 

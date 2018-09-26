@@ -92,6 +92,24 @@ module.exports = {
             message = 'success';
         }
         return res.json({ code, message, data });
+    },
+
+    updateStatus: async (req, res) => {
+        res.status(200);
+        let code = 403, message = 'error';
+        try {
+            let { id, status } = req.param('data');
+            let s = await Sector.update({ id }).set({ status }).fetch();
+            if (s) {
+                code = 200;
+                message = 'success';
+            } else {
+                code = 402;
+            }
+        } catch (error) {
+            code = 401;
+        }
+        return res.json({ code, message });
     }
 
 };
