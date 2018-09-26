@@ -88,6 +88,7 @@ module.exports.routes = {
     'POST /user/getall': 'user.getAll',
     'POST /user/getone': 'user.getOne',
     'POST /user/login': 'user.login',
+    'POST /user/logout': 'user.logout',
     'POST /user/updatestatus': 'user.updateStatus',
 
     'POST /role/add': 'role.add',

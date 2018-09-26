@@ -5,6 +5,8 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
+var md5 = require('md5');
+
 module.exports = {
     // 801 dữ liệu gửi lên không hợp lệ
     // 802 có lỗi xảy ra, không có gì được thay đổi
@@ -93,17 +95,25 @@ module.exports = {
         return res.json({ code, message, data });
     },
 
-    // login
+    // user/login
     login: async (req, res) => {
         res.status(200);
-        let code = 803, message = 'error', data = undefined;
+        let code = 803, message = 'error', data = undefined, user = undefined, session = undefined, role;
         try {
-            let { username, password } = JSON.parse(req.param('data'));
-            data = await User.findOne({ username: username, password: password });
-            if (data) {
-                let role = await Role.findOne({ id: data.role });
+            let { username, password } = req.param('data');
+            user = await User.findOne({ username: username, password: password });
+            if (user) {
+                role = await Role.findOne({ id: user.role });
                 if (role) {
-                    data.roles = JSON.parse(role.roles);
+                    user.role = JSON.parse(role.roles);
+                    // create session
+                    let time = (new Date).getTime();
+                    session = md5(user.id + time);
+                    let u = JSON.stringify({
+                        id: user.id,
+                        role: user.role
+                    });
+                    await Login.create({ session, time, user: u });
                     code = 200;
                     message = 'success';
                 } else {
@@ -114,7 +124,27 @@ module.exports = {
         } catch (error) {
             code = 801;
         }
+        if (user && session) {
+            data = { user, session };
+        }
         return res.json({ code, message, data });
+    },
+
+    // user/logout
+    logout: async (req, res) => {
+        res.status(200);
+        let code = 803, message = 'error';
+        try {
+            let { session } = req.param('data');
+            let rs = await Login.destroy({ session: session }).fetch();
+            if (rs && rs.length !== 0) {
+                code = 200;
+                message = 'success';
+            }
+        } catch (error) {
+            code = 801;
+        }
+        return res.json({ code, message });
     },
 
     updateStatus: async (req, res) => {
