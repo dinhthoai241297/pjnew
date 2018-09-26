@@ -71,7 +71,7 @@ module.exports = {
         let code = 603, message = 'error';
         try {
             let subjectGroup = JSON.parse(req.param('data'));
-                        for (let i = 0; i < subjectGroup.subjects.length; i++) {
+            for (let i = 0; i < subjectGroup.subjects.length; i++) {
                 try {
                     let sub = await Subject.findOne({ id: subjectGroup.subjects[i] });
                     if (!sub) {
@@ -120,6 +120,15 @@ module.exports = {
                 list,
                 next: false
             }
+        }
+        let tmp;
+        for (let i = 0; i < data.list.length; i++) {
+            tmp = await Subject.find({
+                id: {
+                    in: JSON.parse(data.list[i].subjects)
+                }
+            });
+            data.list[i].subjects = tmp;
         }
         return res.json({ code, message, data });
     },

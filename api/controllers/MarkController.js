@@ -132,6 +132,15 @@ module.exports = {
                 next: false
             }
         }
+        let tmp;
+        for (let i = 0; i < data.list.length; i++) {
+            tmp = await SubjectGroup.find({
+                id: {
+                    in: JSON.parse(data.list[i].subjectGroups)
+                }
+            });
+            data.list[i].subjectGroups = tmp;
+        }
         return res.json({ code, message, data });
     },
 
