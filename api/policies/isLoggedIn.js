@@ -1,13 +1,18 @@
 
 module.exports = async function (req, res, proceed) {
-    console.log(req.param('page'));
-    if (req.param('page')) {
-        return proceed();
-    } else {
-        res.status(200);
-        return res.json({
-            code: 000,
-            message: 'forbidden'
+
+    let ss = req.param('session') || '';
+    if (ss) {
+        let log = await Login.findOne({
+            session: ss
         });
+        if (log) {
+            proceed();
+        }
     }
+    res.status(200);
+    return res.json({
+        code: 999,
+        message: 'forbidden'
+    });
 }

@@ -7,6 +7,11 @@
 
 var md5 = require('md5');
 
+const ACTIVE = 1;
+const DELETE = 1;
+const PENDING = 1;
+const LOCK = 1;
+
 module.exports = {
     // 801 dữ liệu gửi lên không hợp lệ
     // 802 có lỗi xảy ra, không có gì được thay đổi
@@ -101,24 +106,18 @@ module.exports = {
         let code = 803, message = 'error', data = undefined, user = undefined, session = undefined, role;
         try {
             let { username, password } = req.param('data');
-            user = await User.findOne({ username: username, password: password });
+            user = await User.findOne({ username: username, password: password }).populate('status').populate('role');
             if (user) {
-                role = await Role.findOne({ id: user.role });
-                if (role) {
-                    user.role = JSON.parse(role.roles);
+                if (user.status.status === ACTIVE) {
                     // create session
                     let time = (new Date).getTime();
                     session = md5(user.id + time);
-                    let u = JSON.stringify({
-                        id: user.id,
-                        role: user.role
-                    });
-                    await Login.create({ session, time, user: u });
+                    await Login.create({ session, time, user: JSON.stringify(user) });
                     code = 200;
                     message = 'success';
                 } else {
-                    code = 803;
-                    message = 'error';
+                    code = 805;
+                    message = 'user not valid';
                 }
             }
         } catch (error) {
