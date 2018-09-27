@@ -15,7 +15,7 @@ module.exports = {
         res.status(200);
         let code = 403, message = 'error';
         try {
-            let sector = JSON.parse(req.param('data'));
+            let { sector } = req.param('data');
             let s = await Sector.create(sector).fetch();
             if (s) {
                 code = 200;
@@ -31,7 +31,7 @@ module.exports = {
 
     delete: async (req, res) => {
         res.status(200);
-        let code = 401, message = 'error', id = req.param('id');
+        let code = 401, message = 'error', { id } = req.param('data');
         if (id) {
             let rs = await Sector.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
@@ -49,7 +49,7 @@ module.exports = {
         res.status(200);
         let code = 403, message = 'error';
         try {
-            let sector = JSON.parse(req.param('data'));
+            let { sector } = req.param('data');
             let s = await Sector.update({ id: sector.id }, sector).fetch();
             if (s) {
                 code = 200;
@@ -66,7 +66,7 @@ module.exports = {
     // /major/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, page = req.param('page') || 1;
+        let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
         let list = await Sector.find().limit(11).skip((page - 1) * 10).populate('status');
         if (list.length > 10) {
             data = {
@@ -85,7 +85,7 @@ module.exports = {
     // /major/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 403, message = 'error', data = undefined, id = req.param('id') || 1;
+        let code = 403, message = 'error', data = undefined, { id } = req.param('data') || 1;
         data = await Sector.findOne({ id: id });
         if (data) {
             code = 200;

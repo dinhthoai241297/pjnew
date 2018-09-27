@@ -8,7 +8,10 @@ module.exports = async function (req, res, proceed) {
             session: session
         });
         if (log) {
-            valid = true;
+            let roles = JSON.parse(JSON.parse(log.user).role.roles);
+            if (roles.find(r => r === sails.config.myconf.roles.DELETE)) {
+                valid = true;
+            }
         }
     }
 

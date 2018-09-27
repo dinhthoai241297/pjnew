@@ -14,7 +14,7 @@ module.exports = {
         res.status(200);
         let code = 703, message = 'error';
         try {
-            let role = JSON.parse(req.param('data'));
+            let { role } = req.param('data');
             role.roles = JSON.stringify(role.roles);
             let s = await Role.create(role).fetch();
             if (s) {
@@ -31,7 +31,7 @@ module.exports = {
 
     delete: async (req, res) => {
         res.status(200);
-        let code = 701, message = 'error', id = req.param('id');
+        let code = 701, message = 'error', { id } = req.param('data');
         if (id) {
             let rs = await Role.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
@@ -49,7 +49,7 @@ module.exports = {
         res.status(200);
         let code = 703, message = 'error';
         try {
-            let role = JSON.parse(req.param('data'));
+            let { role } = req.param('data');
             role.roles = JSON.stringify(role.roles);
             let r = await Role.update({ id: role.id }, role).fetch();
             if (r) {
@@ -67,7 +67,7 @@ module.exports = {
     // /major/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, page = req.param('page') || 1;
+        let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
         let list = await Role.find().limit(11).skip((page - 1) * 10).populate('status');
         if (list.length > 10) {
             data = {
@@ -86,7 +86,7 @@ module.exports = {
     // /major/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 703, message = 'error', data = undefined, id = req.param('id') || -1;
+        let code = 703, message = 'error', data = undefined, { id } = req.param('data') || -1;
         data = await Role.findOne({ id: id });
         if (data) {
             code = 200;

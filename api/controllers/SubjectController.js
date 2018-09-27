@@ -15,7 +15,7 @@ module.exports = {
         res.status(200);
         let code = 503, message = 'error';
         try {
-            let subject = JSON.parse(req.param('data'));
+            let { subject } = req.param('data');
             let s = await Subject.create(subject).fetch();
             if (s) {
                 code = 200;
@@ -29,7 +29,7 @@ module.exports = {
 
     delete: async (req, res) => {
         res.status(200);
-        let code = 501, message = 'error', id = req.param('id');
+        let code = 501, message = 'error', { id } = req.param('data');
         if (id) {
             let rs = await Subject.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
@@ -47,7 +47,7 @@ module.exports = {
         res.status(200);
         let code = 503, message = 'error';
         try {
-            let subject = JSON.parse(req.param('data'));
+            let { subject } = req.param('data');
             let s = await Subject.update({ id: subject.id }, subject).fetch();
             if (s) {
                 code = 200;
@@ -62,7 +62,7 @@ module.exports = {
     // /subject/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, page = req.param('page') || 1;
+        let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
         let list = await Subject.find().limit(11).skip((page - 1) * 10).populate('status');
         if (list.length > 10) {
             data = {
@@ -81,7 +81,7 @@ module.exports = {
     // /subject/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 503, message = 'error', data = undefined, id = req.param('id') || 1;
+        let code = 503, message = 'error', data = undefined, { id } = req.param('data') || 1;
         data = await Subject.findOne({ id: id });
         if (data) {
             code = 200;

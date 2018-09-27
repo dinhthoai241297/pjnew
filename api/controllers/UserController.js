@@ -16,12 +16,13 @@ module.exports = {
     // 801 dữ liệu gửi lên không hợp lệ
     // 802 có lỗi xảy ra, không có gì được thay đổi
     // 803 không tìm thấy dữ liệu trong database
+    // 804 Tài khoản chưa kích hoạt
 
     add: async (req, res) => {
         res.status(200);
         let code = 803, message = 'error';
         try {
-            let user = JSON.parse(req.param('data'));
+            let { user } = req.param('data');
             let s = await User.create(user).fetch();
             if (s) {
                 code = 200;
@@ -37,7 +38,7 @@ module.exports = {
 
     delete: async (req, res) => {
         res.status(200);
-        let code = 801, message = 'error', id = req.param('id');
+        let code = 801, message = 'error', { id } = req.param('data');
         if (id) {
             let rs = await User.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
@@ -55,7 +56,7 @@ module.exports = {
         res.status(200);
         let code = 803, message = 'error';
         try {
-            let user = JSON.parse(req.param('data'));
+            let { user } = req.param('data');
             let u = await User.update({ id: user.id }, user).fetch();
             if (u) {
                 code = 200;
@@ -72,7 +73,7 @@ module.exports = {
     // /major/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, page = req.param('page') || 1;
+        let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
         let list = await User.find().limit(11).skip((page - 1) * 10).populate('role').populate('status');
         if (list.length > 10) {
             data = {
@@ -91,7 +92,7 @@ module.exports = {
     // /major/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 803, message = 'error', data = undefined, id = req.param('id') || -1;
+        let code = 803, message = 'error', data = undefined, { id } = req.param('data') || -1;
         data = await User.findOne({ id: id });
         if (data) {
             code = 200;
@@ -116,8 +117,8 @@ module.exports = {
                     code = 200;
                     message = 'success';
                 } else {
-                    code = 805;
-                    message = 'user not valid';
+                    code = 804;
+                    message = 'user not active';
                 }
             }
         } catch (error) {

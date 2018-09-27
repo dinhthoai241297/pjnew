@@ -15,7 +15,7 @@ module.exports = {
         res.status(200);
         let code = 103, message = 'error';
         try {
-            let province = JSON.parse(req.param('data'));
+            let { province } = req.param('data');
             let sector = await Sector.findOne({ id: province.sector });
             if (sector) {
                 let s = await Province.create(province).fetch();
@@ -34,7 +34,7 @@ module.exports = {
 
     delete: async (req, res) => {
         res.status(200);
-        let code = 201, message = 'error', id = req.param('id');
+        let code = 201, message = 'error', { id } = req.param('data');
         if (id) {
             let rs = await Province.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
@@ -52,7 +52,7 @@ module.exports = {
         res.status(200);
         let code = 103, message = 'error';
         try {
-            let province = JSON.parse(req.param('data'));
+            let { province } = req.param('data');
             let sector = await Sector.findOne({ id: province.sector });
             if (sector) {
                 let s = await Province.update({ id: province.id }, province).fetch();
@@ -72,7 +72,7 @@ module.exports = {
     // /province/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, page = req.param('page') || 1;
+        let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
         let list = await Province.find().limit(11).skip((page - 1) * 10).populate('sector').populate('status');
         if (list.length > 10) {
             data = {
@@ -91,7 +91,7 @@ module.exports = {
     // /province/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 103, message = 'error', data = undefined, id = req.param('id') || 1;
+        let code = 103, message = 'error', data = undefined, { id } = req.param('data') || 1;
         data = await Province.findOne({ id: id });
         if (data) {
             code = 200;

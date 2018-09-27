@@ -15,7 +15,7 @@ module.exports = {
         res.status(200);
         let code = 603, message = 'error';
         try {
-            let subjectGroup = JSON.parse(req.param('data'));
+            let { subjectGroup } = req.param('data');
             for (let i = 0; i < subjectGroup.subjects.length; i++) {
                 try {
                     let sub = await Subject.findOne({ id: subjectGroup.subjects[i] });
@@ -26,16 +26,6 @@ module.exports = {
                     return res.json({ code, message });
                 }
             }
-            // subjectGroup.subjects.forEach(async ele => {
-            //     try {
-            //         let sub = await Subject.findOne({ id: ele });
-            //         if (!sub) {
-            //             return res.json({ code, message });
-            //         }
-            //     } catch (error) {
-            //         return res.json({ code, message });
-            //     }
-            // });
             subjectGroup.subjects = JSON.stringify(subjectGroup.subjects);
             let s = await SubjectGroup.create(subjectGroup).fetch();
             if (s) {
@@ -52,7 +42,7 @@ module.exports = {
 
     delete: async (req, res) => {
         res.status(200);
-        let code = 601, message = 'error', id = req.param('id');
+        let code = 601, message = 'error', { id } = req.param('data');
         if (id) {
             let rs = await SubjectGroup.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
@@ -70,7 +60,7 @@ module.exports = {
         res.status(200);
         let code = 603, message = 'error';
         try {
-            let subjectGroup = JSON.parse(req.param('data'));
+            let { subjectGroup } = req.param('data');
             for (let i = 0; i < subjectGroup.subjects.length; i++) {
                 try {
                     let sub = await Subject.findOne({ id: subjectGroup.subjects[i] });
@@ -81,16 +71,6 @@ module.exports = {
                     return res.json({ code, message });
                 }
             }
-            // subjectGroup.subjects.forEach(async ele => {
-            //     try {
-            //         let sub = await Subject.findOne({ id: ele });
-            //         if (!sub) {
-            //             return res.json({ code, message });
-            //         }
-            //     } catch (error) {
-            //         return res.json({ code, message });
-            //     }
-            // });
             subjectGroup.subjects = JSON.stringify(subjectGroup.subjects);
             let s = await SubjectGroup.update({ id: subjectGroup.id }, subjectGroup).fetch();
             if (s) {
@@ -108,7 +88,7 @@ module.exports = {
     // /subjectGroup/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, page = req.param('page') || 1;
+        let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
         let list = await SubjectGroup.find().limit(11).skip((page - 1) * 10).populate('status');
         if (list.length > 10) {
             data = {
@@ -136,7 +116,7 @@ module.exports = {
     // /subjectGroup/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 603, message = 'error', data = undefined, id = req.param('id') || 1;
+        let code = 603, message = 'error', data = undefined, { id } = req.param('data') || 1;
         data = await SubjectGroup.findOne({ id: id });
         if (data) {
             code = 200;

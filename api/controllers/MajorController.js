@@ -15,7 +15,7 @@ module.exports = {
         res.status(200);
         let code = 03, message = 'error';
         try {
-            let major = JSON.parse(req.param('data'));
+            let { major } = req.param('data');
             let school = await School.findOne({ id: major.school });
             if (school) {
                 let s = await Major.create(major).fetch();
@@ -35,7 +35,7 @@ module.exports = {
     delete: async (req, res) => {
         res.status(200);
         let code = 03, message = 'error';
-        let id = req.param('id');
+        let { id } = req.param('data');
         if (id) {
             let rs = await Major.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
@@ -53,7 +53,7 @@ module.exports = {
         res.status(200);
         let code = 03, message = 'error';
         try {
-            let major = JSON.parse(req.param('data'));
+            let { major } = req.param('data');
             let school = await School.findOne({ id: major.school });
             if (school) {
                 let s = await Major.update({ id: major.id }, major).fetch();
@@ -73,7 +73,7 @@ module.exports = {
     // /major/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, data = null, message = 'success', page = req.param('page') || 1;
+        let code = 200, data = null, message = 'success', { page } = req.param('data') || 1;
         let list = await Major.find().limit(11).skip((page - 1) * 10).populate('school').populate('status');
         if (list.length > 10) {
             data = {
@@ -96,7 +96,7 @@ module.exports = {
             code: 03,
             message: 'error'
         }
-        let id = req.param('id') || -1;
+        let { id } = req.param('data') || -1;
         let major = await Major.findOne({ id: id });
         if (major) {
             rs.code = 200;
@@ -109,7 +109,7 @@ module.exports = {
     // get all major with id school
     getAllInSchool: async (req, res) => {
         res.status(200);
-        let code = 200, data = null, message = 'success', school = req.param('school') || '';
+        let code = 200, data = null, message = 'success', { school } = req.param('data') || '';
         let list = await Major.find({ school: school });
         data = {
             list,

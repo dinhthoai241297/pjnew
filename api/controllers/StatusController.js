@@ -15,7 +15,7 @@ module.exports = {
         res.status(200);
         let code = 903, message = 'error';
         try {
-            let status = JSON.parse(req.param('data'));
+            let { status } = req.param('data');
             let s = await Status.create(status).fetch();
             if (s) {
                 code = 200;
@@ -31,7 +31,7 @@ module.exports = {
 
     delete: async (req, res) => {
         res.status(200);
-        let code = 901, message = 'error', id = req.param('id');
+        let code = 901, message = 'error', { id } = req.param('data');
         if (id) {
             let rs = await Status.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
@@ -49,7 +49,7 @@ module.exports = {
         res.status(200);
         let code = 903, message = 'error';
         try {
-            let status = JSON.parse(req.param('data'));
+            let { status } = req.param('data');
             let s = await Status.update({ id: status.id }, status).fetch();
             if (s) {
                 code = 200;
@@ -66,7 +66,7 @@ module.exports = {
     // /status/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, page = req.param('page') || 1;
+        let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
         let list = await Status.find().limit(11).skip((page - 1) * 10);
         if (list.length > 10) {
             data = {
@@ -85,7 +85,7 @@ module.exports = {
     // /status/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 903, message = 'error', data = undefined, id = req.param('id') || 1;
+        let code = 903, message = 'error', data = undefined, { id } = req.param('data') || 1;
         data = await Status.findOne({ id: id });
         if (data) {
             code = 200;
