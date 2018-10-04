@@ -63,7 +63,8 @@ module.exports = {
     getAll: async (req, res) => {
         res.status(200);
         let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
-        let list = await Subject.find().limit(11).skip((page - 1) * 10).populate('status');
+        let {status} = req.param('data');
+        let list = await Subject.find({status :status}).limit(11).skip((page - 1) * 10).populate('status');
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),

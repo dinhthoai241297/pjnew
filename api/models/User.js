@@ -43,7 +43,7 @@ module.exports = {
         status: {
             model: 'status'
         }
+      
     }
-
 };
 

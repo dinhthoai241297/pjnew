@@ -74,7 +74,9 @@ module.exports = {
     getAll: async (req, res) => {
         res.status(200);
         let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
-        let list = await School.find().limit(11).skip((page - 1) * 10).populate('province').populate('status');
+        let {province} = req.param('data');
+        let {status} = req.param('data');
+        let list = await School.find({province :province, status : status}).limit(11).skip((page - 1) * 10).populate('province').populate('status');
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),
@@ -88,6 +90,16 @@ module.exports = {
         }
         return res.json({ code, message, data });
     },
+    // getTest: async (req, res) => {
+    //     res.status(200);
+    //     let code = 303, message = 'error', data = undefined, { name } = req.param('data') || 1;
+    //     data = await School.findOne({ name: name });
+    //     if (data) {
+    //         code = 200;
+    //         message = 'success';
+    //     }
+    //     return res.json({ code, message, data });
+    // },
 
     // /school/getone/:id
     getOne: async (req, res) => {

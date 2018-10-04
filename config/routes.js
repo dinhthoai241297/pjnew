@@ -60,6 +60,7 @@ module.exports.routes = {
     'POST /school/getall': 'school.getAll',
     'POST /school/getone': 'school.getOne',
     'POST /school/updatestatus': 'school.updateStatus',
+    
 
     'POST /sector/add': 'sector.add',
     'POST /sector/delete': 'sector.delete',

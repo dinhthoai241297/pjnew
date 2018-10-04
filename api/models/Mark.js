@@ -9,7 +9,7 @@ module.exports = {
     // Mark
     attributes: {
         year: {
-            type: 'number',
+         type: 'number',
         },
         mark: {
             type: 'number'

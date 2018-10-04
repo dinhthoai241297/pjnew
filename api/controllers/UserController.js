@@ -74,11 +74,17 @@ module.exports = {
     getAll: async (req, res) => {
         res.status(200);
         let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
-        let list = await User.find().limit(11).skip((page - 1) * 10).populate('role').populate('status');
+        let {status} = req.param('data');
+        let {role} = req.param('data');
+        // let {date} = req.param('data');
+        // let {start} =  date.a ;
+        // let {end}   =  date.b ;
+        let list = await User.find({status :status , role :role }).limit(11).skip((page - 1) * 10).populate('role').populate('status');
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),
-                next: true
+                next: true,
+
             }
         } else {
             data = {

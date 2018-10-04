@@ -100,7 +100,11 @@ module.exports = {
     getAll: async (req, res) => {
         res.status(200);
         let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
-        let list = await Mark.find().limit(11).skip((page - 1) * 10).populate('major').populate('school').populate('status');
+        let {status} = req.param('data');
+        let {school} = req.param ('data');
+        let {major}  = req.param('data');
+        let {year} = req.param('data');
+         let list = await Mark.find({status: status, school : school, major :major, year:year}).limit(11).skip((page - 1) * 10).populate('major').populate('school').populate('status');
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),
