@@ -68,7 +68,7 @@ module.exports = {
         res.status(200);
         let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
         let {status} = req.param('data');
-        let list = await Status.find({status: status}).limit(11).skip((page - 1) * 10);
+        let list = await Status.find({status: status}).sort([{name:'ASC'}]).limit(11).skip((page - 1) * 10);
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),

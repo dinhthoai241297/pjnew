@@ -76,7 +76,7 @@ module.exports = {
         let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
         let {province} = req.param('data');
         let {status} = req.param('data');
-        let list = await School.find({province :province, status : status}).limit(11).skip((page - 1) * 10).populate('province').populate('status');
+        let list = await School.find({province :province, status : status}).sort([{name :'ASC'}]).limit(11).skip((page - 1) * 10).populate('province').populate('status');
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),

@@ -68,7 +68,7 @@ module.exports = {
         res.status(200);
         let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
         let {status} = req.param('data');
-        let list = await Sector.find({status : status}).limit(11).skip((page - 1) * 10).populate('status');
+        let list = await Sector.find({status : status}).limit(11).sort([{name:'ASC'}]).skip((page - 1) * 10).populate('status');
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),

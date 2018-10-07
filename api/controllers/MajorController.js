@@ -76,7 +76,7 @@ module.exports = {
         let code = 200, data = null, message = 'success', { page } = req.param('data') || 1;
         let {status} = req.param('data');
         let {school} = req.param('data');
-        let list = await Major.find({status: status, school :school}).limit(11).skip((page - 1) * 10).populate('school').populate('status');
+        let list = await Major.find({status: status, school :school}).sort([{name: 'ASC'}]).limit(11).skip((page - 1) * 10).populate('school').populate('status');
         if (list.length > 10) {
             data = {
                 list: list.splice(0, 10),
