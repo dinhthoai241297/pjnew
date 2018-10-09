@@ -77,9 +77,24 @@ module.exports = {
         let {status} = req.param('data');
         let {role} = req.param('data');
         let {date} = req.param('data');
-        let start =  date.a ;
-        let end  =   date.b ;
-        let list = await User.find({status :status ,role :role, createdAt :{'>=':start} }).sort([{username: 'ASC'}]).limit(11).skip((page - 1) * 10).populate('role').populate('status');
+        let start =date.a;
+        let end = date.b;
+        // let {start} =  req.param('data') ;
+        // console.log(start, end);
+        // let tmp = await User.find({where :{ createAt :{'>=' :start}}});
+        // console.log(tmp);
+        // var tmp = {:datas.status};
+        // criteria.createdAt={ ">=": new Date(dateFrom), "<=": new Date(dateTo) };
+        // Orders.find({
+        //             where: criteria,
+        //         }).exec(function(errsum, obj){//xu ly du lieu}
+        // var criteria = { 
+        //     date : {
+        //     '>=': new Date(start),
+        //     '<=': new Date(end)
+        //             }
+        //         };
+        let list = await User.find({status :status ,role :role, createAt :{'>=' :start}}).sort([{username: 'ASC'}]).limit(11).skip((page - 1) * 10).populate('role').populate('status');
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),
