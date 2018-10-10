@@ -77,8 +77,8 @@ module.exports = {
         let {status} = req.param('data');
         let {role} = req.param('data');
         let {date} = req.param('data');
-        let start =date.datefrom;
-        let end = date.dateto;
+        let start =date.start;
+        let end = date.end;
         // let {start} =  req.param('data') ;
         console.log(start, end);
         // let tmp = await User.find({where :{ createAt :{'>=' :start}}});
