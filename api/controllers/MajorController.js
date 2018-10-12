@@ -22,6 +22,7 @@ module.exports = {
                 if (s) {
                     code = 200;
                     message = 'success';
+                let log = await Log.create({username : username, action : "add", timelog : new Date()}).fetch(); 
                 } else {
                     code = 02;
                 }
@@ -41,6 +42,7 @@ module.exports = {
             if (rs && rs.length !== 0) {
                 code = 200;
                 message = 'success';
+        let log = await Major.create(log).fetch(); 
             } else {
                 code = 02;
             }

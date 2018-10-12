@@ -81,7 +81,7 @@ module.exports = {
         let end = date.end;
         // let {start} =  req.param('data') ;
         console.log(start, end);
-        // let tmp = await User.find({where :{ createAt :{'>=' :start}}});
+        // let tmp = await User.find({where :{ createdAt :{'>=' :start}}});
         // console.log(tmp);
         // 
         // var criteria = { 
@@ -90,7 +90,7 @@ module.exports = {
         //     '<=': new Date(end)
         //             }
         //         };
-        let list = await User.find({status :status ,role :role, createAt :{'>=' :start, '<':end}}).sort([{username: 'ASC'}]).limit(11).skip((page - 1) * 10).populate('role').populate('status');
+        let list = await User.find({status :status ,role :role, createdAt :{'>=' :start, '<':end}}).sort([{username: 'ASC'}]).limit(11).skip((page - 1) * 10).populate('role').populate('status');
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),
