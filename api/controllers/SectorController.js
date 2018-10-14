@@ -18,6 +18,10 @@ module.exports = {
             let { sector } = req.param('data');
             let s = await Sector.create(sector).fetch();
             if (s) {
+                let {session} = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "add", collection: "sector"});
                 code = 200;
                 message = 'success';
             } else {
@@ -35,6 +39,10 @@ module.exports = {
         if (id) {
             let rs = await Sector.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
+                let {session} = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "sector"});                
                 code = 200;
                 message = 'success';
             } else {
@@ -52,8 +60,12 @@ module.exports = {
             let { sector } = req.param('data');
             let s = await Sector.update({ id: sector.id }, sector).fetch();
             if (s) {
-                code = 200;
-                message = 'success';
+                 let {session} = req.param('data');
+                 let tmp = await Login.findOne({ session: session });
+                 let iduser = JSON.parse(tmp.user).id;
+                 let log = await Logtime.create({ iduser: iduser, action: "update", collection: "sector"});
+                 code = 200;
+                 message = 'success';
             } else {
                 code = 402;
             }

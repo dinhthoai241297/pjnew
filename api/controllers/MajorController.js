@@ -16,14 +16,18 @@ module.exports = {
         let code = 03, message = 'error';
         try {
             let { major } = req.param('data');
-            let school = await School.findOne({ id: major.school });
-            if (school) {
+                let school = await School.findOne({ id: major.school });
+                if (school) {
                 let s = await Major.create(major).fetch();
                 if (s) {
+                    let {session} = req.param('data');
+                    let tmp = await Login.findOne({ session: session });
+                    let iduser = JSON.parse(tmp.user).id;
+                    let log = await Logtime.create({ iduser: iduser, action: "add", collection: "major"});
                     code = 200;
                     message = 'success';
-                let log = await Log.create({username : username, action : "add", timelog : new Date()}).fetch(); 
-                } else {
+                    
+                    } else {
                     code = 02;
                 }
             }
@@ -40,10 +44,14 @@ module.exports = {
         if (id) {
             let rs = await Major.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
+                let {session} = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "major"});
                 code = 200;
                 message = 'success';
-        let log = await Major.create(log).fetch(); 
-            } else {
+                
+              } else {
                 code = 02;
             }
         }
@@ -54,14 +62,19 @@ module.exports = {
     update: async (req, res) => {
         res.status(200);
         let code = 03, message = 'error';
-        try {
+            try {
             let { major } = req.param('data');
             let school = await School.findOne({ id: major.school });
             if (school) {
                 let s = await Major.update({ id: major.id }, major).fetch();
                 if (s) {
-                    code = 200;
-                    message = 'success';
+                let {session} = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "update", collection: "major"}) ;
+                code = 200;
+                message = 'success';
+                   
                 } else {
                     code = 02;
                 }

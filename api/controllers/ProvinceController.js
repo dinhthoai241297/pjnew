@@ -20,6 +20,10 @@ module.exports = {
             if (sector) {
                 let s = await Province.create(province).fetch();
                 if (s) {
+                    let {session} = req.param('data');
+                    let tmp = await Login.findOne({ session: session });
+                    let iduser = JSON.parse(tmp.user).id;
+                    let log = await Logtime.create({ iduser: iduser, action: "add", collection: "province"})
                     code = 200;
                     message = 'succes';
                 } else {
@@ -38,6 +42,10 @@ module.exports = {
         if (id) {
             let rs = await Province.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
+                    let {session} = req.param('data');
+                    let tmp = await Login.findOne({ session: session });
+                    let iduser = JSON.parse(tmp.user).id;
+                    let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "province"})
                 code = 200;
                 message = 'success';
             } else {
@@ -57,6 +65,10 @@ module.exports = {
             if (sector) {
                 let s = await Province.update({ id: province.id }, province).fetch();
                 if (s) {
+                    let {session} = req.param('data');
+                    let tmp = await Login.findOne({ session: session });
+                    let iduser = JSON.parse(tmp.user).id;
+                    let log = await Logtime.create({ iduser: iduser, action: "update", collection: "province"})
                     code = 200;
                     message = 'succes';
                 } else {

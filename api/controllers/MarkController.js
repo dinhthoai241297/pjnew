@@ -30,13 +30,17 @@ module.exports = {
             }
             mark.subjectGroups = JSON.stringify(mark.subjectGroups);
             let major = await Major.findOne({ id: mark.major });
-            let school = await School.findOne({ id: mark.school });
             if (major && school) {
                 let s = await Mark.create(mark).fetch();
                 if (s) {
+                    let {session} = req.param('data');
+                    let tmp = await Login.findOne({ session: session });
+                    let iduser = JSON.parse(tmp.user).id;
+                    let log = await Logtime.create({ iduser: iduser, action: "add", collection: "mark"})
                     code = 200;
                     message = 'success';
-                } else {
+
+                           } else {
                     code = 102;
                 }
             }
@@ -52,6 +56,10 @@ module.exports = {
         if (id) {
             let rs = await Mark.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
+                let {session} = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "mark"});
                 code = 200;
                 message = 'success';
             } else {
@@ -84,6 +92,10 @@ module.exports = {
             if (major && school) {
                 let s = await Mark.update({ id: mark.id }, mark).fetch();
                 if (s) {
+                    let {session} = req.param('data');
+                    let tmp = await Login.findOne({ session: session });
+                    let iduser = JSON.parse(tmp.user).id;
+                    let log = await Logtime.create({ iduser: iduser, action: "update", collection: "mark"});
                     code = 200;
                     message = 'success';
                 } else {

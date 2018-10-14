@@ -29,6 +29,10 @@ module.exports = {
             subjectGroup.subjects = JSON.stringify(subjectGroup.subjects);
             let s = await SubjectGroup.create(subjectGroup).fetch();
             if (s) {
+                let {session} = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "add", collection: "subjectgroup"});
                 code = 200;
                 message = 'success';
             } else {
@@ -46,6 +50,10 @@ module.exports = {
         if (id) {
             let rs = await SubjectGroup.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
+                let {session} = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "subjectgroup"});
                 code = 200;
                 message = 'success';
             } else {
@@ -74,6 +82,10 @@ module.exports = {
             subjectGroup.subjects = JSON.stringify(subjectGroup.subjects);
             let s = await SubjectGroup.update({ id: subjectGroup.id }, subjectGroup).fetch();
             if (s) {
+                let {session} = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "update", collection: "subjectgroup"});
                 code = 200;
                 message = 'success';
             } else {

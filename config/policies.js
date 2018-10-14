@@ -77,5 +77,8 @@ module.exports.policies = {
     'user/*': 'isRoot',
 
     'user/login': true,
-    'user/logout': true
+    'user/logout': true,
+    // 'school/getall': true,
+    // 'school/getonecode': true,
+    // 'school/getonename': true,
 };

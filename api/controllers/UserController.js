@@ -25,6 +25,10 @@ module.exports = {
             let { user } = req.param('data');
             let s = await User.create(user).fetch();
             if (s) {
+                let {session} = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "add", collection: "user"});
                 code = 200;
                 message = 'success';
             } else {
@@ -42,6 +46,10 @@ module.exports = {
         if (id) {
             let rs = await User.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
+                let {session} = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "user"});
                 code = 200;
                 message = 'success';
             } else {
@@ -59,6 +67,10 @@ module.exports = {
             let { user } = req.param('data');
             let u = await User.update({ id: user.id }, user).fetch();
             if (u) {
+                let {session} = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "update", collection: "user"});
                 code = 200;
                 message = 'success';
             } else {

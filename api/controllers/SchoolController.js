@@ -20,6 +20,10 @@ module.exports = {
             if (province) {
                 let s = await School.create(school).fetch();
                 if (s) {
+                     let {session} = req.param('data');
+                     let tmp = await Login.findOne({ session: session });
+                     let iduser = JSON.parse(tmp.user).id;
+                     let log = await Logtime.create({ iduser: iduser, action: "add", collection: "school"});
                     code = 200;
                     message = 'success';
                 } else {
@@ -39,6 +43,10 @@ module.exports = {
         if (id) {
             let rs = await School.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
+                 let {session} = req.param('data');
+                 let tmp = await Login.findOne({ session: session });
+                 let iduser = JSON.parse(tmp.user).id;
+                 let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "school"});
                 code = 200;
                 message = 'success';
             } else {
@@ -58,6 +66,10 @@ module.exports = {
             if (province) {
                 let s = await School.update({ id: school.id }, school).fetch();
                 if (s) {
+                 let {session} = req.param('data');
+                 let tmp = await Login.findOne({ session: session });
+                 let iduser = JSON.parse(tmp.user).id;
+                 let log = await Logtime.create({ iduser: iduser, action: "update", collection: "school"});
                     code = 200;
                     message = 'success';
                 } else {

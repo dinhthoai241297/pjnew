@@ -18,6 +18,10 @@ module.exports = {
             role.roles = JSON.stringify(role.roles);
             let s = await Role.create(role).fetch();
             if (s) {
+                 let {session} = req.param('data');
+                 let tmp = await Login.findOne({ session: session });
+                 let iduser = JSON.parse(tmp.user).id;
+                 let log = await Logtime.create({ iduser: iduser, action: "add", collection: "role"});
                 code = 200;
                 message = 'success';
             } else {
@@ -35,6 +39,10 @@ module.exports = {
         if (id) {
             let rs = await Role.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
+                 let {session} = req.param('data');
+                 let tmp = await Login.findOne({ session: session });
+                 let iduser = JSON.parse(tmp.user).id;
+                 let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "role"});       
                 code = 200;
                 message = 'success';
             } else {
@@ -53,6 +61,10 @@ module.exports = {
             role.roles = JSON.stringify(role.roles);
             let r = await Role.update({ id: role.id }, role).fetch();
             if (r) {
+                 let {session} = req.param('data');
+                 let tmp = await Login.findOne({ session: session });
+                 let iduser = JSON.parse(tmp.user).id;
+                 let log = await Logtime.create({ iduser: iduser, action: "update", collection: "role"});   
                 code = 200;
                 message = 'success';
             } else {

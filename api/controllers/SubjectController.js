@@ -18,6 +18,10 @@ module.exports = {
             let { subject } = req.param('data');
             let s = await Subject.create(subject).fetch();
             if (s) {
+                let {session} = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "add", collection: "subject"});
                 code = 200;
                 message = 'success';
             }
@@ -33,6 +37,10 @@ module.exports = {
         if (id) {
             let rs = await Subject.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
+                let {session} = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "subject"});
                 code = 200;
                 message = 'success';
             } else {
@@ -50,6 +58,10 @@ module.exports = {
             let { subject } = req.param('data');
             let s = await Subject.update({ id: subject.id }, subject).fetch();
             if (s) {
+                let {session} = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "update", collection: "subject"});
                 code = 200;
                 message = 'success';
             }
