@@ -91,6 +91,7 @@ module.exports.routes = {
     'POST /user/login': 'user.login',
     'POST /user/logout': 'user.logout',
     'POST /user/updatestatus': 'user.updateStatus',
+    'POST /user/checksession': 'user.checkSession',
 
     'POST /role/add': 'role.add',
     'POST /role/delete': 'role.delete',

@@ -17,6 +17,23 @@ module.exports = {
     // 802 có lỗi xảy ra, không có gì được thay đổi
     // 803 không tìm thấy dữ liệu trong database
     // 804 Tài khoản chưa kích hoạt
+     checkSession: async (req, res) => {
+        res.status(200);
+        let code = 803, message = 'error';
+        try {
+            let { session } = req.param('data');
+            let s = await Login.findOne({{session: session});
+            if (s) {
+                code = 200;
+                message = 'success';
+            } else {
+                code = 802;
+            }
+        } catch (error) {
+            code = 801;
+        }
+        return res.json({ code, message });
+    },
 
     add: async (req, res) => {
         res.status(200);
