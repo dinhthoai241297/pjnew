@@ -114,7 +114,7 @@ module.exports = {
             message: 'error'
         }
         let { id } = req.param('data') || -1;
-        let major = await Major.findOne({ id: id });
+        let major = await Major.findOne({ id: id }).populate('school');
         if (major) {
             rs.code = 200;
             rs.message = 'success';

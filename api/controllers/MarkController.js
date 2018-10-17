@@ -144,7 +144,7 @@ module.exports = {
     getOne: async (req, res) => {
         res.status(200);
         let code = 103, message = 'error', data = undefined, { id } = req.param('data') || 1;
-        data = await Mark.findOne({ id: id });
+        data = await Mark.findOne({ id: id }).populate('school').populate('major');
         if (data) {
             code = 200;
             message = 'success';

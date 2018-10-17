@@ -102,22 +102,12 @@ module.exports = {
         }
         return res.json({ code, message, data });
     },
-    // getTest: async (req, res) => {
-    //     res.status(200);
-    //     let code = 303, message = 'error', data = undefined, { name } = req.param('data') || 1;
-    //     data = await School.findOne({ name: name });
-    //     if (data) {
-    //         code = 200;
-    //         message = 'success';
-    //     }
-    //     return res.json({ code, message, data });
-    // },
-
+   
     // /school/getone/:id
     getOne: async (req, res) => {
         res.status(200);
         let code = 303, message = 'error', data = undefined, { id } = req.param('data') || 1;
-        data = await School.findOne({ id: id });
+        data = await School.findOne({ id: id }).populate('province');
         if (data) {
             code = 200;
             message = 'success';
