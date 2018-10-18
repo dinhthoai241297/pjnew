@@ -22,7 +22,7 @@ module.exports = {
         let code = 803, message = 'error';
         try {
             let { session } = req.param('data');
-            let s = await Login.findOne({{session: session});
+            let s = await Login.findOne({session: session});
             if (s) {
                 code = 200;
                 message = 'success';
