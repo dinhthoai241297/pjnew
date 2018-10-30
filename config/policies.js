@@ -28,6 +28,7 @@ module.exports.policies = {
     'admin/school/getall': 'canView',
     'admin/subject/getall': 'canView',
     'admin/subjectgroup/getall': 'canView',
+    
 
     'admin/sector/getone': 'canUpdate',
     'admin/major/getone': 'canUpdate',
@@ -74,13 +75,11 @@ module.exports.policies = {
     'admin/subjectgroup/delete': 'isRoot',
 
     'admin/role/*': 'isRoot',
-    'admin/user/*': 'isRoot',
+    'user/*': 'isRoot',
 
-    'admin/user/login': true,
-    'admin/user/logout': true,
-    // 'school/getall': true,
-    // 'school/getonecode': true,
-    // 'school/getonename': true,
+    'user/login': true,
+    'user/logout': true,
+   
 
    //BACKEND
     'backend/province/getall': true,

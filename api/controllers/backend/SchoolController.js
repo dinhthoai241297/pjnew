@@ -48,7 +48,7 @@ module.exports = {
     getOneName: async (req, res) => {
         res.status(200);
         let code = 303, message = 'error', data = undefined, { name } = req.param('data') || 1;
-        data = await School.findOne({ name: name });
+        data = await School.find().where({name: {contains :name}});
         if (data) {
             code = 200;
             message = 'success';
