@@ -54,6 +54,7 @@ module.exports = {
         try {
             let { province } = req.param('data');
             let sector = await Sector.findOne({ id: province.sector });
+            console.log(sector);
             if (sector) {
                 let s = await Province.update({ id: province.id }, province).fetch();
                 if (s) {

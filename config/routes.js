@@ -60,6 +60,7 @@ module.exports.routes = {
     'POST /admin/school/getall': 'admin.school.getAll',
     'POST /admin/school/getone': 'admin.school.getOne',
     'POST /admin/school/updatestatus': 'admin.school.updateStatus',
+
     
 
     'POST /admin/sector/add': 'admin.sector.add',
@@ -121,6 +122,9 @@ module.exports.routes = {
     'POST /backend/school/getall': 'backend.school.getAll',
     'POST /backend/school/getonecode': 'backend.school.getOneCode',
     'POST /backend/school/getonename': 'backend.school.getOneName',
+    'POST /backend/school/getschoolprovince': 'backend.school.getSchoolProvince',
+    'POST /backend/school/getschoolsector': 'backend.school.getSchoolSector',
+   
     
 
     /***************************************************************************

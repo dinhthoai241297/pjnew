@@ -16,8 +16,7 @@ module.exports = {
     getAll: async (req, res) => {
         res.status(200);
         let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
-        let {province} = req.param('data');
-        let list = await School.find({province :province}).sort([{name :'ASC'}]).limit(11).skip((page - 1) * 10).populate('province');
+        let list = await School.find().sort([{name :'ASC'}]).limit(11).skip((page - 1) * 10);
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),
@@ -31,12 +30,49 @@ module.exports = {
         }
         return res.json({ code, message, data });
     },
+    // /school/getAll/: School-province
+    getSchoolProvince: async (req, res) => {
+        res.status(200);
+        let code = 303, message = 'error', data = undefined, { province } = req.param('data') || 1;
+        data = await School.find({ province: province });
+        if (data) {
+            code = 200;
+            message = 'success';
+        }
+        return res.json({ code, message, data });
+    },
+    // /school/getall/: School-sector
+    getSchoolSector: async (req, res) => {
+        res.status(200);
+        let code = 303, message = 'error', data = undefined;
+        let { sector } = req.param('data');
+        province = await Province.find({ sector: sector});
+        // for (let i = 0; i < province.length; i++) {
+        //         try {
+        //             let tmp = await School.findOne({ id: subjectGroup.subjects[i] });
+        //             if (!sub) {
+        //                 return res.json({ code, message, tmp });
+        //             }
+        //         } catch (error) {
+        //             return res.json({ code, message });
+        //         }
+        //     }
+
+        console.log(tmp);
+        data = await School.find({province: {in:[tmp]}});
+        
+        if (data) {
+            code = 200;
+            message = 'success';
+        }
+        return res.json({ code, message, data });
+    },
    
-    // /school/getone/:code
+    // /school/getall/:code
     getOneCode: async (req, res) => {
         res.status(200);
         let code = 303, message = 'error', data = undefined, { codesc } = req.param('data') || 1;
-        data = await School.findOne({ code: codesc });
+        data = await School.find().where({code: {contains :codesc}});
         if (data) {
             code = 200;
             message = 'success';
@@ -44,7 +80,7 @@ module.exports = {
         return res.json({ code, message, data });
     },
 
-    // /school/getone/:name
+    // /school/getall/:name
     getOneName: async (req, res) => {
         res.status(200);
         let code = 303, message = 'error', data = undefined, { name } = req.param('data') || 1;

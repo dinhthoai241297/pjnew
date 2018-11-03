@@ -32,11 +32,37 @@ module.exports = {
             required: true
         },
         email: {
-            type: 'string'
+            type: 'string',
+            required: true
+
         },
         fullName: {
-            type: 'string'
+            type: 'string',
+            required: true
         },
+        // sex: {
+        //     type: 'string',
+        //     required: true
+        // },
+        //  birthday: {
+        //     type: 'number',
+        //     required: true
+        // },
+        // phonenumber: {
+        //     type: 'number',
+        //     unique: true
+        // },
+        // purpose: {
+        //     model: 'subjectgroup',
+        //     required: true
+        // },
+        // province: {
+        //     model: 'province'
+        // },
+        // secret: {
+        //     type: 'number',
+        //     unique : true
+        // },
         role: {
             model: 'role'
         },
