@@ -44,22 +44,20 @@ module.exports = {
     // /school/getall/: School-sector
     getSchoolSector: async (req, res) => {
         res.status(200);
-        let code = 303, message = 'error', data = undefined;
+        let code = 303, message = 'error', data = undefined, listid= undefined;
         let { sector } = req.param('data');
         province = await Province.find({ sector: sector});
         // for (let i = 0; i < province.length; i++) {
         //         try {
-        //             let tmp = await School.findOne({ id: subjectGroup.subjects[i] });
-        //             if (!sub) {
-        //                 return res.json({ code, message, tmp });
+        //             let listid = province.id[i];
+        //             if (listid) {
+        //                 return res.json({ code, message, listid });
         //             }
         //         } catch (error) {
         //             return res.json({ code, message });
         //         }
         //     }
-
-        console.log(tmp);
-        data = await School.find({province: {in:[tmp]}});
+        // data = await School.find({province: {in:[listid]}});
         
         if (data) {
             code = 200;

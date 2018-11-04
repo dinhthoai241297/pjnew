@@ -19,10 +19,6 @@ module.exports = {
         sector: {
             model: 'sector'
         },
-        schools: {
-            collection: 'school',
-            via: 'province'
-        },
         status: {
             model: 'status'
         }
