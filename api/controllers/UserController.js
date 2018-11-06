@@ -142,7 +142,7 @@ module.exports = {
         let code = 803, message = 'error', data = undefined, user = undefined, session = undefined, role;
         try {
             let { username, password } = req.param('data');
-            user = await User.findOne({ username: username, password: password }).populate('status').populate('role');
+            user = await User.findOne({ or:[{username: username}, {email: username}],password :password }).populate('status').populate('role');
             if (user) {
                 if (user.status.status === ACTIVE) {
                     // create session

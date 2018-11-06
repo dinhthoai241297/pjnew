@@ -47,23 +47,17 @@ module.exports = {
         let code = 303, message = 'error', data = undefined, listid= undefined;
         let { sector } = req.param('data');
         province = await Province.find({ sector: sector});
-        // for (let i = 0; i < province.length; i++) {
-        //         try {
-        //             let listid = province.id[i];
-        //             if (listid) {
-        //                 return res.json({ code, message, listid });
-        //             }
-        //         } catch (error) {
-        //             return res.json({ code, message });
-        //         }
-        //     }
-        // data = await School.find({province: {in:[listid]}});
-        
-        if (data) {
+        for (let i = 0; i < province.length; i++) {
+                let tmp = province[i];
+                listid = tmp.id;
+                data = await School.find({province: {in:[listid]}});
+            if (data) {
             code = 200;
             message = 'success';
         }
         return res.json({ code, message, data });
+            };
+        
     },
    
     // /school/getall/:code

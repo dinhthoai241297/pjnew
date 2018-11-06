@@ -33,42 +33,40 @@ module.exports = {
         },
         email: {
             type: 'string',
-            required: true
-
+           required: true,
+            unique: true
         },
         fullName: {
             type: 'string',
+            required: true,
+            },
+        sex: {
+            type: 'string',
             required: true
         },
-        // sex: {
-        //     type: 'string',
-        //     required: true
-        // },
-        //  birthday: {
-        //     type: 'number',
-        //     required: true
-        // },
-        // phonenumber: {
-        //     type: 'number',
-        //     unique: true
-        // },
-        // purpose: {
-        //     model: 'subjectgroup',
-        //     required: true
-        // },
-        // province: {
-        //     model: 'province'
-        // },
-        // secret: {
-        //     type: 'number',
-        //     unique : true
-        // },
+         birthday: {
+            type: 'string',
+            columnType:'date',
+            required: true
+        },
+        phonenumber: {
+            type: 'number',
+            unique: true
+        },
+        purpose: {
+            model: 'subjectgroup',
+            required: true
+        },
+        province: {
+            model: 'province'
+        },
+       
         role: {
             model: 'role'
         },
         status: {
             model: 'status'
-        }
+        },
       
     }
 };

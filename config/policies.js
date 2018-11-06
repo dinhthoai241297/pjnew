@@ -79,7 +79,18 @@ module.exports.policies = {
 
     'user/login': true,
     'user/logout': true,
-   
+    'admin/sector/getall': true,
+    'admin/major/getall': true,
+    'admin/mark/getall': true,
+    'admin/status/getall': true,
+    'admin/province/getall': true,
+    'admin/school/getall': true,
+    'admin/subject/getall': true,
+    'admin/subjectgroup/getall': true,
+
+
+
+
 
    //BACKEND
     'backend/province/getall': true,
