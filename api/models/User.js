@@ -24,7 +24,6 @@ module.exports = {
         //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
         username: {
             type: 'string',
-            required: true,
             unique: true
         },
         password: {
@@ -33,20 +32,20 @@ module.exports = {
         },
         email: {
             type: 'string',
-           required: true,
+            required: true,
             unique: true
         },
         fullName: {
             type: 'string',
             required: true,
-            },
+        },
         sex: {
             type: 'string',
             required: true
         },
-         birthday: {
-            type: 'string',
-            columnType:'date',
+        birthday: {
+            type: 'ref',
+            columnType: 'datetime',
             required: true
         },
         phonenumber: {
@@ -60,14 +59,12 @@ module.exports = {
         province: {
             model: 'province'
         },
-       
         role: {
             model: 'role'
         },
         status: {
             model: 'status'
         },
-      
     }
 };
 
