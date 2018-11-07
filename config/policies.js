@@ -77,8 +77,10 @@ module.exports.policies = {
     'admin/role/*': 'isRoot',
     'user/*': 'isRoot',
 
-    'user/login': true,
+    'user/loginadmin': true,
+    'user/loginuser': true,
     'user/logout': true,
+    'user/register': true,
     'admin/sector/getall': true,
     'admin/major/getall': true,
     'admin/mark/getall': true,

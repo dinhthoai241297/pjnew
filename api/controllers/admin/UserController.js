@@ -76,7 +76,7 @@ module.exports = {
         return res.json({ code, message });
     },
 
-    // t
+    // user/update
     update: async (req, res) => {
         res.status(200);
         let code = 803, message = 'error';
@@ -99,7 +99,7 @@ module.exports = {
         return res.json({ code, message });
     },
 
-    // /major/getall/:page
+    // /user/getall/:page
     getAll: async (req, res) => {
         res.status(200);
         let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
@@ -124,7 +124,7 @@ module.exports = {
         return res.json({ code, message, data });
     },
 
-    // /major/getone/:id
+    // /user/getone/:id
     getOne: async (req, res) => {
         res.status(200);
         let code = 803, message = 'error', data = undefined, { id } = req.param('data') || -1;
@@ -196,6 +196,25 @@ module.exports = {
             }
         } catch (error) {
             code = 401;
+        }
+        return res.json({ code, message });
+    },
+ // register
+    register: async (req, res) => {
+        res.status(200);
+        let code = 803, message = 'error';
+        try {
+            let { user } = req.param('data');
+            let s = await User.create(user).fetch();
+            if (s) {
+                let log = await Logtime.create({ iduser:"No",action: "register", collection: "user"});
+                code = 200;
+                message = 'success';
+            } else {
+                code = 802;
+            }
+        } catch (error) {
+            code = 801;
         }
         return res.json({ code, message });
     }

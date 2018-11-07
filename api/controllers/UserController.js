@@ -76,7 +76,7 @@ module.exports = {
         return res.json({ code, message });
     },
 
-    // t
+    // user/update
     update: async (req, res) => {
         res.status(200);
         let code = 803, message = 'error';
@@ -99,7 +99,7 @@ module.exports = {
         return res.json({ code, message });
     },
 
-    // /major/getall/:page
+    // /user/getall/:page
     getAll: async (req, res) => {
         res.status(200);
         let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
@@ -124,7 +124,7 @@ module.exports = {
         return res.json({ code, message, data });
     },
 
-    // /major/getone/:id
+    // /user/getone/:id
     getOne: async (req, res) => {
         res.status(200);
         let code = 803, message = 'error', data = undefined, { id } = req.param('data') || -1;
@@ -136,13 +136,13 @@ module.exports = {
         return res.json({ code, message, data });
     },
 
-    // user/login
-    login: async (req, res) => {
+    // user/login : for admin
+    loginAdmin: async (req, res) => {
         res.status(200);
         let code = 803, message = 'error', data = undefined, user = undefined, session = undefined, role;
         try {
             let { username, password } = req.param('data');
-            user = await User.findOne({ or:[{username: username}, {email: username}],password :password }).populate('status').populate('role');
+            user = await User.findOne({ username: username,password :password }).populate('status').populate('role');
             if (user) {
                 if (user.status.status === ACTIVE) {
                     // create session
@@ -156,6 +156,28 @@ module.exports = {
                     message = 'user not active';
                 }
             }
+        } catch (error) {
+            code = 801;
+        }
+        if (user && session) {
+            data = { user, session };
+        }
+        return res.json({ code, message, data });
+    },
+     //user/login : login for user
+    loginUser: async (req, res) => {
+        res.status(200);
+        let code = 803, message = 'error', data = undefined, user = undefined, session = undefined;
+        try {
+            let { email, password } = req.param('data');
+            user = await User.findOne({ email: email,password :password });
+            if (user) {
+                    let time = (new Date).getTime();
+                    session = md5(user.id + time);
+                    await Login.create({ session, time, user: JSON.stringify(user) });
+                    code = 200;
+                    message = 'success';
+                }
         } catch (error) {
             code = 801;
         }
@@ -198,6 +220,24 @@ module.exports = {
             code = 401;
         }
         return res.json({ code, message });
-    }
+    },
+    register: async (req, res) => {
+        res.status(200);
+        let code = 803, message = 'error';
+        try {
+            let { user } = req.param('data');
+            let s = await User.create(user).fetch();
+            if (s) {
+                let log = await Logtime.create({ iduser: "No ID", action: "register", collection: "user"});
+                code = 200;
+                message = 'success';
+            } else {
+                code = 802;
+            }
+        } catch (error) {
+            code = 801;
+        }
+        return res.json({ code, message });
+    },
 };
 
