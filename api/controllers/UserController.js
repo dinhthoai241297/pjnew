@@ -40,7 +40,6 @@ module.exports = {
         let code = 803, message = 'error';
         try {
             let { user } = req.param('data');
-<<<<<<< HEAD
             let username = user.username;
             let tmp = await User.findOne({ username: username });
             if (!tmp) {
@@ -56,19 +55,7 @@ module.exports = {
                     code = 802;
                 }
             }   
-=======
-            let s = await User.create(user).fetch();
-            if (s) {
-                let { session } = req.param('data');
-                let tmp = await Login.findOne({ session: session });
-                let iduser = JSON.parse(tmp.user).id;
-                let log = await Logtime.create({ iduser: iduser, action: "add", collection: "user" });
-                code = 200;
-                message = 'success';
-            } else {
-                code = 802;
-            }
->>>>>>> 4272fb9b949bfa69241ccb9540408c7bbad3cf3c
+            
         } catch (error) {
             code = 801;
         }
@@ -245,7 +232,6 @@ module.exports = {
         let code = 803, message = 'error';
         try {
             let { user } = req.param('data');
-<<<<<<< HEAD
             let email = user.email;
             let tmp = await User.findOne({ email: email });
             if (!tmp) {
@@ -289,17 +275,7 @@ module.exports = {
             // update pass
             // xóa key trong Collection        
             }   
-=======
-            user.birthday = new Date(user.birthday);
-            let s = await User.create(user).fetch();
-            if (s) {
-                let log = await Logtime.create({ iduser: "No ID", action: "register", collection: "user" });
-                code = 200;
-                message = 'success';
-            } else {
-                code = 802;
-            }
->>>>>>> 4272fb9b949bfa69241ccb9540408c7bbad3cf3c
+
         } catch (error) {
             console.log(error);
             code = 801;
