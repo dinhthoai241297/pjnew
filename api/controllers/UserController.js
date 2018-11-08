@@ -40,17 +40,21 @@ module.exports = {
         let code = 803, message = 'error';
         try {
             let { user } = req.param('data');
-            let s = await User.create(user).fetch();
-            if (s) {
-                let {session} = req.param('data');
-                let tmp = await Login.findOne({ session: session });
-                let iduser = JSON.parse(tmp.user).id;
-                let log = await Logtime.create({ iduser: iduser, action: "add", collection: "user"});
-                code = 200;
-                message = 'success';
-            } else {
-                code = 802;
-            }
+            let username = user.username;
+            let tmp = await User.findOne({ username: username });
+            if (!tmp) {
+                let s = await User.create(user).fetch();
+                if (s) {
+                    let {session} = req.param('data');
+                    let tmp = await Login.findOne({ session: session });
+                    let iduser = JSON.parse(tmp.user).id;
+                    let log = await Logtime.create({ iduser: iduser, action: "add", collection: "user"});
+                    code = 200;
+                    message = 'success';
+                } else {
+                    code = 802;
+                }
+            }   
         } catch (error) {
             code = 801;
         }
@@ -226,18 +230,55 @@ module.exports = {
         let code = 803, message = 'error';
         try {
             let { user } = req.param('data');
-            let s = await User.create(user).fetch();
-            if (s) {
-                let log = await Logtime.create({ iduser: "No ID", action: "register", collection: "user"});
-                code = 200;
-                message = 'success';
-            } else {
-                code = 802;
-            }
+            let email = user.email;
+            let tmp = await User.findOne({ email: email });
+            if (!tmp) {
+                let s = await User.create(user).fetch();
+                if (s) {
+                    let log = await Logtime.create({ iduser: "No ID", action: "register", collection: "user"}).fetch();
+                    code = 200;
+                    message = 'success';
+                } else {
+                    code = 802;
+                }
+            }   
         } catch (error) {
             code = 801;
         }
         return res.json({ code, message });
     },
+    getKey: async (req, res) => {
+        res.status(200);
+        let code = 803, message = 'error';
+        try {
+            let { email } = req.param('data');
+            let tmp = await User.findOne({ email: email });
+            if (tmp) {
+                // render code ra collection Key
+                //gửi key vào mail đã nhận
+            }   
+        } catch (error) {
+            code = 801;
+        }
+        return res.json({ code, message });
+    },
+     resetPass: async (req, res) => {
+        res.status(200);
+        let code = 803, message = 'error';
+        try {
+            let { key } = req.param('data');
+            let tmp = await Key.findOne({ key: key });
+            if (tmp) {
+            // so sánh với key trong Collection Key
+            // update pass
+            // xóa key trong Collection        
+            }   
+        } catch (error) {
+            code = 801;
+        }
+        return res.json({ code, message });
+    },
+    
+
 };
 

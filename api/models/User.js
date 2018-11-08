@@ -23,18 +23,18 @@ module.exports = {
         //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
         //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
         username: {
-            type: 'string',
-            required: true,
-            unique: true
+            type: 'string'
+            
+           
         },
         password: {
             type: 'string',
             required: true
         },
         email: {
-            type: 'string',
-           required: true,
-            unique: true
+            type: 'string'
+          
+            
         },
         fullName: {
             type: 'string',
@@ -45,8 +45,8 @@ module.exports = {
             required: true
         },
          birthday: {
-            type: 'string',
-            columnType:'date',
+            type: 'ref',
+            columnType:'datetime',
             required: true
         },
         phonenumber: {
