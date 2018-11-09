@@ -16,7 +16,7 @@
     getAll: async (req, res) => {
         res.status(200);
         let code = 200, message = 'success';
-        let list = await Province.find().sort([{name :'ASC'}]).populate('sector').populate('status');
+        let list = await Province.find().sort([{name :'ASC'}]);
         if (list) {
             code = 200;
             message = 'success';
