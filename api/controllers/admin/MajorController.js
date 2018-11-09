@@ -16,18 +16,18 @@ module.exports = {
         let code = 03, message = 'error';
         try {
             let { major } = req.param('data');
-                let school = await School.findOne({ id: major.school });
-                if (school) {
+            let school = await School.findOne({ id: major.school });
+            if (school) {
                 let s = await Major.create(major).fetch();
                 if (s) {
-                    let {session} = req.param('data');
+                    let { session } = req.param('data');
                     let tmp = await Login.findOne({ session: session });
                     let iduser = JSON.parse(tmp.user).id;
-                    let log = await Logtime.create({ iduser: iduser, action: "add", collection: "major"});
+                    let log = await Logtime.create({ iduser: iduser, action: "add", collection: "major" });
                     code = 200;
                     message = 'success';
-                    
-                    } else {
+
+                } else {
                     code = 02;
                 }
             }
@@ -44,14 +44,14 @@ module.exports = {
         if (id) {
             let rs = await Major.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
-                let {session} = req.param('data');
+                let { session } = req.param('data');
                 let tmp = await Login.findOne({ session: session });
                 let iduser = JSON.parse(tmp.user).id;
-                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "major"});
+                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "major" });
                 code = 200;
                 message = 'success';
-                
-              } else {
+
+            } else {
                 code = 02;
             }
         }
@@ -62,19 +62,19 @@ module.exports = {
     update: async (req, res) => {
         res.status(200);
         let code = 03, message = 'error';
-            try {
+        try {
             let { major } = req.param('data');
             let school = await School.findOne({ id: major.school });
             if (school) {
                 let s = await Major.update({ id: major.id }, major).fetch();
                 if (s) {
-                let {session} = req.param('data');
-                let tmp = await Login.findOne({ session: session });
-                let iduser = JSON.parse(tmp.user).id;
-                let log = await Logtime.create({ iduser: iduser, action: "update", collection: "major"}) ;
-                code = 200;
-                message = 'success';
-                   
+                    let { session } = req.param('data');
+                    let tmp = await Login.findOne({ session: session });
+                    let iduser = JSON.parse(tmp.user).id;
+                    let log = await Logtime.create({ iduser: iduser, action: "update", collection: "major" });
+                    code = 200;
+                    message = 'success';
+
                 } else {
                     code = 02;
                 }
@@ -88,10 +88,10 @@ module.exports = {
     //major/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, data = null, message = 'success', { page } = req.param('data') || 1;
+        let code = 200, data = null, message = 'success', { page = 1 } = req.param('data');
         let { school } = req.param('data');
         let { status } = req.param('data');
-        let list = await Major.find({status: status, school :school}).sort([{name: 'ASC'}]).limit(11).skip((page - 1) * 10).populate('school').populate('status');
+        let list = await Major.find({ status: status, school: school }).sort([{ name: 'ASC' }]).limit(11).skip((page - 1) * 10).populate('school').populate('status');
         if (list.length > 10) {
             data = {
                 list: list.splice(0, 10),
@@ -113,7 +113,7 @@ module.exports = {
             code: 03,
             message: 'error'
         }
-        let { id } = req.param('data') || -1;
+        let { id = '-1' } = req.param('data');;
         let major = await Major.findOne({ id: id }).populate('school');
         if (major) {
             rs.code = 200;
@@ -126,7 +126,7 @@ module.exports = {
     // get all major with id school
     getAllInSchool: async (req, res) => {
         res.status(200);
-        let code = 200, data = null, message = 'success', { school } = req.param('data') || '';
+        let code = 200, data = null, message = 'success', { school = '' } = req.param('data');
         let list = await Major.find({ school: school });
         data = {
             list,

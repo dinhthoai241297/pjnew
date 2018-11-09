@@ -5,7 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-module.exports = {
+ module.exports = {
 
     // 201 dữ liệu gửi lên không hợp lệ
     // 202 có lỗi xảy ra, không có gì được thay đổi
@@ -42,10 +42,10 @@ module.exports = {
         if (id) {
             let rs = await Province.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
-                    let {session} = req.param('data');
-                    let tmp = await Login.findOne({ session: session });
-                    let iduser = JSON.parse(tmp.user).id;
-                    let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "province"})
+                let {session} = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "province"})
                 code = 200;
                 message = 'success';
             } else {

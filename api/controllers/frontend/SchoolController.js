@@ -5,30 +5,23 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-module.exports = {
+ module.exports = {
 
     // 301 dữ liệu gửi lên không hợp lệ
     // 302 có lỗi xảy ra, không có gì được thay đổi
     // 303 không tìm thấy dữ liệu trong database
 
-   
+    
     // /school/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
-        let list = await School.find().sort([{name :'ASC'}]).limit(11).skip((page - 1) * 10);
-        if (list.length > 10) {
-            data = {
-                list: list.slice(0, 10),
-                next: true
-            }
-        } else {
-            data = {
-                list,
-                next: false
-            }
+        let code = 200, message = 'success';
+        let list = await School.find().sort([{name :'ASC'}]);
+        if (list) {
+            code = 200;
+            message = 'success';
         }
-        return res.json({ code, message, data });
+        return res.json({ code, message, list });
     },
     // /school/getAll/: School-province
     getSchoolProvince: async (req, res) => {
@@ -48,18 +41,18 @@ module.exports = {
         let { sector } = req.param('data');
         province = await Province.find({ sector: sector});
         for (let i = 0; i < province.length; i++) {
-                let tmp = province[i];
-                listid = tmp.id;
-                data = await School.find({province: {in:[listid]}});
+            let tmp = province[i];
+            listid = tmp.id;
+            data = await School.find({province: {in:[listid]}});
             if (data) {
-            code = 200;
-            message = 'success';
-        }
-        return res.json({ code, message, data });
-            };
+                code = 200;
+                message = 'success';
+            }
+            return res.json({ code, message, data });
+        };
         
     },
-   
+    
     // /school/getall/:code
     getOneCode: async (req, res) => {
         res.status(200);

@@ -31,7 +31,8 @@ module.exports.routes = {
     '/test': {
         view: 'test'
     },
-     //ADMIN
+
+    //ADMIN
     'POST /admin/major/add': 'admin.major.add',
     'POST /admin/major/delete': 'admin.major.delete',
     'POST /admin/major/update': 'admin.major.update',
@@ -60,8 +61,6 @@ module.exports.routes = {
     'POST /admin/school/getall': 'admin.school.getAll',
     'POST /admin/school/getone': 'admin.school.getOne',
     'POST /admin/school/updatestatus': 'admin.school.updateStatus',
-
-    
 
     'POST /admin/sector/add': 'admin.sector.add',
     'POST /admin/sector/delete': 'admin.sector.delete',
@@ -95,10 +94,6 @@ module.exports.routes = {
     'POST /user/loginadmin': 'user.loginAdmin',
     'POST /user/updatestatus': 'user.updateStatus',
     'POST /user/checksession': 'user.checkSession',
-    
-  
-
-
 
     'POST /admin/role/add': 'admin.role.add',
     'POST /admin/role/delete': 'admin.role.delete',
@@ -113,52 +108,19 @@ module.exports.routes = {
     'POST /admin/status/getall': 'admin.status.getAll',
     'POST /admin/status/getone': 'admin.status.getOne',
 
+    //FRONTEND
 
+    //province
+    'POST /frontend/province/getall': 'frontend.province.getAll',
+    'POST /frontend/province/getone': 'frontend.province.getOne',
 
-
-
-
-    //BACKEND
-
-     //province
-    'POST /backend/province/getall': 'backend.province.getAll',
-    'POST /backend/province/getone': 'backend.province.getOne',
+    //subjectGroup
+    'POST /frontend/subjectgroup/getall': 'frontend.subjectGroup.getAll',
 
     //school
-    'POST /backend/school/getall': 'backend.school.getAll',
-    'POST /backend/school/getonecode': 'backend.school.getOneCode',
-    'POST /backend/school/getonename': 'backend.school.getOneName',
-    'POST /backend/school/getschoolprovince': 'backend.school.getSchoolProvince',
-    'POST /backend/school/getschoolsector': 'backend.school.getSchoolSector',
-   
-    
-
-    /***************************************************************************
-    *                                                                          *
-    * More custom routes here...                                               *
-    * (See https://sailsjs.com/config/routes for examples.)                    *
-    *                                                                          *
-    * If a request to a URL doesn't match any of the routes in this file, it   *
-    * is matched against "shadow routes" (e.g. blueprint routes).  If it does  *
-    * not match any of those, it is matched against static assets.             *
-    *                                                                          *
-    ***************************************************************************/
-
-
-    //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
-    //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
-    //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
-
-
-
-    //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
-    //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗
-    //  ╚╩╝╚═╝╚═╝╩ ╩╚═╝╚═╝╩ ╩╚═╝
-
-
-    //  ╔╦╗╦╔═╗╔═╗
-    //  ║║║║╚═╗║
-    //  ╩ ╩╩╚═╝╚═╝
-
-
+    'POST /frontend/school/getall': 'frontend.school.getAll',
+    'POST /frontend/school/getonecode': 'frontend.school.getOneCode',
+    'POST /frontend/school/getonename': 'frontend.school.getOneName',
+    'POST /frontend/school/getschoolprovince': 'frontend.school.getSchoolProvince',
+    'POST /frontend/school/getschoolsector': 'frontend.school.getSchoolSector',
 };

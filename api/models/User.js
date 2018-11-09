@@ -24,16 +24,14 @@ module.exports = {
         //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
         username: {
             type: 'string'
-            
+
         },
         password: {
             type: 'string',
             required: true
         },
         email: {
-
             type: 'string'
-
         },
         fullName: {
             type: 'string',
@@ -46,12 +44,10 @@ module.exports = {
 
         birthday: {
             type: 'ref',
-            columnType:'datetime',
-
+            columnType: 'datetime',
         },
         phonenumber: {
-            type: 'number',
-            unique: true
+            type: 'string',
         },
         purpose: {
             model: 'subjectgroup',

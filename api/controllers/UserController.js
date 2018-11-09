@@ -169,6 +169,7 @@ module.exports = {
         }
         return res.json({ code, message, data });
     },
+
     //user/login : login for user
     loginUser: async (req, res) => {
         res.status(200);
@@ -235,6 +236,14 @@ module.exports = {
             let email = user.email;
             let tmp = await User.findOne({ email: email });
             if (!tmp) {
+                // check valid data
+                let { fullName, email, sex, birthday, phonenumber, province, purpose, password } = user;
+                let check = checkName(fullName) && checkBirthday(birthday) && checkEmail(email)
+                    && checkPassword(password) && checkPhone(phonenumber)
+                    && checkSG(purpose) && sex !== '';
+                if (!check) {
+                    return res.json({ code, message });;
+                }
                 user.birthday = new Date(user.birthday);
                 let s = await User.create(user).fetch();
                 if (s) {
@@ -246,10 +255,12 @@ module.exports = {
                 }
             }
         } catch (error) {
+            console.log(error);
             code = 801;
         }
         return res.json({ code, message });
     },
+
     getKey: async (req, res) => {
         res.status(200);
         let code = 803, message = 'error';
@@ -265,6 +276,7 @@ module.exports = {
         }
         return res.json({ code, message });
     },
+
     resetPass: async (req, res) => {
         res.status(200);
         let code = 803, message = 'error';
@@ -284,6 +296,43 @@ module.exports = {
         return res.json({ code, message });
     },
 
-
 };
+
+// validdate input
+
+checkPassword = password => password && password.length >= 6;
+
+checkBirthday = birthday => {
+    if (!birthday || birthday === '') {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+checkEmail = email => {
+    let check;
+    if (email === '') {
+        check = false;
+    } else {
+        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        check = re.test(String(email).toLowerCase());
+    }
+    return check;
+}
+
+checkPhone = phone => {
+    let check = true;
+    const PHONES = ['086', '096', '097', '098', '032', '033', '034', '035', '036', '037', '038', '039',
+        '090', '093', '070', '079', '077', '076', '078', '091', '094', '083', '084', '085', '081', '082',
+        '092', '056', '058', '099', '059'];
+    if (phone !== '' && (phone.length !== 10 || !PHONES.find(el => el === phone.substr(0, 3)))) {
+        check = false;
+    }
+    return check;
+}
+
+checkSG = subjectGroup => subjectGroup !== '';
+
+checkName = name => name !== '';
 

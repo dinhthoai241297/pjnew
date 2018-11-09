@@ -5,7 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-module.exports = {
+ module.exports = {
 
     // 301 dữ liệu gửi lên không hợp lệ
     // 302 có lỗi xảy ra, không có gì được thay đổi
@@ -20,41 +20,41 @@ module.exports = {
             if (province) {
                 let s = await School.create(school).fetch();
                 if (s) {
-                     let {session} = req.param('data');
-                     let tmp = await Login.findOne({ session: session });
-                     let iduser = JSON.parse(tmp.user).id;
-                     let log = await Logtime.create({ iduser: iduser, action: "add", collection: "school"});
-                    code = 200;
-                    message = 'success';
-                } else {
-                    code = 302;
-                }
-            }
-        } catch (error) {
-            code = 301;
-        }
-        return res.json({ code, message });
-    },
-
-    delete: async (req, res) => {
-        res.status(200);
-        let code = 301, message = 'error';
-        let { id } = req.param('data');
-        if (id) {
-            let rs = await School.destroy({ id: id }).fetch();
-            if (rs && rs.length !== 0) {
-                 let {session} = req.param('data');
-                 let tmp = await Login.findOne({ session: session });
-                 let iduser = JSON.parse(tmp.user).id;
-                 let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "school"});
-                code = 200;
-                message = 'success';
-            } else {
+                   let {session} = req.param('data');
+                   let tmp = await Login.findOne({ session: session });
+                   let iduser = JSON.parse(tmp.user).id;
+                   let log = await Logtime.create({ iduser: iduser, action: "add", collection: "school"});
+                   code = 200;
+                   message = 'success';
+               } else {
                 code = 302;
             }
         }
-        return res.json({ code, message });
-    },
+    } catch (error) {
+        code = 301;
+    }
+    return res.json({ code, message });
+},
+
+delete: async (req, res) => {
+    res.status(200);
+    let code = 301, message = 'error';
+    let { id } = req.param('data');
+    if (id) {
+        let rs = await School.destroy({ id: id }).fetch();
+        if (rs && rs.length !== 0) {
+           let {session} = req.param('data');
+           let tmp = await Login.findOne({ session: session });
+           let iduser = JSON.parse(tmp.user).id;
+           let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "school"});
+           code = 200;
+           message = 'success';
+       } else {
+        code = 302;
+    }
+}
+return res.json({ code, message });
+},
 
     // t
     update: async (req, res) => {
@@ -66,21 +66,21 @@ module.exports = {
             if (province) {
                 let s = await School.update({ id: school.id }, school).fetch();
                 if (s) {
-                 let {session} = req.param('data');
-                 let tmp = await Login.findOne({ session: session });
-                 let iduser = JSON.parse(tmp.user).id;
-                 let log = await Logtime.create({ iduser: iduser, action: "update", collection: "school"});
-                    code = 200;
-                    message = 'success';
-                } else {
-                    code = 302;
-                }
+                   let {session} = req.param('data');
+                   let tmp = await Login.findOne({ session: session });
+                   let iduser = JSON.parse(tmp.user).id;
+                   let log = await Logtime.create({ iduser: iduser, action: "update", collection: "school"});
+                   code = 200;
+                   message = 'success';
+               } else {
+                code = 302;
             }
-        } catch (error) {
-            code = 301;
         }
-        return res.json({ code, message });
-    },
+    } catch (error) {
+        code = 301;
+    }
+    return res.json({ code, message });
+},
 
     // /school/getall/:page
     getAll: async (req, res) => {
@@ -102,7 +102,7 @@ module.exports = {
         }
         return res.json({ code, message, data });
     },
-   
+    
     // /school/getone/:id
     getOne: async (req, res) => {
         res.status(200);
