@@ -95,10 +95,10 @@ module.exports.policies = {
 
 
    //BACKEND
-    'backend/province/getall': true,
-    'backend/province/getone':  true,
+    'frontend/province/getall': true,
+    'frontend/province/getone':  true,
   
-    'backend/school/getall': true,
-    'backend/school/getonecode': true,
-    'backend/school/getonename': true, 
+    'frontend/school/getall': true,
+    'frontend/school/getonecode': true,
+    'frontend/school/getonename': true, 
 };

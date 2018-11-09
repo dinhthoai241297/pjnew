@@ -121,15 +121,15 @@ module.exports.routes = {
     //BACKEND
 
      //province
-    'POST /backend/province/getall': 'backend.province.getAll',
-    'POST /backend/province/getone': 'backend.province.getOne',
+    'POST /frontend/province/getall': 'frontend.province.getAll',
+    'POST /frontend/province/getone': 'frontend.province.getOne',
 
     //school
-    'POST /backend/school/getall': 'backend.school.getAll',
-    'POST /backend/school/getonecode': 'backend.school.getOneCode',
-    'POST /backend/school/getonename': 'backend.school.getOneName',
-    'POST /backend/school/getschoolprovince': 'backend.school.getSchoolProvince',
-    'POST /backend/school/getschoolsector': 'backend.school.getSchoolSector',
+    'POST /frontend/school/getall': 'frontend.school.getAll',
+    'POST /frontend/school/getonecode': 'frontend.school.getOneCode',
+    'POST /frontend/school/getonename': 'frontend.school.getOneName',
+    'POST /frontend/school/getschoolprovince': 'frontend.school.getSchoolProvince',
+    'POST /frontend/school/getschoolsector': 'frontend.school.getSchoolSector',
    
     
 
