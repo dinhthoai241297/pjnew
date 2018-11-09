@@ -5,7 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-module.exports = {
+ module.exports = {
 
     // 901 dữ liệu gửi lên không hợp lệ
     // 902 có lỗi xảy ra, không có gì được thay đổi

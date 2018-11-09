@@ -5,7 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-module.exports = {
+ module.exports = {
 
     // 101 dữ liệu gửi lên không hợp lệ
     // 102 có lỗi xảy ra, không có gì được thay đổi
@@ -40,7 +40,7 @@ module.exports = {
                     code = 200;
                     message = 'success';
 
-                           } else {
+                } else {
                     code = 102;
                 }
             }

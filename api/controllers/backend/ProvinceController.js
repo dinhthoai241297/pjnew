@@ -5,7 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-module.exports = {
+ module.exports = {
 
     // 201 dữ liệu gửi lên không hợp lệ
     // 202 có lỗi xảy ra, không có gì được thay đổi
@@ -73,22 +73,13 @@ module.exports = {
     // /province/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
-        let {status} = req.param('data');
-        let {sector} = req.param('data');
-        let list = await Province.find({status: status, sector: sector}).sort([{name :'ASC'}]).limit(11).skip((page - 1) * 10).populate('sector').populate('status');
-        if (list.length > 10) {
-            data = {
-                list: list.slice(0, 10),
-                next: true
-            }
-        } else {
-            data = {
-                list,
-                next: false
-            }
+        let code = 200, message = 'success';
+        let list = await Province.find().sort([{name :'ASC'}]).populate('sector').populate('status');
+        if (list) {
+            code = 200;
+            message = 'success';
         }
-        return res.json({ code, message, data });
+        return res.json({ code, message, list });
     },
 
     // /province/getone/:id

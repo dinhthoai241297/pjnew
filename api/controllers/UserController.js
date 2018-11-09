@@ -5,14 +5,14 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-var md5 = require('md5');
+ var md5 = require('md5');
 
-const ACTIVE = 1;
-const DELETE = 1;
-const PENDING = 1;
-const LOCK = 1;
+ const ACTIVE = 1;
+ const DELETE = 1;
+ const PENDING = 1;
+ const LOCK = 1;
 
-module.exports = {
+ module.exports = {
     // 801 dữ liệu gửi lên không hợp lệ
     // 802 có lỗi xảy ra, không có gì được thay đổi
     // 803 không tìm thấy dữ liệu trong database
@@ -264,7 +264,7 @@ module.exports = {
         }
         return res.json({ code, message });
     },
-     resetPass: async (req, res) => {
+    resetPass: async (req, res) => {
         res.status(200);
         let code = 803, message = 'error';
         try {
@@ -274,15 +274,15 @@ module.exports = {
             // so sánh với key trong Collection Key
             // update pass
             // xóa key trong Collection        
-            }   
+        }   
 
-        } catch (error) {
-            console.log(error);
-            code = 801;
-        }
-        return res.json({ code, message });
-    },
-    
+    } catch (error) {
+        console.log(error);
+        code = 801;
+    }
+    return res.json({ code, message });
+},
+
 
 };
 

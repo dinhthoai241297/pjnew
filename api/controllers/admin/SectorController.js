@@ -5,7 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-module.exports = {
+ module.exports = {
 
     // 401 dữ liệu gửi lên không hợp lệ
     // 402 có lỗi xảy ra, không có gì được thay đổi
@@ -60,20 +60,20 @@ module.exports = {
             let { sector } = req.param('data');
             let s = await Sector.update({ id: sector.id }, sector).fetch();
             if (s) {
-                 let {session} = req.param('data');
-                 let tmp = await Login.findOne({ session: session });
-                 let iduser = JSON.parse(tmp.user).id;
-                 let log = await Logtime.create({ iduser: iduser, action: "update", collection: "sector"});
-                 code = 200;
-                 message = 'success';
-            } else {
-                code = 402;
-            }
-        } catch (error) {
-            code = 401;
+               let {session} = req.param('data');
+               let tmp = await Login.findOne({ session: session });
+               let iduser = JSON.parse(tmp.user).id;
+               let log = await Logtime.create({ iduser: iduser, action: "update", collection: "sector"});
+               code = 200;
+               message = 'success';
+           } else {
+            code = 402;
         }
-        return res.json({ code, message });
-    },
+    } catch (error) {
+        code = 401;
+    }
+    return res.json({ code, message });
+},
 
     // /major/getall/:page
     getAll: async (req, res) => {
