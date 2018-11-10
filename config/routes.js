@@ -94,6 +94,8 @@ module.exports.routes = {
     'POST /user/loginadmin': 'user.loginAdmin',
     'POST /user/updatestatus': 'user.updateStatus',
     'POST /user/checksession': 'user.checkSession',
+    'POST /user/getkey': 'user.getKey',
+    'POST /user/resetpass': 'user.resetPass',
 
     'POST /admin/role/add': 'admin.role.add',
     'POST /admin/role/delete': 'admin.role.delete',

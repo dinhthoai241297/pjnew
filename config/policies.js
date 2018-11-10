@@ -81,6 +81,8 @@ module.exports.policies = {
     'user/loginuser': true,
     'user/logout': true,
     'user/register': true,
+    'user/getkey': true,
+    'user/resetpass': true,
     'admin/sector/getall': true,
     'admin/major/getall': true,
     'admin/mark/getall': true,
