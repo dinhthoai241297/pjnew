@@ -5,15 +5,15 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
- var md5 = require('md5');
+var md5 = require('md5');
 
- const ACTIVE = 1;
- const DELETE = 1;
- const PENDING = 1;
- const LOCK = 1;
- const crypto = require('crypto');
+const ACTIVE = 1;
+const DELETE = 1;
+const PENDING = 1;
+const LOCK = 1;
+const crypto = require('crypto');
 
- module.exports = {
+module.exports = {
     // 801 dữ liệu gửi lên không hợp lệ
     // 802 có lỗi xảy ra, không có gì được thay đổi
     // 803 không tìm thấy dữ liệu trong database
@@ -240,8 +240,8 @@
                 // check valid data
                 let { fullName, email, sex, birthday, phonenumber, province, purpose, password } = user;
                 let check = checkName(fullName) && checkBirthday(birthday) && checkEmail(email)
-                && checkPassword(password) && checkPhone(phonenumber)
-                && checkSG(purpose) && sex !== '';
+                    && checkPassword(password) && checkPhone(phonenumber)
+                    && checkSG(purpose) && sex !== '';
                 if (!check) {
                     return res.json({ code, message });;
                 }
@@ -266,23 +266,26 @@
         res.status(200);
         let code = 803, message = 'error';
         try {
-            let { email} = req.param('data');
+            let { email } = req.param('data');
             let tmp = await User.findOne({ email: email });
             if (tmp) {
-                let token = crypto.randomBytes(3).toString('hex');    
-                let uID = await Token.create({ email: email, token : token }).fetch(); 
-                if(uID){
+                let token = crypto.randomBytes(3).toString('hex');
+                let uID = await Token.create({ email: email, token: token }).fetch();
+                if (uID) {
                     sails.hooks.email.send(
                         "welcomeEmail",
                         {
                             Name: email,
-                            Token : token
+                            Token: token
                         },
                         {
                             to: email,
                             subject: "Mã Khôi Phục Tài Khoản ",
                         },
-                        )
+                        () => {
+
+                        }
+                    )
                     code = 200;
                     message = 'success';
                 }
@@ -306,31 +309,31 @@
             let tmp = await Token.findOne({ token: token });
             let email = tmp.email;
             if (tmp) {
-                let s = await User.findOne({ email: email  });
+                let s = await User.findOne({ email: email });
                 if (s) {
-                  let update = await User.update({ id : s.id }).set({password : password}).fetch();  
-                  if(update){
-                    let check = await Token.find({ email : email  });
-                    for (let i = 0; i < check.length; i++) {
-                        let tmp = check[i];
-                        let mail = tmp.email;
-                        let clear = await Token.destroy({ email: { in : [mail]}}).fetch();
-                        if(clear){
-                            code = 200;
-                            message = 'success';
-                        }else {
-                            code = 802;
+                    let update = await User.update({ id: s.id }).set({ password: password }).fetch();
+                    if (update) {
+                        let check = await Token.find({ email: email });
+                        for (let i = 0; i < check.length; i++) {
+                            let tmp = check[i];
+                            let mail = tmp.email;
+                            let clear = await Token.destroy({ email: { in: [mail] } }).fetch();
+                            if (clear) {
+                                code = 200;
+                                message = 'success';
+                            } else {
+                                code = 802;
+                            }
                         }
-                    } 
+                    }
                 }
             }
+        } catch (error) {
+            console.log(error);
+            code = 801;
         }
-    } catch (error) {
-        console.log(error);
-        code = 801;
-    }
-    return res.json({ code, message });
-},
+        return res.json({ code, message });
+    },
 };
 
 // validdate input
@@ -359,8 +362,8 @@ checkEmail = email => {
 checkPhone = phone => {
     let check = true;
     const PHONES = ['086', '096', '097', '098', '032', '033', '034', '035', '036', '037', '038', '039',
-    '090', '093', '070', '079', '077', '076', '078', '091', '094', '083', '084', '085', '081', '082',
-    '092', '056', '058', '099', '059'];
+        '090', '093', '070', '079', '077', '076', '078', '091', '094', '083', '084', '085', '081', '082',
+        '092', '056', '058', '099', '059'];
     if (phone !== '' && (phone.length !== 10 || !PHONES.find(el => el === phone.substr(0, 3)))) {
         check = false;
     }
