@@ -53,23 +53,12 @@
         
     },
     
-    // /school/getall/:code
-    getOneCode: async (req, res) => {
-        res.status(200);
-        let code = 303, message = 'error', data = undefined, { codesc } = req.param('data') || 1;
-        data = await School.find().where({code: {contains :codesc}});
-        if (data) {
-            code = 200;
-            message = 'success';
-        }
-        return res.json({ code, message, data });
-    },
-
+   
     // /school/getall/:name
     getOneName: async (req, res) => {
         res.status(200);
         let code = 303, message = 'error', data = undefined, { name } = req.param('data') || 1;
-        data = await School.find().where({name: {contains :name}});
+        data = await School.find().where({or: [ {name: {contains :name}}, {code: {contains : name}}] });
         if (data) {
             code = 200;
             message = 'success';
