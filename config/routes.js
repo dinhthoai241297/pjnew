@@ -120,9 +120,7 @@ module.exports.routes = {
     'POST /frontend/subjectgroup/getall': 'frontend.subjectGroup.getAll',
 
     //school
-    'POST /frontend/school/getall': 'frontend.school.getAll',
-    'POST /frontend/school/getonecode': 'frontend.school.getOneCode',
-    'POST /frontend/school/getonename': 'frontend.school.getOneName',
-    'POST /frontend/school/getschoolprovince': 'frontend.school.getSchoolProvince',
-    'POST /frontend/school/getschoolsector': 'frontend.school.getSchoolSector',
+    'POST /frontend/school/getid': 'frontend.school.getId',
+    'POST /frontend/school/search': 'frontend.school.search',
+   
 };

@@ -11,61 +11,37 @@
     // 302 có lỗi xảy ra, không có gì được thay đổi
     // 303 không tìm thấy dữ liệu trong database
 
-    
-    // /school/getall/:page
-    getAll: async (req, res) => {
+
+    //school/get/id
+    getId: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success';
-        let list = await School.find().sort([{name :'ASC'}]);
-        if (list) {
-            code = 200;
-            message = 'success';
-        }
-        return res.json({ code, message, list });
-    },
-    // /school/getAll/: School-province
-    getSchoolProvince: async (req, res) => {
-        res.status(200);
-        let code = 303, message = 'error', data = undefined, { province } = req.param('data') || 1;
-        data = await School.find({ province: province });
+        let code = 303, message = 'error', data = undefined, { id } = req.param('data');
+        data = await School.findOne({ id: id });
         if (data) {
             code = 200;
             message = 'success';
         }
         return res.json({ code, message, data });
-    },
-    // /school/getall/: School-sector
-    getSchoolSector: async (req, res) => {
-        res.status(200);
-        let code = 303, message = 'error', data = undefined, listid= undefined;
-        let { sector } = req.param('data');
-        province = await Province.find({ sector: sector});
-        for (let i = 0; i < province.length; i++) {
-            let tmp = province[i];
-            listid = tmp.id;
-            data = await School.find({province: {in:[listid]}});
-            if (data) {
-                code = 200;
-                message = 'success';
-            }
-            return res.json({ code, message, data });
-        };
-        
     },
     
    
-    // /school/getall/:name
-    getOneName: async (req, res) => {
+    // /school/search
+    search: async (req, res) => {
         res.status(200);
         let code = 303, message = 'error', data = undefined, { name } = req.param('data') || 1;
-        data = await School.find().where({or: [ {name: {contains :name}}, {code: {contains : name}}] });
-        if (data) {
-            code = 200;
-            message = 'success';
+        list = await School.find().where({ or: [ {name: {contains :name}}, {code: {contains : name}}]}).sort([{name :'ASC'}]).limit(11).skip((page - 1) * 10);
+        if (list.length > 10) {
+            data = {
+                list: list.slice(0, 10),
+                next: true
+            }
+        } else {
+            data = {
+                list,
+                next: false
+            }
         }
         return res.json({ code, message, data });
     },
-
-
 };
 
