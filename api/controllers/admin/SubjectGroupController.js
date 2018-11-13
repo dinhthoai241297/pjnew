@@ -5,7 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
- module.exports = {
+module.exports = {
 
     // 601 dữ liệu gửi lên không hợp lệ
     // 602 có lỗi xảy ra, không có gì được thay đổi
@@ -29,10 +29,10 @@
             subjectGroup.subjects = JSON.stringify(subjectGroup.subjects);
             let s = await SubjectGroup.create(subjectGroup).fetch();
             if (s) {
-                let {session} = req.param('data');
+                let { session } = req.param('data');
                 let tmp = await Login.findOne({ session: session });
                 let iduser = JSON.parse(tmp.user).id;
-                let log = await Logtime.create({ iduser: iduser, action: "add", collection: "subjectgroup"});
+                let log = await Logtime.create({ iduser: iduser, action: "add", collection: "subjectgroup" });
                 code = 200;
                 message = 'success';
             } else {
@@ -50,10 +50,10 @@
         if (id) {
             let rs = await SubjectGroup.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
-                let {session} = req.param('data');
+                let { session } = req.param('data');
                 let tmp = await Login.findOne({ session: session });
                 let iduser = JSON.parse(tmp.user).id;
-                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "subjectgroup"});
+                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "subjectgroup" });
                 code = 200;
                 message = 'success';
             } else {
@@ -82,10 +82,10 @@
             subjectGroup.subjects = JSON.stringify(subjectGroup.subjects);
             let s = await SubjectGroup.update({ id: subjectGroup.id }, subjectGroup).fetch();
             if (s) {
-                let {session} = req.param('data');
+                let { session } = req.param('data');
                 let tmp = await Login.findOne({ session: session });
                 let iduser = JSON.parse(tmp.user).id;
-                let log = await Logtime.create({ iduser: iduser, action: "update", collection: "subjectgroup"});
+                let log = await Logtime.create({ iduser: iduser, action: "update", collection: "subjectgroup" });
                 code = 200;
                 message = 'success';
             } else {
@@ -100,9 +100,9 @@
     // /subjectGroup/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
-        let {status} = req.param('data');
-        let list = await SubjectGroup.find({status :status}).sort([{code :'ASC'}]).limit(11).skip((page - 1) * 10).populate('status');
+        let code = 200, message = 'success', data = undefined, { page = 1 } = req.param('data');
+        let { status } = req.param('data');
+        let list = await SubjectGroup.find({ status: status }).sort([{ code: 'ASC' }]).limit(11).skip((page - 1) * 10).populate('status');
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),
@@ -129,7 +129,7 @@
     // /subjectGroup/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 603, message = 'error', data = undefined, { id } = req.param('data') || 1;
+        let code = 603, message = 'error', data = undefined, { id = '' } = req.param('data');
         data = await SubjectGroup.findOne({ id: id });
         if (data) {
             code = 200;

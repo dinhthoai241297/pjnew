@@ -106,5 +106,5 @@ module.exports.policies = {
     'frontend/school/search': true,
 
     'frontend/mark/getlist': true,
-   
+
 };

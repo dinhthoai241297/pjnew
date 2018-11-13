@@ -5,7 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
- module.exports = {
+module.exports = {
     // 701 dữ liệu gửi lên không hợp lệ
     // 702 có lỗi xảy ra, không có gì được thay đổi
     // 703 không tìm thấy dữ liệu trong database
@@ -18,20 +18,20 @@
             role.roles = JSON.stringify(role.roles);
             let s = await Role.create(role).fetch();
             if (s) {
-             let {session} = req.param('data');
-             let tmp = await Login.findOne({ session: session });
-             let iduser = JSON.parse(tmp.user).id;
-             let log = await Logtime.create({ iduser: iduser, action: "add", collection: "role"});
-             code = 200;
-             message = 'success';
-         } else {
-            code = 702;
+                let { session } = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "add", collection: "role" });
+                code = 200;
+                message = 'success';
+            } else {
+                code = 702;
+            }
+        } catch (error) {
+            code = 701;
         }
-    } catch (error) {
-        code = 701;
-    }
-    return res.json({ code, message });
-},
+        return res.json({ code, message });
+    },
 
     delete: async (req, res) => {
         res.status(200);
@@ -39,17 +39,17 @@
         if (id) {
             let rs = await Role.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
-             let {session} = req.param('data');
-             let tmp = await Login.findOne({ session: session });
-             let iduser = JSON.parse(tmp.user).id;
-             let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "role"});       
-             code = 200;
-             message = 'success';
-         } else {
-            code = 702;
+                let { session } = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "role" });
+                code = 200;
+                message = 'success';
+            } else {
+                code = 702;
+            }
         }
-    }
-    return res.json({ code, message });
+        return res.json({ code, message });
     },
 
     // t
@@ -61,27 +61,27 @@
             role.roles = JSON.stringify(role.roles);
             let r = await Role.update({ id: role.id }, role).fetch();
             if (r) {
-             let {session} = req.param('data');
-             let tmp = await Login.findOne({ session: session });
-             let iduser = JSON.parse(tmp.user).id;
-             let log = await Logtime.create({ iduser: iduser, action: "update", collection: "role"});   
-             code = 200;
-             message = 'success';
-         } else {
-            code = 702;
+                let { session } = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "update", collection: "role" });
+                code = 200;
+                message = 'success';
+            } else {
+                code = 702;
+            }
+        } catch (error) {
+            code = 701;
         }
-    } catch (error) {
-        code = 701;
-    }
-    return res.json({ code, message });
-},
+        return res.json({ code, message });
+    },
 
     // /major/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
-        let {status} = req.param('data');
-        let list = await Role.find({status: status}).sort([{name: 'ASC'}]).limit(11).skip((page - 1) * 10).populate('status');
+        let code = 200, message = 'success', data = undefined, { page = 1 } = req.param('data');
+        let { status } = req.param('data');
+        let list = await Role.find({ status: status }).sort([{ name: 'ASC' }]).limit(11).skip((page - 1) * 10).populate('status');
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),
@@ -99,7 +99,7 @@
     // /major/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 703, message = 'error', data = undefined, { id } = req.param('data') || -1;
+        let code = 703, message = 'error', data = undefined, { id = '' } = req.param('data');
         data = await Role.findOne({ id: id });
         if (data) {
             code = 200;

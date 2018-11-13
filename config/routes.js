@@ -125,5 +125,5 @@ module.exports.routes = {
 
     //mark
     'POST /frontend/mark/getlist': 'frontend.mark.getList',
-   
+
 };

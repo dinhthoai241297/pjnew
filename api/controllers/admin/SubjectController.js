@@ -74,7 +74,7 @@ module.exports = {
     // /subject/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
+        let code = 200, message = 'success', data = undefined, { page = 1 } = req.param('data');
         let { status } = req.param('data');
         let list = await Subject.find({ status: status }).sort([{ name: 'ASC' }]).limit(11).skip((page - 1) * 10).populate('status');
         if (list.length > 10) {
@@ -94,7 +94,7 @@ module.exports = {
     // /subject/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 503, message = 'error', data = undefined, { id } = req.param('data') || 1;
+        let code = 503, message = 'error', data = undefined, { id = '' } = req.param('data');
         data = await Subject.findOne({ id: id });
         if (data) {
             code = 200;

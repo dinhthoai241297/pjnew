@@ -65,7 +65,7 @@ module.exports = {
 
     delete: async (req, res) => {
         res.status(200);
-        let code = 801, message = 'error', { id } = req.param('data');
+        let code = 801, message = 'error', { id = '' } = req.param('data');
         if (id) {
             let rs = await User.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
@@ -108,7 +108,7 @@ module.exports = {
     // /user/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
+        let code = 200, message = 'success', data = undefined, { page = 1 } = req.param('data');
         let { status } = req.param('data');
         let { role } = req.param('data');
         let { date } = req.param('data');
@@ -133,7 +133,7 @@ module.exports = {
     // /user/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 803, message = 'error', data = undefined, { id } = req.param('data') || -1;
+        let code = 803, message = 'error', data = undefined, { id = '' } = req.param('data');
         data = await User.findOne({ id: id });
         if (data) {
             code = 200;
@@ -177,7 +177,7 @@ module.exports = {
         let code = 803, message = 'error', data = undefined, user = undefined, session = undefined;
         try {
             let { email, password } = req.param('data');
-            user = await User.findOne({ email: email, password: password });
+            user = await User.findOne({ email: email, password: password }).populate('province').populate('purpose');
             if (user) {
                 let time = (new Date).getTime();
                 session = md5(user.id + time);
@@ -186,6 +186,7 @@ module.exports = {
                 message = 'success';
             }
         } catch (error) {
+            console.log(error);
             code = 801;
         }
         if (user && session) {
@@ -333,7 +334,7 @@ module.exports = {
             code = 801;
         }
         return res.json({ code, message });
-    },
+    }
 };
 
 // validdate input

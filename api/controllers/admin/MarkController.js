@@ -5,7 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
- module.exports = {
+module.exports = {
 
     // 101 dữ liệu gửi lên không hợp lệ
     // 102 có lỗi xảy ra, không có gì được thay đổi
@@ -33,10 +33,10 @@
             if (major && school) {
                 let s = await Mark.create(mark).fetch();
                 if (s) {
-                    let {session} = req.param('data');
+                    let { session } = req.param('data');
                     let tmp = await Login.findOne({ session: session });
                     let iduser = JSON.parse(tmp.user).id;
-                    let log = await Logtime.create({ iduser: iduser, action: "add", collection: "mark"})
+                    let log = await Logtime.create({ iduser: iduser, action: "add", collection: "mark" })
                     code = 200;
                     message = 'success';
 
@@ -52,14 +52,14 @@
 
     delete: async (req, res) => {
         res.status(200);
-        let code = 101, message = 'error', { id } = req.param('data');
+        let code = 101, message = 'error', { id = '' } = req.param('data');
         if (id) {
             let rs = await Mark.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
-                let {session} = req.param('data');
+                let { session } = req.param('data');
                 let tmp = await Login.findOne({ session: session });
                 let iduser = JSON.parse(tmp.user).id;
-                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "mark"});
+                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "mark" });
                 code = 200;
                 message = 'success';
             } else {
@@ -92,10 +92,10 @@
             if (major && school) {
                 let s = await Mark.update({ id: mark.id }, mark).fetch();
                 if (s) {
-                    let {session} = req.param('data');
+                    let { session } = req.param('data');
                     let tmp = await Login.findOne({ session: session });
                     let iduser = JSON.parse(tmp.user).id;
-                    let log = await Logtime.create({ iduser: iduser, action: "update", collection: "mark"});
+                    let log = await Logtime.create({ iduser: iduser, action: "update", collection: "mark" });
                     code = 200;
                     message = 'success';
                 } else {
@@ -111,12 +111,12 @@
     // /mark/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
-        let {status} = req.param('data');
-        let {school} = req.param ('data');
-        let {major}  = req.param('data');
-        let {year} = req.param('data');
-        let list = await Mark.find({status: status, school : school, major :major, year:year}).sort([{mark:'DESC' }]).limit(11).skip((page - 1) * 10).populate('major').populate('school').populate('status');
+        let code = 200, message = 'success', data = undefined, { page = 1 } = req.param('data');
+        let { status } = req.param('data');
+        let { school } = req.param('data');
+        let { major } = req.param('data');
+        let { year } = req.param('data');
+        let list = await Mark.find({ status: status, school: school, major: major, year: year }).sort([{ mark: 'DESC' }]).limit(11).skip((page - 1) * 10).populate('major').populate('school').populate('status');
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),
@@ -143,7 +143,7 @@
     // /mark/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 103, message = 'error', data = undefined, { id } = req.param('data') || 1;
+        let code = 103, message = 'error', data = undefined, { id = '' } = req.param('data');
         data = await Mark.findOne({ id: id }).populate('school').populate('major');
         if (data) {
             code = 200;

@@ -5,7 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
- module.exports = {
+module.exports = {
 
     // 901 dữ liệu gửi lên không hợp lệ
     // 902 có lỗi xảy ra, không có gì được thay đổi
@@ -18,10 +18,10 @@
             let { status } = req.param('data');
             let s = await Status.create(status).fetch();
             if (s) {
-                let {session} = req.param('data');
+                let { session } = req.param('data');
                 let tmp = await Login.findOne({ session: session });
                 let iduser = JSON.parse(tmp.user).id;
-                let log = await Logtime.create({ iduser: iduser, action: "add", collection: "status"});
+                let log = await Logtime.create({ iduser: iduser, action: "add", collection: "status" });
                 code = 200;
                 message = 'success';
             } else {
@@ -39,10 +39,10 @@
         if (id) {
             let rs = await Status.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
-                let {session} = req.param('data');
+                let { session } = req.param('data');
                 let tmp = await Login.findOne({ session: session });
                 let iduser = JSON.parse(tmp.user).id;
-                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "status"});
+                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "status" });
                 code = 200;
                 message = 'success';
             } else {
@@ -60,10 +60,10 @@
             let { status } = req.param('data');
             let s = await Status.update({ id: status.id }, status).fetch();
             if (s) {
-                let {session} = req.param('data');
+                let { session } = req.param('data');
                 let tmp = await Login.findOne({ session: session });
                 let iduser = JSON.parse(tmp.user).id;
-                let log = await Logtime.create({ iduser: iduser, action: "update", collection: "status"});
+                let log = await Logtime.create({ iduser: iduser, action: "update", collection: "status" });
                 code = 200;
                 message = 'success';
             } else {
@@ -78,9 +78,9 @@
     // /status/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
-        let {status} = req.param('data');
-        let list = await Status.find({status: status}).sort([{name:'ASC'}]).limit(11).skip((page - 1) * 10);
+        let code = 200, message = 'success', data = undefined, { page = 1 } = req.param('data');
+        let { status } = req.param('data');
+        let list = await Status.find({ status: status }).sort([{ name: 'ASC' }]).limit(11).skip((page - 1) * 10);
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),
@@ -98,7 +98,7 @@
     // /status/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 903, message = 'error', data = undefined, { id } = req.param('data') || 1;
+        let code = 903, message = 'error', data = undefined, { id = '' } = req.param('data');
         data = await Status.findOne({ id: id });
         if (data) {
             code = 200;

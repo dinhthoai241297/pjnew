@@ -5,7 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
- module.exports = {
+module.exports = {
 
     // 401 dữ liệu gửi lên không hợp lệ
     // 402 có lỗi xảy ra, không có gì được thay đổi
@@ -18,10 +18,10 @@
             let { sector } = req.param('data');
             let s = await Sector.create(sector).fetch();
             if (s) {
-                let {session} = req.param('data');
+                let { session } = req.param('data');
                 let tmp = await Login.findOne({ session: session });
                 let iduser = JSON.parse(tmp.user).id;
-                let log = await Logtime.create({ iduser: iduser, action: "add", collection: "sector"});
+                let log = await Logtime.create({ iduser: iduser, action: "add", collection: "sector" });
                 code = 200;
                 message = 'success';
             } else {
@@ -39,10 +39,10 @@
         if (id) {
             let rs = await Sector.destroy({ id: id }).fetch();
             if (rs && rs.length !== 0) {
-                let {session} = req.param('data');
+                let { session } = req.param('data');
                 let tmp = await Login.findOne({ session: session });
                 let iduser = JSON.parse(tmp.user).id;
-                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "sector"});                
+                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "sector" });
                 code = 200;
                 message = 'success';
             } else {
@@ -60,27 +60,27 @@
             let { sector } = req.param('data');
             let s = await Sector.update({ id: sector.id }, sector).fetch();
             if (s) {
-               let {session} = req.param('data');
-               let tmp = await Login.findOne({ session: session });
-               let iduser = JSON.parse(tmp.user).id;
-               let log = await Logtime.create({ iduser: iduser, action: "update", collection: "sector"});
-               code = 200;
-               message = 'success';
-           } else {
-            code = 402;
+                let { session } = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "update", collection: "sector" });
+                code = 200;
+                message = 'success';
+            } else {
+                code = 402;
+            }
+        } catch (error) {
+            code = 401;
         }
-    } catch (error) {
-        code = 401;
-    }
-    return res.json({ code, message });
-},
+        return res.json({ code, message });
+    },
 
     // /major/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, { page } = req.param('data') || 1;
-        let {status} = req.param('data');
-        let list = await Sector.find({status : status}).limit(11).sort([{name:'ASC'}]).skip((page - 1) * 10).populate('status');
+        let code = 200, message = 'success', data = undefined, { page = 1 } = req.param('data');
+        let { status } = req.param('data');
+        let list = await Sector.find({ status: status }).limit(11).sort([{ name: 'ASC' }]).skip((page - 1) * 10).populate('status');
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),
@@ -98,7 +98,7 @@
     // /major/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 403, message = 'error', data = undefined, { id } = req.param('data') || 1;
+        let code = 403, message = 'error', data = undefined, { id = '' } = req.param('data');
         data = await Sector.findOne({ id: id });
         if (data) {
             code = 200;
