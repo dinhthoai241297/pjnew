@@ -102,7 +102,9 @@ module.exports.policies = {
 
     'frontend/subjectgroup/getall': true,
 
-    'frontend/school/getId': true,
+    'frontend/school/getid': true,
     'frontend/school/search': true,
+
+    'frontend/mark/getlist': true,
    
 };
