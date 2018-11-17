@@ -16,6 +16,6 @@ module.exports = {
         res.status(200);
         let code = 200, message = 'success', data = undefined;
         let list = await SubjectGroup.find().sort([{ code: 'ASC' }]);
-        return res.json({ code, message, list });
+        return res.json({ code, message, data: { list, next: false } });
     }
 };
