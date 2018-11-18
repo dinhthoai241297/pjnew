@@ -51,8 +51,8 @@ module.exports = {
                         as: 'province'
                     }
                 },
-                { $limit: 11 },
-                { $skip: (page - 1) * 10 }
+                { $skip: (page - 1) * 10 },
+                { $limit: 11 }
             ]).toArray((error, rs) => {
                 if (!error) {
                     list = rs;
