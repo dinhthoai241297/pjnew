@@ -108,18 +108,12 @@ module.exports = {
     // /user/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, { page = 1 } = req.param('data');
-        let { status } = req.param('data');
-        let { role } = req.param('data');
-        let { date } = req.param('data');
-        let start = date.start;
-        let end = date.end;
-        let list = await User.find({ status: status, role: role, createdAt: { '>=': start, '<': end } }).sort([{ username: 'ASC' }]).limit(11).skip((page - 1) * 10).populate('role').populate('status');
+        let code = 200, message = 'success', data = undefined, { page = 1, status, role, date } = req.param('data'), list;
+        list = await User.find({ status: status, role: role, createdAt: { '>=': new Date(date.start), '<=': new Date(date.end) } }).sort([{ username: 'ASC' }]).limit(11).skip((page - 1) * 10).populate('role').populate('status');
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),
                 next: true,
-
             }
         } else {
             data = {
