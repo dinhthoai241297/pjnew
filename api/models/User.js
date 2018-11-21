@@ -24,7 +24,6 @@ module.exports = {
         //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
         username: {
             type: 'string'
-
         },
         password: {
             type: 'string',
@@ -38,10 +37,8 @@ module.exports = {
             required: true,
         },
         sex: {
-            type: 'string',
-            required: true
+            type: 'string'
         },
-
         birthday: {
             type: 'ref',
             columnType: 'datetime',
@@ -50,8 +47,7 @@ module.exports = {
             type: 'string',
         },
         purpose: {
-            model: 'subjectgroup',
-            required: true
+            model: 'subjectgroup'
         },
         province: {
             model: 'province'
@@ -61,7 +57,7 @@ module.exports = {
         },
         status: {
             model: 'status'
-        },
+        }
     }
 };
 

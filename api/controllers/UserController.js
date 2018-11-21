@@ -58,6 +58,7 @@ module.exports = {
             }
 
         } catch (error) {
+            console.log(error);
             code = 801;
         }
         return res.json({ code, message });
@@ -88,6 +89,8 @@ module.exports = {
         let code = 803, message = 'error';
         try {
             let { user } = req.param('data');
+            user.createdAt = new Date(user.createdAt);
+            user.updatedAt = new Date();
             let u = await User.update({ id: user.id }, user).fetch();
             if (u) {
                 let { session } = req.param('data');
@@ -109,7 +112,7 @@ module.exports = {
     getAll: async (req, res) => {
         res.status(200);
         let code = 200, message = 'success', data = undefined, { page = 1, status, role, date } = req.param('data'), list;
-        list = await User.find({ status: status, role: role, createdAt: { '>=': new Date(date.start), '<=': new Date(date.end) } }).sort([{ username: 'ASC' }]).limit(11).skip((page - 1) * 10).populate('role').populate('status');
+        list = await User.find({ status: status, role: role, createdAt: { '>=': new Date(date.start), '<=': new Date(date.end) } }).sort([{ fullName: 'ASC' }]).limit(11).skip((page - 1) * 10).populate('role').populate('status');
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),

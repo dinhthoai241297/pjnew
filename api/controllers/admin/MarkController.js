@@ -29,22 +29,19 @@ module.exports = {
                 }
             }
             mark.subjectGroups = JSON.stringify(mark.subjectGroups);
-            let major = await Major.findOne({ id: mark.major });
-            if (major && school) {
-                let s = await Mark.create(mark).fetch();
-                if (s) {
-                    let { session } = req.param('data');
-                    let tmp = await Login.findOne({ session: session });
-                    let iduser = JSON.parse(tmp.user).id;
-                    let log = await Logtime.create({ iduser: iduser, action: "add", collection: "mark" })
-                    code = 200;
-                    message = 'success';
-
-                } else {
-                    code = 102;
-                }
+            let s = await Mark.create(mark).fetch();
+            if (s) {
+                let { session } = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                Logtime.create({ iduser: iduser, action: "add", collection: "mark" })
+                code = 200;
+                message = 'success';
+            } else {
+                code = 102;
             }
         } catch (error) {
+            console.log(error);
             code = 101;
         }
         return res.json({ code, message });
