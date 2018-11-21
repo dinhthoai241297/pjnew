@@ -17,8 +17,7 @@ module.exports = {
     getList: async (req, res) => {
         res.status(200);
         let code = 200, message = 'success', data = undefined;
-        let { school } = req.param('data');
-        let { year } = req.param('data');
+        let { school, year } = req.param('data');
         let list = await Mark.find({ year: year, school: school }).populate('major');
         if (list) {
             code = 200;

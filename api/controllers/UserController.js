@@ -111,7 +111,10 @@ module.exports = {
     // /user/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, { page = 1, status, role, date } = req.param('data'), list;
+        let code = 200, message = 'success', data = undefined, { page, status, role, date } = req.param('data'), list;
+        if (!page || page < 0) {
+            page = 1;
+        }
         list = await User.find({ status: status, role: role, createdAt: { '>=': new Date(date.start), '<=': new Date(date.end) } }).sort([{ fullName: 'ASC' }]).limit(11).skip((page - 1) * 10).populate('role').populate('status');
         if (list.length > 10) {
             data = {

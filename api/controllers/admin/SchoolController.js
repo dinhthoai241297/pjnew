@@ -85,9 +85,10 @@ module.exports = {
     // /school/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, { page = 1 } = req.param('data');
-        let { province } = req.param('data');
-        let { status } = req.param('data');
+        let code = 200, message = 'success', data = undefined, { page, province, status } = req.param('data');
+        if (!page || page < 0) {
+            page = 1;
+        }
         let list = await School.find({ province: province, status: status }).sort([{ name: 'ASC' }]).limit(11).skip((page - 1) * 10).populate('province').populate('status');
         if (list.length > 10) {
             data = {

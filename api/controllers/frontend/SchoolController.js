@@ -27,7 +27,10 @@ module.exports = {
     // /school/search
     search: async (req, res) => {
         res.status(200);
-        let code = 303, message = 'error', data = undefined, { name, page = 1 } = req.param('data'), list = undefined;
+        let code = 303, message = 'error', data = undefined, { name, page } = req.param('data'), list = undefined;
+        if (!page || page < 0) {
+            page = 1;
+        }
         try {
             let db = School.getDatastore().manager;
             list = await db.collection('school').aggregate([

@@ -78,8 +78,10 @@ module.exports = {
     // /major/getall/:page
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, { page = 1 } = req.param('data');
-        let { status } = req.param('data');
+        let code = 200, message = 'success', data = undefined, { page, status } = req.param('data');
+        if (!page || page < 0) {
+            page = 1;
+        }
         let list = await Sector.find({ status: status }).limit(11).sort([{ name: 'ASC' }]).skip((page - 1) * 10).populate('status');
         if (list.length > 10) {
             data = {
