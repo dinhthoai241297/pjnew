@@ -17,10 +17,12 @@ module.exports = {
             type: 'string'
         },
         sector: {
-            model: 'sector'
+            model: 'sector',
+            required: true
         },
         status: {
-            model: 'status'
+            model: 'status',
+            required: true
         }
     },
 };

@@ -17,7 +17,8 @@ module.exports = {
             type: 'string'
         },
         status: {
-            model: 'status'
+            model: 'status',
+            required: true
         }
     }
 

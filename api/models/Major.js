@@ -9,36 +9,21 @@ module.exports = {
     // Major
     attributes: {
         name: {
-            type: 'string'
+            type: 'string',
+            required: true
         },
         code: {
-            type: 'string'
+            type: 'string',
+            required: true
         },
         school: {
-            model: 'school'
-        },
-        marks: {
-            collection: 'mark',
-            via: 'major'
+            model: 'school',
+            required: true
         },
         status: {
-            model: 'status'
+            model: 'status',
+            required: true
         }
-    },
-
-    beforeDestroy: (criteria, proceed) => {
-        Major.find(criteria).populate('marks').exec((err, rs) => {
-            if (err) {
-                return proceed(err);
-            }
-            rs.forEach(major => {
-                major.marks.forEach(async el => {
-                    await Mark.destroy({id: el.id});
-                });
-            });
-            return proceed();
-        });
     }
-
 };
 

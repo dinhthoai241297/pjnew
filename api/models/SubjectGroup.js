@@ -17,10 +17,12 @@ module.exports = {
             type: 'string'
         },
         subjects: {
-            type: 'json'
+            type: 'json',
+            required: true
         },
         status: {
-            model: 'status'
+            model: 'status',
+            required: true
         }
     }
 

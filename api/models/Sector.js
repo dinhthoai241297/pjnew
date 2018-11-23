@@ -16,12 +16,9 @@ module.exports = {
         description: {
             type: 'string'
         },
-        provinces: {
-            collection: 'province',
-            via: 'sector'
-        },
         status: {
-            model: 'status'
+            model: 'status',
+            required: true
         }
     }
 

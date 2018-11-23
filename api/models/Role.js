@@ -8,20 +8,6 @@
 module.exports = {
 
     attributes: {
-
-        //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
-        //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
-        //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
-
-
-        //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
-        //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
-        //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
-
-
-        //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
-        //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
-        //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
         roles: {
             type: 'json',
             required: true,
@@ -31,12 +17,9 @@ module.exports = {
             type: 'string',
             required: true
         },
-        users: {
-            collection: 'user',
-            via: 'role'
-        },
         status: {
-            model: 'status'
+            model: 'status',
+            required: true
         }
     },
 

@@ -9,10 +9,12 @@ module.exports = {
     // Mark
     attributes: {
         year: {
-         type: 'number',
+            type: 'number',
+            required: true
         },
         mark: {
-            type: 'number'
+            type: 'number',
+            required: true
         },
         aspiration: {
             type: 'number'
@@ -21,16 +23,20 @@ module.exports = {
             type: 'string'
         },
         major: {
-            model: 'major'
+            model: 'major',
+            required: true
         },
         school: {
-            model : 'school'
+            model: 'school',
+            required: true
         },
         subjectGroups: {
-            type: 'json'
+            type: 'json',
+            required: true
         },
         status: {
-            model: 'status'
+            model: 'status',
+            required: true
         }
     },
 

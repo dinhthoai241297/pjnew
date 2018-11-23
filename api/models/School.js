@@ -23,34 +23,13 @@ module.exports = {
         province: {
             model: 'province'
         },
-        majors: {
-            collection: 'major',
-            via: 'school'
-        },
-        mark: {
-            collection: 'mark',
-            via: 'school'
-        },
         image: {
             type: 'string'
         },
         status: {
-            model: 'status'
+            model: 'status',
+            required: true
         }
-    },
-
-    beforeDestroy: (criteria, proceed) => {
-        School.find(criteria).populate('majors').exec((err, rs) => {
-            if (err) {
-                return proceed(err);
-            }
-            rs.forEach(school => {
-                school.majors.forEach(async el => {
-                    await Major.destroy({id: el.id});
-                });
-            });
-            return proceed();
-        });
     }
 
 };
