@@ -334,7 +334,30 @@ module.exports = {
             code = 801;
         }
         return res.json({ code, message });
-    }
+    },
+
+     // user/profile
+    updateprofile: async (req, res) => {
+        res.status(200);
+        let code = 803, message = 'error';
+        try {
+            let { session, user } = req.param('data');
+            let check = await Login.findOne({ session: session });
+            if (check) {
+                let u = await User.update({ id: user.id }, user).fetch();
+                let iduser = JSON.parse(check.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "update-profile", collection: "user" });
+                code = 200;
+                message = 'success';
+            } else {
+                code = 802;
+            }
+        } catch (error) {
+            code = 801;
+        }
+        return res.json({ code, message });
+    },
+
 };
 
 // validdate input

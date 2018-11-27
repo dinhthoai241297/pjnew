@@ -76,6 +76,7 @@ module.exports.policies = {
 
     'admin/role/*': 'isRoot',
     'user/*': 'isRoot',
+    // 'user/update': 'canUpdate',
 
     'user/loginadmin': true,
     'user/loginuser': true,
@@ -83,6 +84,9 @@ module.exports.policies = {
     'user/register': true,
     'user/getkey': true,
     'user/resetpass': true,
+    'user/update': true,
+    'user/updateprofile': true,
+
     'admin/sector/getall': true,
     'admin/major/getall': true,
     'admin/mark/getall': true,

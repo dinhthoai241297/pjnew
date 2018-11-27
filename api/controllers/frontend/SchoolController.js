@@ -54,14 +54,14 @@ module.exports = {
                         as: 'province'
                     }
                 },
-                { $skip: (page - 1) * 10 },
-                { $limit: 11 }
+                { $skip: (page - 1) * 20 },
+                { $limit: 20 }
             ]).toArray((error, rs) => {
                 if (!error) {
                     list = rs;
-                    if (list.length > 10) {
+                    if (list.length > 20) {
                         data = {
-                            list: list.slice(0, 10),
+                            list: list.slice(0, 20),
                             next: true
                         }
                     } else {
@@ -79,6 +79,30 @@ module.exports = {
             code = 301;
             return res.json({ code, message, data });
         }
+    },
+
+
+
+     // /school/getList/:province + subjectGroup
+    getAll: async (req, res) => {
+        res.status(200);
+        let code = 200, message = 'success', data = undefined, { page, province, subjectGroup } = req.param('data');
+        if (!page || page < 0) {
+            page = 1;
+        }
+        let list = await Mark.find({id: subjectGroup}).sort([{ name: 'ASC' }]).limit(11).skip((page - 1) * 20).populate('province').populate('status');
+        if (list.length > 20) {
+            data = {
+                list: list.slice(0, 20),
+                next: true
+            }
+        } else {
+            data = {
+                list,
+                next: false
+            }
+        }
+        return res.json({ code, message, data });
     },
 };
 
