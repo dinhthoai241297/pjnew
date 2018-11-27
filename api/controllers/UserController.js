@@ -5,15 +5,15 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-var md5 = require('md5');
+ var md5 = require('md5');
 
-const ACTIVE = 1;
-const DELETE = 1;
-const PENDING = 1;
-const LOCK = 1;
-const crypto = require('crypto');
+ const ACTIVE = 1;
+ const DELETE = 1;
+ const PENDING = 1;
+ const LOCK = 1;
+ const crypto = require('crypto');
 
-module.exports = {
+ module.exports = {
     // 801 dữ liệu gửi lên không hợp lệ
     // 802 có lỗi xảy ra, không có gì được thay đổi
     // 803 không tìm thấy dữ liệu trong database
@@ -241,8 +241,8 @@ module.exports = {
                 // check valid data
                 let { fullName, email, sex, birthday, phonenumber, province, purpose, password } = user;
                 let check = checkName(fullName) && checkBirthday(birthday) && checkEmail(email)
-                    && checkPassword(password) && checkPhone(phonenumber)
-                    && checkSG(purpose) && sex !== '';
+                && checkPassword(password) && checkPhone(phonenumber)
+                && checkSG(purpose) && sex !== '';
                 if (!check) {
                     return res.json({ code, message });;
                 }
@@ -286,7 +286,7 @@ module.exports = {
                         () => {
 
                         }
-                    )
+                        )
                     code = 200;
                     message = 'success';
                 }
@@ -337,15 +337,21 @@ module.exports = {
     },
 
      // user/profile
-    updateprofile: async (req, res) => {
+     updateprofile: async (req, res) => {
         res.status(200);
         let code = 803, message = 'error';
         try {
             let { session, user } = req.param('data');
-            let check = await Login.findOne({ session: session });
-            if (check) {
-                let u = await User.update({ id: user.id }, user).fetch();
-                let iduser = JSON.parse(check.user).id;
+            let { fullName, sex, birthday, province, purpose, password } = user;
+            let check = checkName(fullName) && checkBirthday(birthday) && checkPassword(password) && checkSG(purpose) && sex !== '';
+            if (!check) {
+                return res.json({ code, message });;
+            }
+            user.birthday = new Date(user.birthday);
+            let tmp = await Login.findOne({ session: session });
+            if (tmp) {
+                let u = await User.update({ id: user.id }).set({ fullName: fullName, sex : sex, birthday : birthday, purpose : purpose , password : password , province : province }).fetch();
+                let iduser = JSON.parse(tmp.user).id;
                 let log = await Logtime.create({ iduser: iduser, action: "update-profile", collection: "user" });
                 code = 200;
                 message = 'success';
@@ -356,7 +362,7 @@ module.exports = {
             code = 801;
         }
         return res.json({ code, message });
-    },
+    }
 
 };
 
@@ -386,8 +392,8 @@ checkEmail = email => {
 checkPhone = phone => {
     let check = true;
     const PHONES = ['086', '096', '097', '098', '032', '033', '034', '035', '036', '037', '038', '039',
-        '090', '093', '070', '079', '077', '076', '078', '091', '094', '083', '084', '085', '081', '082',
-        '092', '056', '058', '099', '059'];
+    '090', '093', '070', '079', '077', '076', '078', '091', '094', '083', '084', '085', '081', '082',
+    '092', '056', '058', '099', '059'];
     if (phone !== '' && (phone.length !== 10 || !PHONES.find(el => el === phone.substr(0, 3)))) {
         check = false;
     }

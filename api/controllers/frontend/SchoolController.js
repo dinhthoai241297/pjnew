@@ -90,7 +90,7 @@ module.exports = {
         if (!page || page < 0) {
             page = 1;
         }
-        let list = await Mark.find({id: subjectGroup}).sort([{ name: 'ASC' }]).limit(11).skip((page - 1) * 20).populate('province').populate('status');
+        let list = await Mark.find({subjectGroup : subjectGroup});
         if (list.length > 20) {
             data = {
                 list: list.slice(0, 20),
