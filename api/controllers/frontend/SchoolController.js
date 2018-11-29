@@ -97,7 +97,7 @@
             // let listsc = listmark[i];
             // let listidsc = listsc.school;
             // console.log(listidsc);
-            // list = await School.find({id: {in :[listidsc]}});
+            // list = await School.find({province : province ,id: {in :[listidsc]}});
             // console.log(list);
             // if (list.length > 10) {
             //     data = {
@@ -112,13 +112,9 @@
             // }
             // return res.json({ code, message, data });
             let listin = await School.find({province : province});
-            console.log(listin);
             let listnin = await School.find({province : {nin :[province]}});
-            // console.log(listnin);
             let list = listin && listnin;
-            // console.log(list);
             if (list.length > 20) {
-                console.log(list);
                 data = {
                     listin,
                     listnin : listnin.slice(listin.length, 20),
