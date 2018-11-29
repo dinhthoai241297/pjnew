@@ -5,7 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-module.exports = {
+ module.exports = {
 
     // 301 dữ liệu gửi lên không hợp lệ
     // 302 có lỗi xảy ra, không có gì được thay đổi
@@ -34,28 +34,28 @@ module.exports = {
         try {
             let db = School.getDatastore().manager;
             list = await db.collection('school').aggregate([
-                {
-                    $match: {
+            {
+                $match: {
+                    $or: [
+                    {
                         $or: [
-                            {
-                                $or: [
-                                    { code: { $regex: name, $options: "i" } },
-                                    { name: { $regex: name, $options: "i" } }
-                                ]
-                            }
+                        { code: { $regex: name, $options: "i" } },
+                        { name: { $regex: name, $options: "i" } }
                         ]
                     }
-                },
-                {
-                    $lookup: {
-                        from: 'province',
-                        localField: 'province',
-                        foreignField: '_id',
-                        as: 'province'
-                    }
-                },
-                { $skip: (page - 1) * 20 },
-                { $limit: 20 }
+                    ]
+                }
+            },
+            {
+                $lookup: {
+                    from: 'province',
+                    localField: 'province',
+                    foreignField: '_id',
+                    as: 'province'
+                }
+            },
+            { $skip: (page - 1) * 20 },
+            { $limit: 20 }
             ]).toArray((error, rs) => {
                 if (!error) {
                     list = rs;
@@ -84,26 +84,56 @@ module.exports = {
 
 
      // /school/getList/:province + subjectGroup
-    getAll: async (req, res) => {
+
+
+     getList: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, { page, province, subjectGroup } = req.param('data');
+        let code = 200, message = 'success', data = undefined, { page, province, subjectGroups } = req.param('data');
         if (!page || page < 0) {
             page = 1;
         }
-        let list = await Mark.find({subjectGroup : subjectGroup});
-        if (list.length > 20) {
-            data = {
-                list: list.slice(0, 20),
-                next: true
+        // let listmark = await Mark.find({ subjectGroups : subjectGroups });
+         // for(let i = 0; i < listmark.length ; i++){
+            // let listsc = listmark[i];
+            // let listidsc = listsc.school;
+            // console.log(listidsc);
+            // list = await School.find({id: {in :[listidsc]}});
+            // console.log(list);
+            // if (list.length > 10) {
+            //     data = {
+            //         list: list.slice(0, 10),
+            //         next: true
+            //     }
+            // } else {
+            //     data = {
+            //         list,
+            //         next: false
+            //     }
+            // }
+            // return res.json({ code, message, data });
+            let listin = await School.find({province : province});
+            console.log(listin);
+            let listnin = await School.find({province : {nin :[province]}});
+            // console.log(listnin);
+            let list = listin && listnin;
+            // console.log(list);
+            if (list.length > 20) {
+                console.log(list);
+                data = {
+                    listin,
+                    listnin : listnin.slice(listin.length, 20),
+                    next: true
+                }
+            } else {
+                data = {
+                    list,
+                    next: false
+                }
             }
-        } else {
-            data = {
-                list,
-                next: false
-            }
+            return res.json({ code, message, data });
         }
-        return res.json({ code, message, data });
-    },
-};
+
+
+    };
 
 
