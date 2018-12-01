@@ -28,6 +28,7 @@ module.exports.policies = {
     'admin/school/getall': 'canView',
     'admin/subject/getall': 'canView',
     'admin/subjectgroup/getall': 'canView',
+    'admin/new/getall': 'canView',
 
 
     'admin/sector/getone': 'canUpdate',
@@ -38,6 +39,7 @@ module.exports.policies = {
     'admin/school/getone': 'canUpdate',
     'admin/subject/getone': 'canUpdate',
     'admin/subjectgroup/getone': 'canUpdate',
+    'admin/new/getone': 'canUpdate',
 
     'admin/sector/add': 'canAdd',
     'admin/major/add': 'canAdd',
@@ -47,6 +49,7 @@ module.exports.policies = {
     'admin/school/add': 'canAdd',
     'admin/subject/add': 'canAdd',
     'admin/subjectgroup/add': 'canAdd',
+    'admin/new/add': 'canAdd',
 
     'admin/sector/update': 'canUpdate',
     'admin/major/update': 'canUpdate',
@@ -56,6 +59,7 @@ module.exports.policies = {
     'admin/school/update': 'canUpdate',
     'admin/subject/update': 'canUpdate',
     'admin/subjectgroup/update': 'canUpdate',
+    'admin/new/update': 'canUpdate',
 
     'admin/sector/updatestatus': 'canDelete',
     'admin/major/updatestatus': 'canDelete',
@@ -64,6 +68,7 @@ module.exports.policies = {
     'admin/school/updatestatus': 'canDelete',
     'admin/subject/updatestatus': 'canDelete',
     'admin/subjectgroup/updatestatus': 'canDelete',
+    'admin/new/updatestatus': 'canDelete',
 
     'admin/sector/delete': 'isRoot',
     'admin/major/delete': 'isRoot',
@@ -73,6 +78,7 @@ module.exports.policies = {
     'admin/school/delete': 'isRoot',
     'admin/subject/delete': 'isRoot',
     'admin/subjectgroup/delete': 'isRoot',
+    'admin/new/delete': 'isRoot',
 
     'admin/role/*': 'isRoot',
     'user/*': 'isRoot',
@@ -95,6 +101,7 @@ module.exports.policies = {
     'admin/school/getall': true,
     'admin/subject/getall': true,
     'admin/subjectgroup/getall': true,
+    'admin/new/getall': true,
 
 
 

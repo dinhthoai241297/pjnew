@@ -48,6 +48,13 @@ module.exports.routes = {
     'POST /admin/mark/getone': 'admin.mark.getOne',
     'POST /admin/mark/updatestatus': 'admin.mark.updateStatus',
 
+    'POST /admin/new/add': 'admin.new.add',
+    'POST /admin/new/delete': 'admin.new.delete',
+    'POST /admin/new/update': 'admin.new.update',
+    'POST /admin/new/getall': 'admin.new.getAll',
+    'POST /admin/new/getone': 'admin.new.getOne',
+    'POST /admin/new/updatestatus': 'admin.new.updateStatus',
+
     'POST /admin/province/add': 'admin.province.add',
     'POST /admin/province/delete': 'admin.province.delete',
     'POST /admin/province/update': 'admin.province.update',
