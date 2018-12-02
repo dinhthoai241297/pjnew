@@ -5,7 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-module.exports = {
+ module.exports = {
 
     // 301 dữ liệu gửi lên không hợp lệ
     // 302 có lỗi xảy ra, không có gì được thay đổi
@@ -34,28 +34,28 @@ module.exports = {
         try {
             let db = School.getDatastore().manager;
             list = await db.collection('school').aggregate([
-                {
-                    $match: {
+            {
+                $match: {
+                    $or: [
+                    {
                         $or: [
-                            {
-                                $or: [
-                                    { code: { $regex: name, $options: "i" } },
-                                    { name: { $regex: name, $options: "i" } }
-                                ]
-                            }
+                        { code: { $regex: name, $options: "i" } },
+                        { name: { $regex: name, $options: "i" } }
                         ]
                     }
-                },
-                {
-                    $lookup: {
-                        from: 'province',
-                        localField: 'province',
-                        foreignField: '_id',
-                        as: 'province'
-                    }
-                },
-                { $skip: (page - 1) * 20 },
-                { $limit: 21 }
+                    ]
+                }
+            },
+            {
+                $lookup: {
+                    from: 'province',
+                    localField: 'province',
+                    foreignField: '_id',
+                    as: 'province'
+                }
+            },
+            { $skip: (page - 1) * 20 },
+            { $limit: 21 }
             ]).toArray((error, rs) => {
                 if (!error) {
                     list = rs;
@@ -111,25 +111,31 @@ module.exports = {
         //     }
         // }
         // return res.json({ code, message, data });
+          // let listnin = await School.find({ province: { nin: [province] } });
+        // let list = listin.concat(listnin);
         let listin = await School.find({ province: province });
-        let listnin = await School.find({ province: { nin: [province] } });
-        let list = listin && listnin;
-        if (list.length > 20) {
-            data = {
-                listin,
-                listnin: listnin.slice(listin.length, 20),
-                next: true
+        let tmp = await Province.findOne({id : province});
+        let sectorid = tmp.sector;
+        let listsector = await Province.find({sector:sectorid});
+        for(let i =0; i < listsector.length; i++ ){
+            let arraysc = listsector[i];
+            let listid = arraysc.id;
+            let listnin = await School.find({ province: { in: [listid] } });
+            let list = listin.concat(listnin);
+            if (list.length > 20) {
+                data = {
+                    list: list.slice(0, 20),
+                    next: true
+                }
+            } else {
+                data = {
+                    list,
+                    next: false
+                }
             }
-        } else {
-            data = {
-                list,
-                next: false
-            }
-        }
-        return res.json({ code, message, data });
+            return res.json({ code, message, data });
+        };
     }
-
-
 };
 
 
