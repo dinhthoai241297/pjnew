@@ -14,7 +14,7 @@ module.exports = {
         if (!page || page < 0) {
             page = 1;
         }
-        let list = await New.find({ status }).sort([{ title: 'ASC' }]).limit(11).skip((page - 1) * 10).populate('status');
+        let list = await New.find({ status }).sort([{ createdAt: 'DESC' }]).limit(11).skip((page - 1) * 10).populate('status');
         if (list.length > 10) {
             data = {
                 list: list.slice(0, 10),
