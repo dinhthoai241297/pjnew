@@ -135,4 +135,8 @@ module.exports.routes = {
     //mark
     'POST /frontend/mark/getlist': 'frontend.mark.getList',
 
+    // News
+    'POST /frontend/new/getall': 'frontend.new.getAll',
+    'POST /frontend/new/getone': 'frontend.new.getOne',
+    'POST /frontend/new/search': 'frontend.new.search',
 };

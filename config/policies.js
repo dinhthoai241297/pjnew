@@ -119,4 +119,8 @@ module.exports.policies = {
 
     'frontend/mark/getlist': true,
 
+    'frontend/new/getall': true,
+    'frontend/new/getone': true,
+    'frontend/new/search': true,
+
 };
