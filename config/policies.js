@@ -102,10 +102,7 @@ module.exports.policies = {
     'admin/subject/getall': true,
     'admin/subjectgroup/getall': true,
     'admin/new/getall': true,
-
-
-
-
+    'admin/image/upload': true,
 
     //FRONTEND
     'frontend/province/getall': true,
@@ -122,5 +119,4 @@ module.exports.policies = {
     'frontend/new/getall': true,
     'frontend/new/getone': true,
     'frontend/new/search': true,
-
 };

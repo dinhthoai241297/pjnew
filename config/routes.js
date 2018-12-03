@@ -118,6 +118,10 @@ module.exports.routes = {
     'POST /admin/status/getall': 'admin.status.getAll',
     'POST /admin/status/getone': 'admin.status.getOne',
 
+
+    //upload image
+    'POST /admin/image/upload': 'admin.image.upload',
+
     //FRONTEND
 
     //province
@@ -139,4 +143,5 @@ module.exports.routes = {
     'POST /frontend/new/getall': 'frontend.new.getAll',
     'POST /frontend/new/getone': 'frontend.new.getOne',
     'POST /frontend/new/search': 'frontend.new.search',
+
 };
