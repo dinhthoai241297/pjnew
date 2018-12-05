@@ -118,6 +118,9 @@ module.exports.routes = {
     'POST /admin/status/getall': 'admin.status.getAll',
     'POST /admin/status/getone': 'admin.status.getOne',
 
+    'POST /admin/media/upload': 'admin.media.upload',
+    'POST /admin/media/getlist': 'admin.media.getList',
+    'POST /admin/media/updatestatus': 'admin.media.updateStatus',
 
     //upload image
     'POST /admin/image/upload': 'admin.image.upload',

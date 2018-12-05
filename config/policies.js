@@ -30,6 +30,7 @@ module.exports.policies = {
     'admin/subjectgroup/getall': 'canView',
     'admin/new/getall': 'canView',
 
+    'admin/media/getlist': 'canView',
 
     'admin/sector/getone': 'canUpdate',
     'admin/major/getone': 'canUpdate',
@@ -69,6 +70,7 @@ module.exports.policies = {
     'admin/subject/updatestatus': 'canDelete',
     'admin/subjectgroup/updatestatus': 'canDelete',
     'admin/new/updatestatus': 'canDelete',
+    'admin/media/updatestatus': 'canDelete',
 
     'admin/sector/delete': 'isRoot',
     'admin/major/delete': 'isRoot',
@@ -103,6 +105,8 @@ module.exports.policies = {
     'admin/subjectgroup/getall': true,
     'admin/new/getall': true,
     'admin/image/upload': true,
+
+    'admin/media/upload': true,
 
     //FRONTEND
     'frontend/province/getall': true,

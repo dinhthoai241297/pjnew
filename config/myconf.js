@@ -5,5 +5,11 @@ module.exports.myconf = {
         UPDATE: 3,
         DELETE: 4,
         ROOT: 5
+    },
+    status: {
+        ACTIVE: 1,
+        PEDDING: 0,
+        LOCK: -1,
+        DELETE: -2
     }
 }
