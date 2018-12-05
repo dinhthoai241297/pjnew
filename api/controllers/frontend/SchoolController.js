@@ -5,7 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-module.exports = {
+ module.exports = {
 
     // 301 dữ liệu gửi lên không hợp lệ
     // 302 có lỗi xảy ra, không có gì được thay đổi
@@ -34,28 +34,28 @@ module.exports = {
         try {
             let db = School.getDatastore().manager;
             list = await db.collection('school').aggregate([
-                {
-                    $match: {
+            {
+                $match: {
+                    $or: [
+                    {
                         $or: [
-                            {
-                                $or: [
-                                    { code: { $regex: name, $options: "i" } },
-                                    { name: { $regex: name, $options: "i" } }
-                                ]
-                            }
+                        { code: { $regex: name, $options: "i" } },
+                        { name: { $regex: name, $options: "i" } }
                         ]
                     }
-                },
-                {
-                    $lookup: {
-                        from: 'province',
-                        localField: 'province',
-                        foreignField: '_id',
-                        as: 'province'
-                    }
-                },
-                { $skip: (page - 1) * 20 },
-                { $limit: 21 }
+                    ]
+                }
+            },
+            {
+                $lookup: {
+                    from: 'province',
+                    localField: 'province',
+                    foreignField: '_id',
+                    as: 'province'
+                }
+            },
+            { $skip: (page - 1) * 20 },
+            { $limit: 21 }
             ]).toArray((error, rs) => {
                 if (!error) {
                     list = rs;
@@ -92,9 +92,9 @@ module.exports = {
         if (!page || page < 0) {
             page = 1;
         }
-
-        let db = Mark.getDatastore().manager;
-        listmark = await db.collection('mark').aggregate([
+        try {
+            let db = Mark.getDatastore().manager;
+            listmark = await db.collection('mark').aggregate([
             {
                 $match: {
                     subjectGroups: { $regex: subjectGroups }
@@ -103,177 +103,57 @@ module.exports = {
             {
                 $group: { _id: "$school" }
             }
-        ]).toArray(async (error, rs) => {
-            if (!error) {
-                let listid = [];
-                for (let i = 0; i < rs.length; i++) {
-                    listid.push(String(rs[i]._id));
+            ]).toArray(async (error, rs) => {
+                if (!error) {
+                    let listid1 = [];
+                    let listid2 = [];
+                    let listid3 = [];
+                    for (let i = 0; i < rs.length; i++) {
+                        listid1.push(String(rs[i]._id));
+                    }
+                    //tìm trường có Khối + trong tỉnh
+                    let listin = await School.find({ id: { in: listid1 }, province :province }).limit(11).skip((page - 1) * 20);
+                    //tìm trường có khối + trong khu vực
+                    let tmp1 = await Province.findOne({ id : province });
+                    let sectorid = tmp1.sector;
+                    let tmp2 = await Province.find({ sector : sectorid });
+                    for (let i = 0; i < tmp2.length; i++) {
+                     if (tmp2[i].id != province ){
+                        listid2.push((tmp2[i].id));
+                    }
+                    }    
+                    let listst = await School.find({id :{ in: listid1 }, province : {in : listid2}}).limit(11).skip((page - 1) * 20);
+                    let lista = listin.concat(listst);
+                       //tìm tường có khối - tỉnh - khu vực
+                    for (let i = 0; i < tmp2.length; i++) {
+                         if (tmp2[i].id != province ){
+                            listid3.push((tmp2[i].id));
+                        }
+                    } 
+                    let listcl = await School.find({id :{ in: listid1 }, province : {nin : listid3}}).limit(11).skip((page - 1) * 20);
+                    let list = listin.concat(listst).concat(listcl);
+                    if (list.length > 20) {
+                        data = {
+                            list: list.slice(0, 20),
+                            next: true
+                        }
+                    } else {
+                        data = {
+                            list,
+                            next: false
+                        }
+                    }
+                    code = 200;
+                    message = 'success';
                 }
-
-                let listin = await School.find({ id: { in: listid } });
-
-                console.log(listin);
-                //        let dc = School.getDatastore().manager;
-                //        listsc = await db.collection('school').aggregate([
-                //        {
-                //         $match: {
-                //             _id : { $in: [listid] }
-                //         }
-
-                //     },
-                //     { $skip: (page - 1) * 20 },
-                //     { $limit: 21 }
-                //     ]).toArray(async(err, result) => {
-                //         console.log(result);
-                //     });
-                // }
-                // console.log(listid);
-            }
+                return res.json({ code, message, data });
         });
+        }
+        catch (error) {
+            code = 301;
+            return res.json({ code, message, data });
+        }
     },
-
-
-
-
-
-    // let listin =  await School.find({ id: { in: [listid] }});
-    // console.log(listin);
-    // let list = listin.concat(listpv);
-    //  if (list.length > 20) {
-    //     data = {
-    //         list: list.slice(0, 20),
-    //         next: true
-    //     }
-    // } else {
-    //     data = {
-    //         list,
-    //         next: false
-    //     }
-    // }
-    // code = 200;
-    // message = 'success';
-
-
-
-    // await console.log(listid);
-    // return res.json({ code, message, data });
-
-
-
-    // console.log(list);
-
-    // let listin =  await School.find({ id: { in: [listsc] } });
-    //     if (!error) {
-    //      let list = listin;
-    //      if (list.length > 20) {
-    //         data = {
-    //             list: list.slice(0, 20),
-    //             next: true
-    //         }
-    //     } else {
-    //         data = {
-    //             list,
-    //             next: false
-    //         }
-    //     }
-    //     code = 200;
-    //     message = 'success';
-    // }
-    // return res.json({ code, message, data });
-
-
-    //    });
-    // console.log(subjectGroups)
-    // let listmark = await Mark.find();
-    // // console.log(listmark);
-    // let listsg = await Mark.find().where({ subjectGroups: {contains :subjectGroups}});
-    // // console.log(listsg);
-    // for(i =0; i< listsg.length; i++){
-    //     let tmp = listsg[i];
-    //     let b = tmp.school;
-    // let listsc = a.filter(onlyUnique);
-
-    // for(i =0; i<listsc.length;i++){
-    //     a = null;
-    //     array = undefined;
-    //     if()
-    // }
-    // let a = listsc.distinct();
-    // console.log(listsc);
-    // let listin =  await School.find({ id: { in: [listsc] }});
-    // console.log(listin);
-    // let db = Mark.getDatastore().manager;
-    // await db.collection('mark').find(
-    //     {subjectGroups: { $regex: subjectGroups }}, {distinct("school")}
-    //     ).toArray(function (err, listsg) {
-    //         if (err) return res.serverError(err);
-    // listsg.distinct("school",function(err,result){
-    //            if(listsg){
-    //                for(let i = 0; i< listsg.length ;i++){
-    //                   let tmp = listsg[i];
-    //                   let listsc = tmp.school;
-    //                   console.log(listsc);
-
-
-    //           }
-    //     // });
-    // });
-
-    // }
-    //        }
-    //        // console.log(list);
-    //    });
-
-
-    // for (let i =0; i < listmark.length; i++) {
-    //     tmp = l
-    // }
-    // for(let i = 0; i < listmark.length ; i++){
-    // let listsc = listmark[i];
-    // let listidsc = listsc.school;
-    // console.log(listidsc);
-    // list = await School.find({province : province ,id: {in :[listidsc]}});
-    // console.log(list);
-    // }
-    //     // if (list.length > 10) {
-    //     data = {
-    //         list: list.slice(0, 10),
-    //         next: true
-    //     }
-    // } else {
-    //     data = {
-    //         list,
-    //         next: false
-    //     }
-    // }
-    // }
-    // return res.json({ code, message, data });
-    // let listnin = await School.find({ province: { nin: [province] } });
-    // let list = listin.concat(listnin);
-    // let listin = await School.find({ province: province });
-    // let tmp = await Province.findOne({id : province});
-    // let sectorid = tmp.sector;
-    // let listsector = await Province.find({sector:sectorid});
-    // for(let i =0; i < listsector.length; i++ ){
-    //     let arraysc = listsector[i];
-    //     let listid = arraysc.id;
-    //     let listnin = await School.find({ province: { in: [listid] } });
-    //     let list = listin.concat(listnin);
-    //     if (list.length > 20) {
-    //         data = {
-    //             list: list.slice(0, 20),
-    //             next: true
-    //         }
-    //     } else {
-    //         data = {
-    //             list,
-    //             next: false
-    //         }
-    //     }
-    //     return res.json({ code, message, data });
-    // };
-
-
 
 };
 
