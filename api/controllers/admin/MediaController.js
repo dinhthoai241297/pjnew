@@ -13,9 +13,10 @@ module.exports = {
 
     upload: async (req, res) => {
         res.status(200);
-        let uploadFile, message, code;
+        let uploadFile, message, code, data;
         message = 'error';
         code = 1203;
+        data = undefined;
         uploadFile = req.file('upload');
         try {
             uploadFile.upload({ maxBytes: 10000000, dirname: '../../assets/images' }, async (error, file) => {
@@ -30,14 +31,17 @@ module.exports = {
                     if (media) {
                         code = 200;
                         message = 'success';
+                        data = {
+                            link
+                        }
                     } else {
                         code = 1202;
                     }
                 }
-                return res.json({ message, code });
+                return res.json({ message, code, data });
             });
         } catch (error) {
-            return res.json({ message, code });
+            return res.json({ message, code, data });
         }
     },
 
@@ -65,6 +69,9 @@ module.exports = {
                 next: false
             }
         }
+
+        // list = await Media.find({ status }).sort([{ createdAt: 'DESC' }]);
+        // data = { list, next: false };
         return res.json({ code, message, data });
     },
 
