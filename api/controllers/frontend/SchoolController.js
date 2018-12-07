@@ -88,7 +88,7 @@
 
     getList: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, rs = undefined, listpv = undefined, result = undefined, list = undefined, { page, province, subjectGroups } = req.param('data');
+        let code = 200, message = 'success', data = undefined, rs = undefined, list = undefined, { page, province, subjectGroups } = req.param('data');
         if (!page || page < 0) {
             page = 1;
         }
@@ -112,7 +112,7 @@
                         listid1.push(String(rs[i]._id));
                     }
                     //tìm trường có Khối + trong tỉnh
-                    let listin = await School.find({ id: { in: listid1 }, province :province }).limit(11).skip((page - 1) * 20);
+                    let listin = await School.find({ id: { in: listid1 }, province :province }).populate('province').limit(11).skip((page - 1) * 20);
                     //tìm trường có khối + trong khu vực
                     let tmp1 = await Province.findOne({ id : province });
                     let sectorid = tmp1.sector;
@@ -121,17 +121,17 @@
                      if (tmp2[i].id != province ){
                         listid2.push((tmp2[i].id));
                     }
-                    }    
-                    let listst = await School.find({id :{ in: listid1 }, province : {in : listid2}}).limit(11).skip((page - 1) * 20);
+                }    
+                    let listst = await School.find({id :{ in: listid1 }, province : {in : listid2}}).populate('province').limit(11).skip((page - 1) * 20);
                     let lista = listin.concat(listst);
                        //tìm tường có khối - tỉnh - khu vực
-                    for (let i = 0; i < tmp2.length; i++) {
+                       for (let i = 0; i < tmp2.length; i++) {
                          if (tmp2[i].id != province ){
                             listid3.push((tmp2[i].id));
                         }
                     } 
-                    let listcl = await School.find({id :{ in: listid1 }, province : {nin : listid3}}).limit(11).skip((page - 1) * 20);
-                    let list = listin.concat(listst).concat(listcl);
+                    let listcl = await School.find({id :{ in: listid1 }, province : {nin : listid3}}).populate('province').limit(11).skip((page - 1) * 20);
+                    list = listin.concat(listst).concat(listcl);
                     if (list.length > 20) {
                         data = {
                             list: list.slice(0, 20),
@@ -147,7 +147,7 @@
                     message = 'success';
                 }
                 return res.json({ code, message, data });
-        });
+            });
         }
         catch (error) {
             code = 301;
