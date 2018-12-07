@@ -87,13 +87,14 @@ module.exports.policies = {
     // 'user/update': 'canUpdate',
 
     'user/loginadmin': true,
-    'user/loginuser': true,
-    'user/logout': true,
+    'frontend/user/login': true,
+    'frontend/user/loginsession': true,
+    'frontend/user/logout': true,
     'user/register': true,
     'user/getkey': true,
     'user/resetpass': true,
     'user/update': true,
-    'user/updateprofile': true,
+    'frontend/user/updateprofile': true,
 
     'admin/sector/getall': true,
     'admin/major/getall': true,
