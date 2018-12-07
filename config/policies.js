@@ -87,8 +87,9 @@ module.exports.policies = {
     // 'user/update': 'canUpdate',
 
     'user/loginadmin': true,
-    'user/loginuser': true,
-    'user/logout': true,
+    'frontend/user/login': true,
+    'frontend/user/loginsession': true,
+    'frontend/user/logout': true,
     'user/register': true,
     'user/getkey': true,
     'user/resetpass': true,
