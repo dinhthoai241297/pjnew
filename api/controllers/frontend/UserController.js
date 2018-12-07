@@ -23,7 +23,7 @@ module.exports = {
             jwt.verify(session, sails.config.custom.secretKey, async (error, result) => {
                 if (!error) {
                     let { email, password } = result;
-                    let user = await User.findOne({ email, password });
+                    let user = await User.findOne({ email, password }).populate('province').populate('purpose');
                     if (user) {
                         // login success
                         code = 200;
@@ -50,7 +50,7 @@ module.exports = {
 
         try {
             let { email, password } = req.param('data');
-            let user = await User.findOne({ email, password });
+            let user = await User.findOne({ email, password }).populate('province').populate('purpose');
             if (user) {
                 let session = jwt.sign({ email, password, createdAt: new Date() }, sails.config.custom.secretKey);
                 await Session.create({ user: user.id, session });
@@ -80,7 +80,44 @@ module.exports = {
             code = 1401;
         }
         return res.json({ code, message });
+    },
+
+    updateprofile: async (req, res) => {
+        res.status(200);
+        let code = 1403, message = 'error', data = undefined;
+        try {
+            let { session, user } = req.param('data');
+            let { id, fullName, sex, birthday, province, purpose } = user;
+            let check = checkName(fullName) && checkBirthday(birthday) && checkSG(purpose) && sex !== '';
+            if (check) {
+                birthday = new Date(birthday);
+                let tmp = await Session.findOne({ session });
+                if (tmp) {
+                    let u = await User.updateOne({ id }).set({ fullName: fullName, sex: sex, birthday: birthday, purpose: purpose, province: province });
+                    code = 200;
+                    message = 'success';
+                    data = { user: u };
+                } else {
+                    code = 1402;
+                }
+            }
+        } catch (error) {
+            code = 1401;
+            console.log(error);
+        }
+        return res.json({ code, message, data });
     }
 
 };
 
+checkSG = subjectGroup => subjectGroup !== '';
+
+checkName = name => name !== '';
+
+checkBirthday = birthday => {
+    if (!birthday || birthday === '') {
+        return false;
+    } else {
+        return true;
+    }
+}

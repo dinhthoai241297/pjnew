@@ -341,15 +341,15 @@ module.exports = {
         let code = 803, message = 'error';
         try {
             let { session, user } = req.param('data');
-            let { fullName, sex, birthday, province, purpose, password } = user;
-            let check = checkName(fullName) && checkBirthday(birthday) && checkPassword(password) && checkSG(purpose) && sex !== '';
+            let { fullName, sex, birthday, province, purpose } = user;
+            let check = checkName(fullName) && checkBirthday(birthday) && checkSG(purpose) && sex !== '';
             if (!check) {
                 return res.json({ code, message });;
             }
             user.birthday = new Date(user.birthday);
             let tmp = await Login.findOne({ session: session });
             if (tmp) {
-                let u = await User.update({ id: user.id }).set({ fullName: fullName, sex: sex, birthday: birthday, purpose: purpose, password: password, province: province }).fetch();
+                let u = await User.update({ id: user.id }).set({ fullName: fullName, sex: sex, birthday: birthday, purpose: purpose, province: province }).fetch();
                 let iduser = JSON.parse(tmp.user).id;
                 let log = await Logtime.create({ iduser: iduser, action: "update-profile", collection: "user" });
                 code = 200;

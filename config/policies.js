@@ -94,7 +94,7 @@ module.exports.policies = {
     'user/getkey': true,
     'user/resetpass': true,
     'user/update': true,
-    'user/updateprofile': true,
+    'frontend/user/updateprofile': true,
 
     'admin/sector/getall': true,
     'admin/major/getall': true,
