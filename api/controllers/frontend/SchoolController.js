@@ -120,8 +120,8 @@
                     for (let i = 0; i < tmp2.length; i++) {
                      if (tmp2[i].id != province ){
                         listid2.push((tmp2[i].id));
-                    }
-                }    
+                        }
+                    }    
                     let listst = await School.find({id :{ in: listid1 }, province : {in : listid2}}).populate('province').limit(11).skip((page - 1) * 20);
                     let lista = listin.concat(listst);
                        //tìm tường có khối - tỉnh - khu vực
