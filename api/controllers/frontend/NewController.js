@@ -2,9 +2,9 @@
 
 module.exports = {
 
-    // 1001 dữ liệu gửi lên không hợp lệ
-    // 1002 có lỗi xảy ra, không có gì được thay đổi
-    // 1003 không tìm thấy dữ liệu trong database
+    // 1001 dữ liệu gửi lên không hợp lệ - The submitted data is invalid
+    // 1002 có lỗi xảy ra, không có gì được thay đổi -  Error - Nothing is changed
+    // 1003 không tìm thấy dữ liệu trong database - Data not found in the database
 
     
 
@@ -83,6 +83,7 @@ module.exports = {
             });
         } catch (error) {
             code = 1001;
+            message ='The submitted data is invalid'
             return res.json({ code, message, data });
         }
     },
