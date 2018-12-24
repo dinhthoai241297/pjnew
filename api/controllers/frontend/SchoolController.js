@@ -107,6 +107,7 @@
                 if (!error) {
                     let listid1 = [];
                     let listid2 = [];
+                    let listid3 = [];
                     for (let i = 0; i < rs.length; i++) {
                         listid1.push(String(rs[i]._id));
                     }
@@ -121,9 +122,15 @@
                         listid2.push((tmp2[i].id));
                         }
                     }    
-                    let listst = await School.find({id :{ in: listid1 }, province : {in : listid2}}).populate('province').limit(11).skip((page - 1) * 20);                      
-                     //tìm tường có khối ,   không nằm trong tỉnh và khu vực
-                    let listcl = await School.find({id :{ in: listid1 }, province : {nin : listid2}}).populate('province').limit(11).skip((page - 1) * 20);
+                    let listst = await School.find({id :{ in: listid1 }, province : {in : listid2}}).populate('province').limit(11).skip((page - 1) * 20);
+                    let lista = listin.concat(listst);
+                       //tìm tường có khối - tỉnh - khu vực
+                       for (let i = 0; i < tmp2.length; i++) {
+                         if (tmp2[i].id != province ){
+                            listid3.push((tmp2[i].id));
+                        }
+                    } 
+                    let listcl = await School.find({id :{ in: listid1 }, province : {nin : listid3}}).populate('province').limit(11).skip((page - 1) * 20);
                     list = listin.concat(listst).concat(listcl);
                     if (list.length > 20) {
                         data = {
