@@ -27,85 +27,85 @@
     // /school/search
     search: async (req, res) => {
         res.status(200);
-        let code = 303, message = 'error', data = undefined, { name, page, type , number } = req.param('data'), list = undefined;
+        let code = 303, message = 'error', data = undefined, { name, page, type , number } = req.param('data'), list = undefined, array = undefined;
         if (!page || page < 0) {
             page = 1;
         }
         try {    
-             if(type=='SCHOOL'){
-                console.log(name, page, type, number);
-            
-                let db = School.getDatastore().manager;
-                list = await db.collection('school').aggregate([
-                {
-                    $match: {
-                        $or: [
-                        {
-                            $or: [
-                            { code: { $regex: name, $options: "i" } },
-                            { name: { $regex: name, $options: "i" } }
-                            ]
-                        }
-                        ]
-                    }
-                },
-                {
-                    $lookup: {
-                        from: 'province',
-                        localField: 'province',
-                        foreignField: '_id',
-                        as: 'province'
-                    }
-                },
-                { $skip: (page - 1) * 20 },
-                { $limit: 21 }
-                ]).toArray((error, rs) => {
-                    if (!error) {
-                        list = rs;
-                        if (list.length > 20) {
-                            data = {
-                                list: list.slice(0, 20),
-                                next: true
-                            }
-                        } else {
-                            data = {
-                                list,
-                                next: false
-                            }
-                        }
-                        code = 200;
-                        message = 'success';
-                    }
-                return res.json({ code, message, data });
-               });
-               };
-           
-            if(type =='MAJOR'){
-                console.log(number);
-                let list = await Major.find({code: {contains : number }}).sort([{ name: 'ASC' }]).limit(21).skip((page - 1) * 20).populate('marks').populate('school');
-                 console.log(list);
-                if (list.length > 10) {
-                    data = {
-                        list: list.slice(0, 20),
-                        next: true
-                    }
-                } else {
-                    data = {
-                        list,
-                        next: false
-                    }
+         if(type==='MAJOR')   {
+            let list = await Major.find({code: {contains : number }}).sort([{ name: 'ASC' }]).limit(21).skip((page - 1) * 20).populate('marks').populate('school');
+            if (list.length > 10) {
+                data = {
+                    list: list.slice(0, 20),
+                    next: true
                 }
-                code = 200;
-                message = 'success';
+            } else {
+                data = {
+                    list,
+                    next: false
+                }
             }
-            return res.json({ code, message, data });
-
-        } catch (error) {
-            code = 301;
+            code = 200;
+            message = 'success';
             return res.json({ code, message, data });
         }
+        else {
+            console.log(name, page, type, number);
+            let db = School.getDatastore().manager;
+            list = await db.collection('school').aggregate([
+            {
+                $match: {
+                    $or: [
+                    {
+                        $or: [
+                        { code: { $regex: name, $options: "i" } },
+                        { name: { $regex: name, $options: "i" } }
+                        ]
+                    }
+                    ]
+                }
+            },
+            {
+                $lookup: {
+                    from: 'province',
+                    localField: 'province',
+                    foreignField: '_id',
+                    as: 'province'
+                }
+            },
+            { $skip: (page - 1) * 20 },
+            { $limit: 21 }
+            ]).toArray((error, rs) => {
+                if (!error) {
+                    list = rs;
+                    if (list.length > 20) {
+                        data = {
+                            list: list.slice(0, 20),
+                            next: true
+                        }
+                        array = data;
+                    } else {
+                        data = {
+                            list,
+                            next: false
+                        }
+                    }
+                    code = 200;
+                    message = 'success';
+                    console.log(data);
+                    array = data;
+                    
+                } 
+                return res.json({ code, message, data });
+            });
+        };
 
-    },
+    } catch (error) {
+        code = 301;
+        return res.json({ code, message, data });
+    }
+
+},
 
 
 
