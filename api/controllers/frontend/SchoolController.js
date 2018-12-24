@@ -27,58 +27,84 @@
     // /school/search
     search: async (req, res) => {
         res.status(200);
-        let code = 303, message = 'error', data = undefined, { name, page } = req.param('data'), list = undefined;
+        let code = 303, message = 'error', data = undefined, { name, page, type , number } = req.param('data'), list = undefined;
         if (!page || page < 0) {
             page = 1;
         }
-        try {
-            let db = School.getDatastore().manager;
-            list = await db.collection('school').aggregate([
-            {
-                $match: {
-                    $or: [
-                    {
+        try {    
+             if(type=='SCHOOL'){
+                console.log(name, page, type, number);
+            
+                let db = School.getDatastore().manager;
+                list = await db.collection('school').aggregate([
+                {
+                    $match: {
                         $or: [
-                        { code: { $regex: name, $options: "i" } },
-                        { name: { $regex: name, $options: "i" } }
+                        {
+                            $or: [
+                            { code: { $regex: name, $options: "i" } },
+                            { name: { $regex: name, $options: "i" } }
+                            ]
+                        }
                         ]
                     }
-                    ]
-                }
-            },
-            {
-                $lookup: {
-                    from: 'province',
-                    localField: 'province',
-                    foreignField: '_id',
-                    as: 'province'
-                }
-            },
-            { $skip: (page - 1) * 20 },
-            { $limit: 21 }
-            ]).toArray((error, rs) => {
-                if (!error) {
-                    list = rs;
-                    if (list.length > 20) {
-                        data = {
-                            list: list.slice(0, 20),
-                            next: true
-                        }
-                    } else {
-                        data = {
-                            list,
-                            next: false
-                        }
+                },
+                {
+                    $lookup: {
+                        from: 'province',
+                        localField: 'province',
+                        foreignField: '_id',
+                        as: 'province'
                     }
-                    code = 200;
-                    message = 'success';
-                }
+                },
+                { $skip: (page - 1) * 20 },
+                { $limit: 21 }
+                ]).toArray((error, rs) => {
+                    if (!error) {
+                        list = rs;
+                        if (list.length > 20) {
+                            data = {
+                                list: list.slice(0, 20),
+                                next: true
+                            }
+                        } else {
+                            data = {
+                                list,
+                                next: false
+                            }
+                        }
+                        code = 200;
+                        message = 'success';
+                    }
                 return res.json({ code, message, data });
-            });
+               });
+               };
+           
+            if(type =='MAJOR'){
+                console.log(number);
+                let list = await Major.find({code: {contains : number }}).sort([{ name: 'ASC' }]).limit(21).skip((page - 1) * 20).populate('marks').populate('school');
+                 console.log(list);
+                if (list.length > 10) {
+                    data = {
+                        list: list.slice(0, 20),
+                        next: true
+                    }
+                } else {
+                    data = {
+                        list,
+                        next: false
+                    }
+                }
+                code = 200;
+                message = 'success';
+            }
+            return res.json({ code, message, data });
+
         } catch (error) {
             code = 301;
             return res.json({ code, message, data });
         }
+
     },
 
 
@@ -120,10 +146,10 @@
                     for (let i = 0; i < tmp2.length; i++) {
                      if (tmp2[i].id != province ){
                         listid2.push((tmp2[i].id));
-                        }
-                    }    
-                    let listst = await School.find({id :{ in: listid1 }, province : {in : listid2}}).populate('province').limit(11).skip((page - 1) * 20);
-                    let lista = listin.concat(listst);
+                    }
+                }    
+                let listst = await School.find({id :{ in: listid1 }, province : {in : listid2}}).populate('province').limit(11).skip((page - 1) * 20);
+                let lista = listin.concat(listst);
                        //tìm tường có khối - tỉnh - khu vực
                        for (let i = 0; i < tmp2.length; i++) {
                          if (tmp2[i].id != province ){

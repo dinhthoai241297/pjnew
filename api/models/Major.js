@@ -23,6 +23,11 @@ module.exports = {
         status: {
             model: 'status',
             required: true
+        },
+        marks :{
+            collection :'mark',
+            via :'major'
+
         }
     }
 };

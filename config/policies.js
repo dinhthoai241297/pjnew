@@ -124,4 +124,6 @@ module.exports.policies = {
     'frontend/new/getall': true,
     'frontend/new/getone': true,
     'frontend/new/search': true,
+
+    'frontend/majormain/getall': true,
 };

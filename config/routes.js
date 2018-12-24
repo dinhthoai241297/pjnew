@@ -146,6 +146,8 @@ module.exports.routes = {
     // News
     'POST /frontend/new/getall': 'frontend.new.getAll',
     'POST /frontend/new/getone': 'frontend.new.getOne',
-    'POST /frontend/new/search': 'frontend.new.search',
+    'POST /frontend/new/esarch': 'frontend.new.search',
+    //MainMajor
+    'POST /frontend/majormain/getall': 'frontend.majormain.getAll',
 
 };

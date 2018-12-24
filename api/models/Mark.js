@@ -37,6 +37,9 @@ module.exports = {
         status: {
             model: 'status',
             required: true
+        },
+        major: {
+            model :'major'
         }
     },
 
