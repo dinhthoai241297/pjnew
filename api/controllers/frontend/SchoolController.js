@@ -50,7 +50,6 @@
             return res.json({ code, message, data });
         }
         else {
-            console.log(name, page, type, number);
             let db = School.getDatastore().manager;
             list = await db.collection('school').aggregate([
             {
@@ -92,7 +91,6 @@
                     }
                     code = 200;
                     message = 'success';
-                    console.log(data);
                     array = data;
                     
                 } 
