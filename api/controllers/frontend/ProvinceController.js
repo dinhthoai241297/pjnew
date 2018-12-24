@@ -7,10 +7,9 @@
 
 module.exports = {
 
-    // 1201 dữ liệu gửi lên không hợp lệ -  Message : The submitted data is invalid
-    // 1202 có lỗi xảy ra, không có gì được thay đổi - Message : The submitted data is invalid
-    // 1203 không tìm thấy dữ liệu trong database -   Data not found in the database
-
+    // 201 dữ liệu gửi lên không hợp lệ
+    // 202 có lỗi xảy ra, không có gì được thay đổi
+    // 203 không tìm thấy dữ liệu trong database
 
 
     // /province/getall/:page
@@ -28,7 +27,7 @@ module.exports = {
     // /province/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 1203, message = 'error', data = undefined, { id = '' } = req.param('data');
+        let code = 103, message = 'error', data = undefined, { id = '' } = req.param('data');
         data = await Province.findOne({ id: id });
         if (data) {
             code = 200;

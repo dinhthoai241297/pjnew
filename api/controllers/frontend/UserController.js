@@ -5,9 +5,8 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-// 1401 thiếu tham số gửi lên - Parameter missing
-// 1402 dữ lệu gửi lên  không hợp lệ -  The submitted data is invalid
-// 1403 có lỗi xảy ra -  Error - Nothing is changed
+// 1401 thiếu tham số gửi lên
+// 1403 có lỗi xảy ra
 
 const jwt = require('jsonwebtoken');
 
@@ -38,7 +37,6 @@ module.exports = {
             });
         } else {
             code = 1401;
-            message ='Parameter missing'
             return res.json({ code, message, data });
         }
     },
@@ -62,8 +60,7 @@ module.exports = {
             }
             return res.json({ code, message, data });
         } catch (error) {
-            code = 1402;
-            message ='The submitted data is invalid'
+            code = 1401;
             return res.json({ code, message, data });
         }
     },
@@ -81,7 +78,6 @@ module.exports = {
             message = 'success';
         } catch (error) {
             code = 1401;
-            message ='Parameter missing'
         }
         return res.json({ code, message });
     },
@@ -102,13 +98,11 @@ module.exports = {
                     message = 'success';
                     data = { user: u };
                 } else {
-                    code = 1403;
-                    message ='Error - Nothing is changed'
+                    code = 1402;
                 }
             }
         } catch (error) {
             code = 1401;
-            message ='Parameter missing'
             console.log(error);
         }
         return res.json({ code, message, data });

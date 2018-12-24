@@ -4,82 +4,81 @@
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
-    // 801 dữ liệu gửi lên không hợp lệ 
+
+var md5 = require('md5');
+
+const ACTIVE = 1;
+const crypto = require('crypto');
+
+module.exports = {
+    // 801 dữ liệu gửi lên không hợp lệ
     // 802 có lỗi xảy ra, không có gì được thay đổi
     // 803 không tìm thấy dữ liệu trong database
-    // 804 Tài khoản chưa kích hoạt 
+    // 804 Tài khoản chưa kích hoạt
+    checkSession: async (req, res) => {
+        res.status(200);
+        let code = 803, message = 'error';
+        try {
+            let { session } = req.param('data');
+            let s = await Login.findOne({ session: session });
+            if (s) {
+                code = 200;
+                message = 'success';
+            } else {
+                code = 802;
+            }
+        } catch (error) {
+            code = 801;
+        }
+        return res.json({ code, message });
+    },
 
-    var md5 = require('md5');
-
-    const ACTIVE = 1;
-    const crypto = require('crypto');
-
-    module.exports = {
-        
-        checkSession: async (req, res) => {
-            res.status(200);
-            let code = 803, message = 'error';
-            try {
-                let { session } = req.param('data');
-                let s = await Login.findOne({ session: session });
+    add: async (req, res) => {
+        res.status(200);
+        let code = 803, message = 'error';
+        try {
+            let { user } = req.param('data');
+            let username = user.username;
+            let tmp = await User.findOne({ username: username });
+            if (!tmp) {
+                let s = await User.create(user).fetch();
                 if (s) {
-                    code = 200;
-                    message = 'success';
-                } else {
-                    code = 802;
-                }
-            } catch (error) {
-                code = 801;
-            }
-            return res.json({ code, message });
-        },
-
-        add: async (req, res) => {
-            res.status(200);
-            let code = 803, message = 'error';
-            try {
-                let { user } = req.param('data');
-                let username = user.username;
-                let tmp = await User.findOne({ username: username });
-                if (!tmp) {
-                    let s = await User.create(user).fetch();
-                    if (s) {
-                        let { session } = req.param('data');
-                        let tmp = await Login.findOne({ session: session });
-                        let iduser = JSON.parse(tmp.user).id;
-                        let log = await Logtime.create({ iduser: iduser, action: "add", collection: "user" });
-                        code = 200;
-                        message = 'success';
-                    } else {
-                        code = 802;
-                    }
-                }
-
-            } catch (error) {
-                console.log(error);
-                code = 801;
-            }
-            return res.json({ code, message });
-        },
-
-        delete: async (req, res) => {
-            res.status(200);
-            let code = 801, message = 'error', { id = '' } = req.param('data');
-            if (id) {
-                let rs = await User.destroy({ id: id }).fetch();
-                if (rs && rs.length !== 0) {
                     let { session } = req.param('data');
                     let tmp = await Login.findOne({ session: session });
                     let iduser = JSON.parse(tmp.user).id;
-                    let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "user" });
+                    let log = await Logtime.create({ iduser: iduser, action: "add", collection: "user" });
                     code = 200;
                     message = 'success';
                 } else {
                     code = 802;
                 }
             }
-            return res.json({ code, message });
-        },
+
+        } catch (error) {
+            console.log(error);
+            code = 801;
+        }
+        return res.json({ code, message });
+    },
+
+    delete: async (req, res) => {
+        res.status(200);
+        let code = 801, message = 'error', { id = '' } = req.param('data');
+        if (id) {
+            let rs = await User.destroy({ id: id }).fetch();
+            if (rs && rs.length !== 0) {
+                let { session } = req.param('data');
+                let tmp = await Login.findOne({ session: session });
+                let iduser = JSON.parse(tmp.user).id;
+                let log = await Logtime.create({ iduser: iduser, action: "delete", collection: "user" });
+                code = 200;
+                message = 'success';
+            } else {
+                code = 802;
+            }
+        }
+        return res.json({ code, message });
+    },
 
     // user/update
     update: async (req, res) => {
@@ -239,8 +238,8 @@
                 // check valid data
                 let { fullName, email, sex, birthday, phonenumber, province, purpose, password } = user;
                 let check = checkName(fullName) && checkBirthday(birthday) && checkEmail(email)
-                && checkPassword(password) && checkPhone(phonenumber)
-                && checkSG(purpose) && sex !== '';
+                    && checkPassword(password) && checkPhone(phonenumber)
+                    && checkSG(purpose) && sex !== '';
                 if (!check) {
                     return res.json({ code, message });;
                 }
@@ -286,7 +285,7 @@
                         () => {
 
                         }
-                        )
+                    )
                     code = 200;
                     message = 'success';
                 }
@@ -392,8 +391,8 @@ checkEmail = email => {
 checkPhone = phone => {
     let check = true;
     const PHONES = ['086', '096', '097', '098', '032', '033', '034', '035', '036', '037', '038', '039',
-    '090', '093', '070', '079', '077', '076', '078', '091', '094', '083', '084', '085', '081', '082',
-    '092', '056', '058', '099', '059'];
+        '090', '093', '070', '079', '077', '076', '078', '091', '094', '083', '084', '085', '081', '082',
+        '092', '056', '058', '099', '059'];
     if (phone !== '' && (phone.length !== 10 || !PHONES.find(el => el === phone.substr(0, 3)))) {
         check = false;
     }

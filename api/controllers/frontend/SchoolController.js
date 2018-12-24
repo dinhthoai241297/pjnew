@@ -5,17 +5,17 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-    // 1301 dữ liệu gửi lên không hợp lệ - Message : The submitted data is invalid
-    // 1302 có lỗi xảy ra, không có gì được thay đổi - Error - Nothing is changed
-    // 1303 không tìm thấy dữ liệu trong database - Data not found in the database
-
-
  module.exports = {
+
+    // 301 dữ liệu gửi lên không hợp lệ
+    // 302 có lỗi xảy ra, không có gì được thay đổi
+    // 303 không tìm thấy dữ liệu trong database
+
 
     //school/get/id
     getId: async (req, res) => {
         res.status(200);
-        let code = 1303, message = 'error', data = undefined, { id } = req.param('data');
+        let code = 303, message = 'error', data = undefined, { id } = req.param('data');
         data = await School.findOne({ id: id }).populate('province');
         if (data) {
             code = 200;
@@ -27,7 +27,7 @@
     // /school/search
     search: async (req, res) => {
         res.status(200);
-        let code = 1303, message = 'error', data = undefined, { name, page } = req.param('data'), list = undefined;
+        let code = 303, message = 'error', data = undefined, { name, page } = req.param('data'), list = undefined;
         if (!page || page < 0) {
             page = 1;
         }
@@ -76,8 +76,7 @@
                 return res.json({ code, message, data });
             });
         } catch (error) {
-            code = 1301;
-            message ='The submitted data is invalid'
+            code = 301;
             return res.json({ code, message, data });
         }
     },
