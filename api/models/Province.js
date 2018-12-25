@@ -23,6 +23,9 @@ module.exports = {
         status: {
             model: 'status',
             required: true
+        },
+        school :{
+            model : 'school'
         }
     },
 };

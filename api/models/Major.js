@@ -28,7 +28,8 @@ module.exports = {
             collection :'mark',
             via :'major'
 
-        }
+        },
+       
     }
 };
 

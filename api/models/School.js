@@ -29,7 +29,12 @@ module.exports = {
         status: {
             model: 'status',
             required: true
-        }
+        },
+        pro :{
+            collection :'province',
+            via : 'school'
+        } 
+
     }
 
 };
