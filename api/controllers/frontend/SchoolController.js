@@ -253,86 +253,144 @@
         }
 
         try {
-            if(!subjectGroups && !majorcode && !mark && !province) {
-                list = await Mark.find({year : year}).populate('school').populate('major').limit(21).skip((page - 1) * 20);
-                console.log(list);
-                if (list.length > 20) {
-                    data = {
-                        list: list.slice(0, 20),
-                        next: true
-                    }
-                } else {
-                    data = {
-                        list,
-                        next: false
-                    }
-                }
-                code = 200;
-                message = 'success';
-                return res.json({ code, message, data });
-
-
-            } else {
-                let lmajor =[];
-                let lschoolpr =[];
-                let lschool =[];
-                let lnschool =[];
-                let lsector =[];
-                let lnsector =[];
-
-                let fmajor = await Major.find({code : {contains: majorcode}});
-                for(let i = 0; i < fmajor.length; i++){
-                 lmajor.push(String(fmajor[i].id));
-             }
-               //tìm theo tỉnh thành + điểm + ngành + năm
-               let fschoolpr = await School.find({ province : province });
-               for(let i =0; i< fschoolpr.length; i ++){
-                   lschoolpr.push(String(fschoolpr[i].id));
+               // lấy list id tổ hợp môn (id trong bảng mark) 
+               let lsubjectGroupsid = [];
+               if(!subjectGroups){
+                 let fsubjectGroups = await Mark.find();
+                 for(let i =0; i< fsubjectGroups.length; i ++){
+                   lsubjectGroupsid.push(String(fsubjectGroups[i].id));
                } 
-               let list1 = await Mark.find({ school : {in: lschoolpr}, major : {in : lmajor}, year : year, mark : {'>=' : mark , '<' : mark+3}, subjectGroups : {contains : subjectGroups}}).sort('mark ASC').populate('school').populate('major').limit(21).skip((page - 1) * 20);
-          
+           } else
+           {
+               let fsubjectGroups = await Mark.find({subjectGroups : {contains :subjectGroups}});
+               for(let i =0; i< fsubjectGroups.length; i ++){
+                   lsubjectGroupsid.push(String(fsubjectGroups[i].id));
+               } 
+           }
 
-             // tìm theo khu vực + điểm + ngành + năm
+             // lấy listid major
+             let lmajorid = [];
+             if(!majorcode){
+               let fmajor = await Major.find();
+               for(let i =0; i< fmajor.length; i ++){
+                   lmajorid.push(String(fmajor[i].id));
+               } 
+           } 
+           else
+           {
+              let fmajor = await Major.find({code : {contains : majorcode}});
+              for(let i =0; i< fmajor.length; i ++){
+               lmajorid.push(String(fmajor[i].id));
+           } 
+       }
+            //lấy list mark 
+            let markfrom = undefined;
+            let markto = undefined ;
+            if(!mark){
+               markfrom = 0;
+               markto =30;
+           } 
+           else
+           {
+              markfrom = mark ;
+              markto = mark + 3;
+          };
+            // lấy list id school trong tỉnh
+            let lschoolid = [];
+            let lschoolid1 = [];
+            let lschoolid2 = [];
+            let lprovinceid = [];
+            let lsectorid = [];
+            let lnsectorid = [];
+            if(!province){
+               let lschool = await School.find();
+               for(let i =0; i< lschool.length; i ++){
+                   lschoolid.push(String(lschool[i].id));
+               } 
+           } 
+           else
+           {    
+             //lấy danh sách trường trong tỉnh
+             let lschool = await School.find({province :province});
+             for(let i =0; i< lschool.length; i ++){
+               lschoolid.push(String(lschool[i].id));
+           }
+
+             //lấy danh sách trường trong khu vực  (- tỉnh req)
              let fsector = await Province.findOne({ id : province }); 
              let sector = fsector.sector;
              let fprovince = await Province.find({sector : sector});
              for(let i =0; i< fprovince.length; i ++){
                 if(fprovince[i].id != province){
-                   lsector.push(String(fprovince[i].id));
+                 lprovinceid.push(String(fprovince[i].id));
+             }
+         }
+         let lschoolst = await School.find({province : {in : lprovinceid}});
+         for(let i =0; i< lschoolst.length; i ++){
+             lschoolid1.push(String(lschoolst[i].id));
+         }
+               // lấy danh sách trường trong khu vực (kể cả tỉnh req )
+               for(let i =0; i< fprovince.length; i ++){
+                   lnsectorid.push(String(fprovince[i].id));
                }
-           }  
-           let lschoolst = await School.find({province : {in : lsector}});
-            for(let i =0; i< lschoolst.length; i ++){
-                   lschool.push(String(lschoolst[i].id));
-               }
-           let list2 = await Mark.find({ school : {in: lschool}, major : {in : lmajor}, year : year, mark : {'>=' : mark , '<' : mark+3}, subjectGroups : {contains : subjectGroups} }).sort('mark ASC').populate('school').populate('major').limit(21).skip((page - 1) * 20);
-              // Tìm theo ngành + điểm + năm 
-           for(let i =0; i< fprovince.length; i ++){
-                   lnsector.push(String(fprovince[i].id));
-               }
-            let lnschoolst = await School.find({province : {in : lnsector}});
+               let lnschoolst = await School.find({province : {in : lnsectorid}});
                for(let i =0; i< lnschoolst.length; i ++){
-                   lnschool.push(String(lnschoolst[i].id));
+                   lschoolid2.push(String(lnschoolst[i].id));
                }
-           let list3 = await Mark.find({ school : {nin: lnschool}, major : {in : lmajor}, year : year, mark : {'>=' : mark , '<' : mark+3}, subjectGroups : {contains : subjectGroups}}).sort('mark ASC').populate('school').populate('major').limit(21).skip((page - 1) * 20);
-               list = list1.concat(list2).concat(list3);
-               if (list.length > 20) {
-                data = {
-                    list: list.slice(0, 20),
-                    next: true
-                }
-            } else {
-                data = {
-                    list,
-                    next: false
-                }
-            }
-            code = 200;
-            message = 'success';
-            return res.json({ code, message, data });
-        }
-    }
-    catch (error) {
+           }
+
+           let list1 = await Mark.find({ school : {in: lschoolid}, major : {in : lmajorid}, year : year, mark : {'>=' : markfrom , '<' : markto}, id : {in : lsubjectGroupsid }});
+           let list2 = await Mark.find({ school : {in: lschoolid1}, major : {in : lmajorid}, year : year, mark : {'>=' : markfrom , '<' : markto}, id : {in : lsubjectGroupsid }});
+           let list3 = await Mark.find({ school : {nin: lschoolid2}, major : {in : lmajorid}, year : year, mark : {'>=' : markfrom , '<' : markto}, id : {in : lsubjectGroupsid }});
+          
+
+
+           // let total = list1.concat(list2).concat(list3);
+
+           // let listschoolid = [];
+           // for(let i =0; i< total.length; i ++){
+           //     listschoolid.push(String(total[i].school));
+           // }
+           // let x = listschoolid.filter((v,i) => listschoolid.indexOf(v) === i);
+           // list = await School.find({id : {in :x}});
+           let listschoolid1 = [];
+           for(let i =0; i< list1.length; i ++){
+               listschoolid1.push(String(list1[i].school));
+           }
+           let x1 = listschoolid1.filter((v,i) => listschoolid1.indexOf(v) === i);
+           let listsuggest1 = await School.find({id : {in :x1}});
+
+           let listschoolid2 = [];
+           for(let i =0; i< list2.length; i ++){
+               listschoolid2.push(String(list2[i].school));
+           }
+           let x2 = listschoolid2.filter((v,i) => listschoolid2.indexOf(v) === i);
+           let listsuggest2 = await School.find({id : {in :x2}});
+
+           let listschoolid3 = [];
+           for(let i =0; i< list3.length; i ++){
+               listschoolid3.push(String(list3[i].school));
+           }
+           let x3 = listschoolid3.filter((v,i) => listschoolid3.indexOf(v) === i);
+           let listsuggest3 = await School.find({id : {in :x3}});
+
+           list = listsuggest1.concat(listsuggest2).concat(listsuggest3);
+           if (list.length > 20) {
+                        data = {
+                            list: list.slice(0, 20),
+                            next: true
+                        }
+                    } else {
+                        data = {
+                            list,
+                            next: false
+                        }
+                    }
+                    code = 200;
+                    message = 'success';
+                   return res.json({ code, message, datas });
+
+       } catch (error) {
         code = 301;
         return res.json({ code, message, data });
     }
