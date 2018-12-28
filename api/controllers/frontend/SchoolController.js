@@ -289,7 +289,7 @@
                for(let i =0; i< fschoolpr.length; i ++){
                    lschoolpr.push(String(fschoolpr[i].id));
                } 
-               let list1 = await Mark.find({ school : {in: lschoolpr}, major : {in : lmajor}, year : year, mark : {'>=' : mark , '<' : mark+3}}).sort('mark ASC').populate('school').populate('major').limit(21).skip((page - 1) * 20);
+               let list1 = await Mark.find({ school : {in: lschoolpr}, major : {in : lmajor}, year : year, mark : {'>=' : mark , '<' : mark+3}, subjectGroups : {contains : subjectGroups}}).sort('mark ASC').populate('school').populate('major').limit(21).skip((page - 1) * 20);
           
 
              // tìm theo khu vực + điểm + ngành + năm
@@ -305,7 +305,7 @@
             for(let i =0; i< lschoolst.length; i ++){
                    lschool.push(String(lschoolst[i].id));
                }
-           let list2 = await Mark.find({ school : {in: lschool}, major : {in : lmajor}, year : year, mark : {'>=' : mark , '<' : mark+3}}).sort('mark ASC').populate('school').populate('major').limit(21).skip((page - 1) * 20);
+           let list2 = await Mark.find({ school : {in: lschool}, major : {in : lmajor}, year : year, mark : {'>=' : mark , '<' : mark+3}, subjectGroups : {contains : subjectGroups} }).sort('mark ASC').populate('school').populate('major').limit(21).skip((page - 1) * 20);
               // Tìm theo ngành + điểm + năm 
            for(let i =0; i< fprovince.length; i ++){
                    lnsector.push(String(fprovince[i].id));
@@ -314,7 +314,7 @@
                for(let i =0; i< lnschoolst.length; i ++){
                    lnschool.push(String(lnschoolst[i].id));
                }
-           let list3 = await Mark.find({ school : {nin: lnschool}, major : {in : lmajor}, year : year, mark : {'>=' : mark , '<' : mark+3}}).sort('mark ASC').populate('school').populate('major').limit(21).skip((page - 1) * 20);
+           let list3 = await Mark.find({ school : {nin: lnschool}, major : {in : lmajor}, year : year, mark : {'>=' : mark , '<' : mark+3}, subjectGroups : {contains : subjectGroups}}).sort('mark ASC').populate('school').populate('major').limit(21).skip((page - 1) * 20);
                list = list1.concat(list2).concat(list3);
                if (list.length > 20) {
                 data = {
