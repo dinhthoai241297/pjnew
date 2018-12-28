@@ -139,6 +139,7 @@ module.exports.routes = {
     'POST /frontend/school/getid': 'frontend.school.getId',
     'POST /frontend/school/search': 'frontend.school.search',
     'POST /frontend/school/getlist': 'frontend.school.getList',
+    'POST /frontend/school/suggest': 'frontend.school.suggest',
 
     //mark
     'POST /frontend/mark/getlist': 'frontend.mark.getList',

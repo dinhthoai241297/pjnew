@@ -118,6 +118,7 @@ module.exports.policies = {
     'frontend/school/getid': true,
     'frontend/school/search': true,
     'frontend/school/getlist': true,
+    'frontend/school/suggest': true,
 
     'frontend/mark/getlist': true,
 
