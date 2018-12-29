@@ -8,21 +8,14 @@ module.exports = {
 
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, { page, status } = req.param('data');
-        if (!page || page < 0) {
-            page = 1;
-        }
-        let list = await MajorMain.find({ status }).sort([{ name: 'DESC' }]);
-        if (list.length > 10) {
+        let code = 200, message = 'success', data = undefined;
+        let list = await MajorMain.find().sort([{ name: 'DESC' }]);
+         if (list) {
             data = {
-                list: list.slice(0, 10),
-                next: true
+                list
             }
-        } else {
-            data = {
-                list,
-                next: false
-            }
+            code = 200;
+            message = 'success';
         }
         return res.json({ code, message, data });
     },

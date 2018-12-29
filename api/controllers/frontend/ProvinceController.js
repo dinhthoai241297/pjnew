@@ -18,18 +18,24 @@ module.exports = {
         let code = 200, message = 'success';
         let list = await Province.find().sort([{ name: 'ASC' }]);
         if (list) {
+            data ={
+                list
+            }
             code = 200;
             message = 'success';
         }
-        return res.json({ code, message, list });
+        return res.json({ code, message, data });
     },
 
     // /province/getone/:id
     getOne: async (req, res) => {
         res.status(200);
-        let code = 103, message = 'error', data = undefined, { id = '' } = req.param('data');
-        data = await Province.findOne({ id: id });
-        if (data) {
+        let code = 103, message = 'error', data = undefined, list = undefined, {id} = req.param('data');
+        list = await Province.findOne({ id: id });
+        if (list) {
+            data ={
+                list
+            }
             code = 200;
             message = 'success';
         }
