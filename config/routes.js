@@ -127,7 +127,8 @@ module.exports.routes = {
     'POST /admin/image/upload': 'admin.image.upload',
 
     //FRONTEND
-
+    //user 
+    'POST /frontend/user/loginfacebook': 'frontend.user.loginFacebook',
     //province
     'POST /frontend/province/getall': 'frontend.province.getAll',
     'POST /frontend/province/getone': 'frontend.province.getOne',

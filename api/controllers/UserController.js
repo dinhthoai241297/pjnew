@@ -232,14 +232,14 @@ module.exports = {
         let code = 803, message = 'error';
         try {
             let { user } = req.param('data');
+            console.log(user);
             let email = user.email;
             let tmp = await User.findOne({ email: email });
             if (!tmp) {
                 // check valid data
-                let { fullName, email, sex, birthday, phonenumber, province, purpose, password } = user;
+                let { fullName, email, sex, birthday, phonenumber, password } = user;
                 let check = checkName(fullName) && checkBirthday(birthday) && checkEmail(email)
-                    && checkPassword(password) && checkPhone(phonenumber)
-                    && checkSG(purpose) && sex !== '';
+                    && checkPassword(password) && checkPhone(phonenumbe) && sex !== '';
                 if (!check) {
                     return res.json({ code, message });;
                 }

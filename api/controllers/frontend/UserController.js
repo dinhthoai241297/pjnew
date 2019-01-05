@@ -64,6 +64,47 @@ module.exports = {
             return res.json({ code, message, data });
         }
     },
+    loginFacebook: async (req, res) => {
+        res.status(200);
+        let code, message, data;
+        code = 1403;
+        message = 'error';
+        data = undefined;
+        
+        try {
+
+           let {token} = req.param('data');
+           const request = require('request');
+           request('https://graph.facebook.com/me?fields=id,name,email&access_token='+token, { json: true },async (err, res, body) => {
+              if (err) { 
+                    code = 1403;
+                    message = 'error';
+               }
+              let {id, name, email} = res.body;
+              let user = await User.findOne({username: id , fullName :name, email: email});
+              if(!user) {
+              let add = await User.create({username : id, fullName :name, email :email, password :id});
+              let session = jwt.sign({ email, id, createdAt: new Date() }, sails.config.custom.secretKey);
+              await Session.create({ user: id, session });
+                code = 200;
+                message = 'success';
+                data = { user, session };
+              } 
+              else{
+                let session = jwt.sign({ email, id, createdAt: new Date() }, sails.config.custom.secretKey);
+                await Session.create({ user: user.id, session });
+                code = 200;
+                message = 'success';
+                data = { user, session };
+              }
+               return res.json({ code, message, data });
+          });
+        } catch (error) {
+            code = 1401;
+            return res.json({ code, message, data });
+        }
+    },
+
 
     logout: async (req, res) => {
         res.status(200);

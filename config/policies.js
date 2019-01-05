@@ -88,6 +88,7 @@ module.exports.policies = {
 
     'user/loginadmin': true,
     'frontend/user/login': true,
+    'frontend/user/loginfacebook': true,
     'frontend/user/loginsession': true,
     'frontend/user/logout': true,
     'user/register': true,
