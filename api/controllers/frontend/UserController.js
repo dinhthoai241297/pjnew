@@ -70,95 +70,44 @@ module.exports = {
         code = 1403;
         message = 'error';
         data = undefined;
-        
+
         try {
 
-           let {token} = req.param('data');
-           const request = require('request');
-           request('https://graph.facebook.com/me?fields=id,name,email&access_token='+token, { json: true },async (err, res, body) => {
-              if (err) { 
+            let { token } = req.param('data');
+            const request = require('request');
+            request('https://graph.facebook.com/me?fields=id,name,email&access_token=' + token, { json: true }, async (err, response) => {
+                if (err) {
                     code = 1403;
                     message = 'error';
-               }
-              let {id, name, email} = res.body;
-              let user = await User.findOne({username: id , fullName :name, email: email});
-              if(!user) {
-              let add = await User.create({username : id, fullName :name, email :email, password :id});
-              let session = jwt.sign({ email, id, createdAt: new Date() }, sails.config.custom.secretKey);
-              await Session.create({ user: id, session });
-                code = 200;
-                message = 'success';
-                data = { user, session };
-              } 
-              else{
+                }
+                let { id, name, email } = response.body;
+                let user = await User.findOne({ username: id});
+                if (!user) {
+                   user = await User.create({ username: id, fullName: name, email: email, password: id }).fetch();
+
+                }
                 let session = jwt.sign({ email, id, createdAt: new Date() }, sails.config.custom.secretKey);
                 await Session.create({ user: user.id, session });
                 code = 200;
                 message = 'success';
-                data = { user, session };
-              }
-               return res.json({ code, message, data });
-          });
+                data = { user, session }
+                return res.json({ code, message, data });
+            });
         } catch (error) {
             code = 1401;
             return res.json({ code, message, data });
         }
     },
-
-
-    logout: async (req, res) => {
-        res.status(200);
-        let code, message;
-        code = 1403;
-        message = 'error';
-
-        try {
-            let { session } = req.param('data');
-            await Session.destroy({ session }).fetch();
-            code = 200;
-            message = 'success';
-        } catch (error) {
-            code = 1401;
-        }
-        return res.json({ code, message });
-    },
-
-    updateprofile: async (req, res) => {
-        res.status(200);
-        let code = 1403, message = 'error', data = undefined;
-        try {
-            let { session, user } = req.param('data');
-            let { id, fullName, sex, birthday, province, purpose } = user;
-            let check = checkName(fullName) && checkBirthday(birthday) && checkSG(purpose) && sex !== '';
-            if (check) {
-                birthday = new Date(birthday);
-                let tmp = await Session.findOne({ session });
-                if (tmp) {
-                    let u = await User.updateOne({ id }).set({ fullName: fullName, sex: sex, birthday: birthday, purpose: purpose, province: province });
-                    code = 200;
-                    message = 'success';
-                    data = { user: u };
-                } else {
-                    code = 1402;
-                }
-            }
-        } catch (error) {
-            code = 1401;
-            console.log(error);
-        }
-        return res.json({ code, message, data });
-    }
-
-};
-
-checkSG = subjectGroup => subjectGroup !== '';
-
-checkName = name => name !== '';
-
-checkBirthday = birthday => {
-    if (!birthday || birthday === '') {
-        return false;
-    } else {
-        return true;
-    }
 }
+
+    checkSG = subjectGroup => subjectGroup !== '';
+
+    checkName = name => name !== '';
+
+    checkBirthday = birthday => {
+        if (!birthday || birthday === '') {
+            return false;
+        } else {
+            return true;
+        }
+    }
