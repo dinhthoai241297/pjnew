@@ -239,7 +239,7 @@ module.exports = {
                 // check valid data
                 let { fullName, email, sex, birthday, phonenumber, password } = user;
                 let check = checkName(fullName) && checkBirthday(birthday) && checkEmail(email)
-                    && checkPassword(password) && checkPhone(phonenumbe) && sex !== '';
+                    && checkPassword(password) && checkPhone(phonenumber) && sex !== '';
                 if (!check) {
                     return res.json({ code, message });;
                 }

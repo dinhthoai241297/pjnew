@@ -96,7 +96,7 @@ module.exports.routes = {
     'POST /user/getall': 'user.getAll',
     'POST /user/getone': 'user.getOne',
     'POST /user/register': 'user.register',
-    'POST /user/logout': 'frontend.user.logout',
+    'POST /user/logout': 'user.logout',
     'POST /user/login': 'frontend.user.login',
     'POST /user/loginsession': 'frontend.user.loginSession',
     'POST /user/loginadmin': 'user.loginAdmin',
@@ -104,7 +104,7 @@ module.exports.routes = {
     'POST /user/checksession': 'user.checkSession',
     'POST /user/getkey': 'user.getKey',
     'POST /user/resetpass': 'user.resetPass',
-    'POST /user/updateprofile': 'frontend.user.updateprofile',
+    'POST /user/updateprofile': 'user.updateprofile',
 
     'POST /admin/role/add': 'admin.role.add',
     'POST /admin/role/delete': 'admin.role.delete',
