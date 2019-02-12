@@ -87,7 +87,7 @@ module.exports = {
         try {
             let { session, user } = req.param('data');
             let { id, fullName, sex, birthday, province, purpose } = user;
-            let check = checkName(fullName) && checkBirthday(birthday) && sex !== '';
+            let check = checkName(fullName) && checkBirthday(birthday)&& sex !== '';
             if (check) {
                 birthday = new Date(birthday);
                 let tmp = await Session.findOne({ session });
@@ -143,7 +143,7 @@ module.exports = {
     },
 
 
-}
+};
 
     checkSG = subjectGroup => subjectGroup !== '';
 

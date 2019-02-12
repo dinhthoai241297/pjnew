@@ -89,14 +89,14 @@ module.exports.routes = {
     'POST /admin/subjectgroup/getall': 'admin.subjectGroup.getAll',
     'POST /admin/subjectgroup/getone': 'admin.subjectGroup.getOne',
     'POST /admin/subjectgroup/updatestatus': 'admin.subjectgroup.updateStatus',
-
+     //USER
     'POST /user/add': 'user.add',
     'POST /user/delete': 'user.delete',
     'POST /user/update': 'user.update',
     'POST /user/getall': 'user.getAll',
     'POST /user/getone': 'user.getOne',
     'POST /user/register': 'user.register',
-    'POST /user/logout': 'user.logout',
+    'POST /user/logout': 'frontend.user.logout',
     'POST /user/login': 'frontend.user.login',
     'POST /user/loginsession': 'frontend.user.loginSession',
     'POST /user/loginadmin': 'user.loginAdmin',
@@ -131,6 +131,7 @@ module.exports.routes = {
     'POST /frontend/user/loginfacebook': 'frontend.user.loginFacebook',
     'POST /frontend/user/updateprofile': 'frontend.user.updateprofile',
     'POST /frontend/user/logout': 'frontend.user.logout',
+    'POST /frontend/user/login': 'frontend.user.login',
     //province
     'POST /frontend/province/getall': 'frontend.province.getAll',
     'POST /frontend/province/getone': 'frontend.province.getOne',
