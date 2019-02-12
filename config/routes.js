@@ -104,7 +104,7 @@ module.exports.routes = {
     'POST /user/checksession': 'user.checkSession',
     'POST /user/getkey': 'user.getKey',
     'POST /user/resetpass': 'user.resetPass',
-    'POST /user/updateprofile': 'user.updateprofile',
+    
 
     'POST /admin/role/add': 'admin.role.add',
     'POST /admin/role/delete': 'admin.role.delete',
@@ -129,6 +129,8 @@ module.exports.routes = {
     //FRONTEND
     //user 
     'POST /frontend/user/loginfacebook': 'frontend.user.loginFacebook',
+    'POST /frontend/user/updateprofile': 'frontend.user.updateprofile',
+    'POST /frontend/user/logout': 'frontend.user.logout',
     //province
     'POST /frontend/province/getall': 'frontend.province.getAll',
     'POST /frontend/province/getone': 'frontend.province.getOne',

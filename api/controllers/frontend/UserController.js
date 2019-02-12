@@ -64,6 +64,49 @@ module.exports = {
             return res.json({ code, message, data });
         }
     },
+    logout: async (req, res) => {
+        res.status(200);
+        let code, message;
+        code = 1403;
+        message = 'error';
+
+        try {
+            let { session } = req.param('data');
+            await Session.destroy({ session }).fetch();
+            code = 200;
+            message = 'success';
+        } catch (error) {
+            code = 1401;
+        }
+        return res.json({ code, message });
+    },
+
+    updateprofile: async (req, res) => {
+        res.status(200);
+        let code = 1403, message = 'error', data = undefined;
+        try {
+            let { session, user } = req.param('data');
+            let { id, fullName, sex, birthday, province, purpose } = user;
+            let check = checkName(fullName) && checkBirthday(birthday) && sex !== '';
+            if (check) {
+                birthday = new Date(birthday);
+                let tmp = await Session.findOne({ session });
+                if (tmp) {
+                    let u = await User.updateOne({ id }).set({ fullName: fullName, sex: sex, birthday: birthday, purpose: purpose, province: province });
+                    code = 200;
+                    message = 'success';
+                    data = { user: u };
+                } else {
+                    code = 1402;
+                }
+            }
+        } catch (error) {
+            code = 1401;
+            console.log(error);
+        }
+        return res.json({ code, message, data });
+    },
+
     loginFacebook: async (req, res) => {
         res.status(200);
         let code, message, data;
@@ -98,6 +141,8 @@ module.exports = {
             return res.json({ code, message, data });
         }
     },
+
+
 }
 
     checkSG = subjectGroup => subjectGroup !== '';
