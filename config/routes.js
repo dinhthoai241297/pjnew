@@ -89,6 +89,20 @@ module.exports.routes = {
     'POST /admin/subjectgroup/getall': 'admin.subjectGroup.getAll',
     'POST /admin/subjectgroup/getone': 'admin.subjectGroup.getOne',
     'POST /admin/subjectgroup/updatestatus': 'admin.subjectgroup.updateStatus',
+
+    'POST /admin/job/add': 'admin.job.add',
+    'POST /admin/job/delete': 'admin.job.delete',
+    'POST /admin/job/update': 'admin.job.update',
+    'POST /admin/job/getall': 'admin.job.getAll',
+    'POST /admin/job/getone': 'admin.job.getOne',
+    'POST /admin/job/updatestatus': 'admin.job.updateStatus',
+
+    'POST /admin/majorproperties/add': 'admin.majorproperties.add',
+    'POST /admin/majorproperties/delete': 'admin.majorproperties.delete',
+    'POST /admin/majorproperties/update': 'admin.majorproperties.update',
+    'POST /admin/majorproperties/getall': 'admin.majorproperties.getAll',
+    'POST /admin/majorproperties/getone': 'admin.majorproperties.getOne',
+    'POST /admin/majorproperties/updatestatus': 'admin.majorproperties.updateStatus',
      //USER
     'POST /user/add': 'user.add',
     'POST /user/delete': 'user.delete',
@@ -132,6 +146,7 @@ module.exports.routes = {
     'POST /frontend/user/updateprofile': 'frontend.user.updateprofile',
     'POST /frontend/user/logout': 'frontend.user.logout',
     'POST /frontend/user/login': 'frontend.user.login',
+    'POST /frontend/user/loginsession': 'frontend.user.loginSession',
     //province
     'POST /frontend/province/getall': 'frontend.province.getAll',
     'POST /frontend/province/getone': 'frontend.province.getOne',
@@ -151,8 +166,15 @@ module.exports.routes = {
     // News
     'POST /frontend/new/getall': 'frontend.new.getAll',
     'POST /frontend/new/getone': 'frontend.new.getOne',
-    'POST /frontend/new/esarch': 'frontend.new.search',
+    'POST /frontend/new/search': 'frontend.new.search',
     //MainMajor
     'POST /frontend/majormain/getall': 'frontend.majormain.getAll',
-
+    // Majorproperties
+    'POST /frontend/majorproperties/getall': 'frontend.majorproperties.getAll',
+    'POST /frontend/majorproperties/getone': 'frontend.majorproperties.getOne',
+    'POST /frontend/majorproperties/search': 'frontend.majorproperties.search',
+    //Job
+    'POST /frontend/job/getall': 'frontend.job.getAll',
+    'POST /frontend/job/getone': 'frontend.job.getOne',
+    'POST /frontend/job/search': 'frontend.job.search',
 };

@@ -29,6 +29,8 @@ module.exports.policies = {
     'admin/subject/getall': 'canView',
     'admin/subjectgroup/getall': 'canView',
     'admin/new/getall': 'canView',
+    'admin/job/getall': 'canView',
+    'admin/majorproperties/getall': 'canView',
 
     'admin/media/getlist': 'canView',
 
@@ -41,6 +43,8 @@ module.exports.policies = {
     'admin/subject/getone': 'canUpdate',
     'admin/subjectgroup/getone': 'canUpdate',
     'admin/new/getone': 'canUpdate',
+    'admin/job/getone': 'canUpdate',
+    'admin/majorproperties/getone': 'canUpdate',
 
     'admin/sector/add': 'canAdd',
     'admin/major/add': 'canAdd',
@@ -51,6 +55,8 @@ module.exports.policies = {
     'admin/subject/add': 'canAdd',
     'admin/subjectgroup/add': 'canAdd',
     'admin/new/add': 'canAdd',
+    'admin/job/add': 'canAdd',
+    'admin/majorproperties/add': 'canAdd',
 
     'admin/sector/update': 'canUpdate',
     'admin/major/update': 'canUpdate',
@@ -61,6 +67,8 @@ module.exports.policies = {
     'admin/subject/update': 'canUpdate',
     'admin/subjectgroup/update': 'canUpdate',
     'admin/new/update': 'canUpdate',
+    'admin/job/update': 'canUpdate',
+    'admin/majorproperties/update': 'canUpdate',
 
     'admin/sector/updatestatus': 'canDelete',
     'admin/major/updatestatus': 'canDelete',
@@ -71,6 +79,8 @@ module.exports.policies = {
     'admin/subjectgroup/updatestatus': 'canDelete',
     'admin/new/updatestatus': 'canDelete',
     'admin/media/updatestatus': 'canDelete',
+    'admin/job/updatestatus': 'canDelete',
+    'admin/majorproperties/updatestatus': 'canDelete',
 
     'admin/sector/delete': 'isRoot',
     'admin/major/delete': 'isRoot',
@@ -81,17 +91,20 @@ module.exports.policies = {
     'admin/subject/delete': 'isRoot',
     'admin/subjectgroup/delete': 'isRoot',
     'admin/new/delete': 'isRoot',
+    'admin/job/delete': 'isRoot',
+    'admin/majorproperties/delete': 'isRoot',
 
     'admin/role/*': 'isRoot',
     'user/*': 'isRoot',
     // 'user/update': 'canUpdate',
 
-    'user/loginadmin': true,
+    
     'frontend/user/login': true,
     'frontend/user/loginfacebook': true,
     'frontend/user/loginsession': true,
     'frontend/user/updateprofile': true,
     'frontend/user/logout': true,
+
     'user/logout': true,
     'user/register': true,
     'user/getkey': true,
@@ -99,7 +112,7 @@ module.exports.policies = {
     'user/update': true, 
     'user/getall': true,
     'user/login': true,
-
+    'user/loginadmin': true,
 
     'admin/sector/getall': true,
     'admin/major/getall': true,
@@ -111,7 +124,6 @@ module.exports.policies = {
     'admin/subjectgroup/getall': true,
     'admin/new/getall': true,
     'admin/image/upload': true,
-
     'admin/media/upload': true,
 
     //FRONTEND
@@ -132,4 +144,12 @@ module.exports.policies = {
     'frontend/new/search': true,
 
     'frontend/majormain/getall': true,
+
+    'frontend/majorproperties/getall': true,
+    'frontend/majorproperties/getone': true,
+    'frontend/majorproperties/search': true,
+    
+    'frontend/job/getall': true,
+    'frontend/job/getone': true,
+    'frontend/job/search': true,
 };
