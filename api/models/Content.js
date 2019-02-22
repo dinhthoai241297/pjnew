@@ -1,29 +1,31 @@
 /**
- * New.js
+ * Major.js
  *
  * @description :: A model definition.  Represents a database table/collection/etc.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
 module.exports = {
-
+    // Major
     attributes: {
-        user: {
-            model: 'user'
+        job: {
+            model: 'job',
+            required: true
         },
-        title: {
+        tongquan: {
             type: 'string'
         },
-        image: {
+        tochat: {
+           type: 'string'
+        },
+        chuyennghe: {
             type: 'string'
         },
-        content: {
-            type: 'string'
-        },
-        description: {
-            type: 'string'
-        }
-    },
+        khampha :{
+           type : 'string'
 
+        },
+       
+    }
 };
 

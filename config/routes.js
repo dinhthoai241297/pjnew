@@ -174,7 +174,7 @@ module.exports.routes = {
     'POST /frontend/majorproperties/getone': 'frontend.majorproperties.getOne',
     'POST /frontend/majorproperties/search': 'frontend.majorproperties.search',
     //Job
-    'POST /frontend/job/getall': 'frontend.job.getAll',
     'POST /frontend/job/getone': 'frontend.job.getOne',
     'POST /frontend/job/search': 'frontend.job.search',
+    'POST /frontend/job/getlist': 'frontend.job.getlist',
 };

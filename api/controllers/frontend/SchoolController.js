@@ -251,7 +251,7 @@
         if (!year) {
             year = 2018;
         }
-        let logdata = await Data.create({subjectGroups,mark, majorcode,province});
+        let logdata = await DataMajor.create({subjectGroups,mark, majorcode,province});
         try {
                // lấy list id tổ hợp môn (id trong bảng mark) 
                let lsubjectGroupsid = [];

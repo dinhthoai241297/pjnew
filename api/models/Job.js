@@ -8,25 +8,31 @@
 module.exports = {
 
     attributes: {
-        user: {
-            model: 'user'
-        },
-        title: {
+        name: {
             type: 'string'
         },
         image: {
             type: 'string'
         },
-        content: {
+        link: {
             type: 'string'
         },
-        description: {
-            type: 'string'
+        content :{
+            model :'content'
         },
-        status: {
-            model: 'status',
-            required: true
+        p1: {
+            model: 'p1'
+        },
+        p2: {
+            model: 'p2'
+        },
+        p3: {
+            model: 'p3'
+        },
+        p4: {
+            model: 'p4'
         }
+        
     },
 
 };
