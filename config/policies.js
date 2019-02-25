@@ -153,4 +153,11 @@ module.exports.policies = {
     'frontend/job/getone': true,
     'frontend/job/search': true,
     'frontend/job/getlist': true,
+
+    'frontend/p1/getall': true,
+    'frontend/p2/getall': true,
+    'frontend/p3/getall': true,
+    'frontend/p4/getall': true,
+
+    
 };

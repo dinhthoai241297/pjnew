@@ -103,7 +103,7 @@ module.exports.routes = {
     'POST /admin/majorproperties/getall': 'admin.majorproperties.getAll',
     'POST /admin/majorproperties/getone': 'admin.majorproperties.getOne',
     'POST /admin/majorproperties/updatestatus': 'admin.majorproperties.updateStatus',
-     //USER
+    //USER
     'POST /user/add': 'user.add',
     'POST /user/delete': 'user.delete',
     'POST /user/update': 'user.update',
@@ -118,7 +118,7 @@ module.exports.routes = {
     'POST /user/checksession': 'user.checkSession',
     'POST /user/getkey': 'user.getKey',
     'POST /user/resetpass': 'user.resetPass',
-    
+
 
     'POST /admin/role/add': 'admin.role.add',
     'POST /admin/role/delete': 'admin.role.delete',
@@ -177,4 +177,13 @@ module.exports.routes = {
     'POST /frontend/job/getone': 'frontend.job.getOne',
     'POST /frontend/job/search': 'frontend.job.search',
     'POST /frontend/job/getlist': 'frontend.job.getlist',
+
+    //P1
+    'POST /frontend/p1/getall': 'frontend.p1.getAll',
+    //P2
+    'POST /frontend/p2/getall': 'frontend.p2.getAll',
+    //P3
+    'POST /frontend/p3/getall': 'frontend.p3.getAll',
+    //P4
+    'POST /frontend/p4/getall': 'frontend.p4.getAll',
 };
