@@ -13,6 +13,9 @@ module.exports = {
         p4: {
             model: 'p4'
         },
+        keyword: {
+            type: 'string'
+        },
        
     },
 };
