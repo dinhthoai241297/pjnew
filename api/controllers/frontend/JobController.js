@@ -79,7 +79,7 @@ module.exports = {
         let logdata = await DataJob.create({ p1, p2, p3, p4, keyword });
         try {
             if (!p1 && !p2 && !p3 && !p4 && !keyword) {
-                list = await Job.find().limit(11).skip((page - 1) * 10);
+                list = await Job.find().limit(21).skip((page - 1) * 20);
                 if (list.length > 20) {
                     data = {
                         list: list.slice(0, 20),
