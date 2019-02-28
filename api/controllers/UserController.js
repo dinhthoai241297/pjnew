@@ -227,41 +227,6 @@ module.exports = {
         return res.json({ code, message });
     },
 
-    register: async (req, res) => {
-        res.status(200);
-        let code = 803, message = 'error';
-        try {
-            let { user } = req.param('data');
-            console.log(user);
-            let email = user.email;
-            let tmp = await User.findOne({ email: email });
-            if (!tmp) {
-                // check valid data
-                let { fullName, email, sex, birthday, phonenumber, password } = user;
-                let check = checkName(fullName) && checkBirthday(birthday) && checkEmail(email)
-                    && checkPassword(password) && checkPhone(phonenumber) && sex !== '';
-                if (!check) {
-                    return res.json({ code, message });;
-                }
-                user.birthday = new Date(user.birthday);
-                let status = await Status.findOne({ status: 1 });
-                user.status = status.id;
-                let s = await User.create(user).fetch();
-                if (s) {
-                    let log = await Logtime.create({ iduser: "No ID", action: "register", collection: "user" }).fetch();
-                    code = 200;
-                    message = 'success';
-                } else {
-                    code = 802;
-                }
-            }
-        } catch (error) {
-            console.log(error);
-            code = 801;
-        }
-        return res.json({ code, message });
-    },
-
     getKey: async (req, res) => {
         res.status(200);
         let code = 803, message = 'error';

@@ -109,7 +109,6 @@ module.exports.routes = {
     'POST /user/update': 'user.update',
     'POST /user/getall': 'user.getAll',
     'POST /user/getone': 'user.getOne',
-    'POST /user/register': 'user.register',
     'POST /user/logout': 'frontend.user.logout',
     'POST /user/login': 'frontend.user.login',
     'POST /user/loginsession': 'frontend.user.loginSession',
@@ -141,12 +140,17 @@ module.exports.routes = {
     'POST /admin/image/upload': 'admin.image.upload',
 
     //FRONTEND
-    //user 
+    //user
     'POST /frontend/user/loginfacebook': 'frontend.user.loginFacebook',
     'POST /frontend/user/updateprofile': 'frontend.user.updateprofile',
     'POST /frontend/user/logout': 'frontend.user.logout',
     'POST /frontend/user/login': 'frontend.user.login',
     'POST /frontend/user/loginsession': 'frontend.user.loginSession',
+    'POST /frontend/user/register': 'frontend.user.register',
+    'POST /frontend/user/updatepassword': 'frontend.user.updatePassword',
+    'POST /frontend/user/getkey': 'frontend.user.getKey',
+    'POST /frontend/user/resetpassword': 'frontend.user.resetPassword',
+
     //province
     'POST /frontend/province/getall': 'frontend.province.getAll',
     'POST /frontend/province/getone': 'frontend.province.getOne',

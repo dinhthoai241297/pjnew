@@ -98,18 +98,21 @@ module.exports.policies = {
     'user/*': 'isRoot',
     // 'user/update': 'canUpdate',
 
-    
+
     'frontend/user/login': true,
     'frontend/user/loginfacebook': true,
     'frontend/user/loginsession': true,
     'frontend/user/updateprofile': true,
     'frontend/user/logout': true,
+    'frontend/user/register': true,
+    'frontend/user/updatepassword': true,
+    'frontend/user/getkey': true,
+    'frontend/user/resetpassword': true,
 
     'user/logout': true,
-    'user/register': true,
     'user/getkey': true,
     'user/resetpass': true,
-    'user/update': true, 
+    'user/update': true,
     'user/getall': true,
     'user/login': true,
     'user/loginadmin': true,
@@ -148,8 +151,8 @@ module.exports.policies = {
     'frontend/majorproperties/getall': true,
     'frontend/majorproperties/getone': true,
     'frontend/majorproperties/search': true,
-    
-   
+
+
     'frontend/job/getone': true,
     'frontend/job/search': true,
     'frontend/job/getlist': true,
@@ -159,5 +162,5 @@ module.exports.policies = {
     'frontend/p3/getall': true,
     'frontend/p4/getall': true,
 
-    
+
 };
