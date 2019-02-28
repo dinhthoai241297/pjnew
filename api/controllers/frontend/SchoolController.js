@@ -255,65 +255,23 @@ module.exports = {
         let logdata = await DataMajor.create({ subjectGroups, mark, majorcode, province });
         try {
             if (!subjectGroups && !mark && !majorcode && !province) {
-                list = await School.find().populate('province').limit(11).skip((page - 1) * 10);
+                list = await School.find().populate('province').limit(21).skip((page - 1) * 20);
+                if (list.length > 20) {
+                    data = {
+                        list: list.slice(0, 20),
+                        next: true
+                    }
+                } else {
+                    data = {
+                        list,
+                        next: false
+                    }
+                }
+                code = 200;
+                message = 'success';
+                return res.json({ code, message, data });
             } else {
-                // let arr = [];
-                // if (subjectGroups) arr.push({ subjectGroups: new ObjectID(subjectGroups) });
-                // console.log(arr);
-                // if (majorcode) arr.push({ major: { $regex: majorcode, $options: "i" } });
-                // console.log(arr);
-                // if (mark) arr.push({ mark: { $range: [ new ObjectID(markfrom), new ObjectID(markto)] } });
-                // console.log(arr);
-                // let db = Mark.getDatastore().manager;
-                // rs = await db.collection('mark').aggregate([
-                //     {
-                //         $match: {
-                //             $and: arr
-                //         }
-                //     },
-                //     { $skip: (page - 1) * 20 },
-                //     { $limit: 21 }
-                // ]).toArray((error, list) => {
-                //     if (!error) {
-                //         if (list.length > 20) {
-                //             data = {
-                //                 list: list.slice(0, 20),
-                //                 next: true
-                //             }
-                //         } else {
-                //             data = {
-                //                 list,
-                //                 next: false
-                //             }
-                //         }
-                //         code = 200;
-                //         message = 'success';
-                //     }
-                //     return res.json({ code, message, data });
-
-                // });
-
-
-                //  // Lấy danh sách id <ngành học và Khối điểm> 
-                // let tmp =[];
-                // let markfrom = undefined;
-                //         let markto = undefined ;
-                //         if(!mark){
-                //            markfrom = 0;
-                //            markto =30;
-                //        } 
-                //        else
-                //        {
-                //           markfrom = mark ;
-                //           markto = mark + 3;
-                //       };
-                // let a = await Mark.find({major : majorcode, year : year, mark : {'>=' : markfrom , '<' : markto}, subjectGroups : {contains : subjectGroups}});
-                // console.log(a);
-
-
-
-
-                // lấy list id tổ hợp môn (id trong bảng mark) 
+                    // lấy list id tổ hợp môn (id trong bảng mark) 
                 let lsubjectGroupsid = [];
                 if (!subjectGroups) {
                     let fsubjectGroups = await Mark.find();
