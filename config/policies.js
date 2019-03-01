@@ -163,4 +163,7 @@ module.exports.policies = {
     'frontend/p4/getall': true,
 
 
+    'frontend/careertest/getlist': true,
+
+
 };

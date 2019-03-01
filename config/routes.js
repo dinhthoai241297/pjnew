@@ -190,4 +190,6 @@ module.exports.routes = {
     'POST /frontend/p3/getall': 'frontend.p3.getAll',
     //P4
     'POST /frontend/p4/getall': 'frontend.p4.getAll',
+    // CareerTest
+    'POST /frontend/careertest/getlist': 'frontend.careertest.getList',
 };
