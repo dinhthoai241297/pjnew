@@ -11,7 +11,7 @@ module.exports = {
         content: {
             type : 'string'
         },
-        character : {
+          character : {
             model :'character'
         },
        
