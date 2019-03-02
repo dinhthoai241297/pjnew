@@ -9,7 +9,7 @@ module.exports = {
     getList: async (req, res) => {
         res.status(200);
         let code = 200, message = 'success', data = undefined;
-        let list = await Questions.find().sort([{ id: 'ASC' }]).populate('character');
+        let list = await Character.find().sort([{ name: 'ASC' }]).populate('questions');
          if (list) {
             data = {
                 list

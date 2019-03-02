@@ -11,9 +11,9 @@ module.exports = {
         content: {
             type : 'string'
         },
-        character: {
-            model: 'character'
-        }
+        character : {
+            model :'character'
+        },
        
     }
 };

@@ -16,8 +16,11 @@ module.exports = {
         },
         content: {
            type: 'string'
-        }
-       
+        },
+        questions : {
+            collection : 'questions',
+            via :'character'
+        },
     }
 };
 
