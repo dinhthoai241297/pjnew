@@ -150,7 +150,7 @@ module.exports.policies = {
 
     'frontend/majorproperties/getall': true,
     'frontend/majorproperties/getone': true,
-    'frontend/majorproperties/search': true,
+   
 
 
     'frontend/job/getone': true,

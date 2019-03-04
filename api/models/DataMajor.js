@@ -1,5 +1,5 @@
 module.exports = {
-    // Mark
+    // DataMajor
     attributes: {
         majorcode: {
             type : 'string'
