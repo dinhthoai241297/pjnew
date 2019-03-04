@@ -10,10 +10,7 @@ module.exports = {
 
     getAll: async (req, res) => {
         res.status(200);
-        let code = 200, message = 'success', data = undefined, { page } = req.param('data');
-        if (!page || page < 0) {
-            page = 1;
-        }
+        let code = 200, message = 'success', data = undefined;
         let list = await GroupMajor.find().sort([{ name: 'DESC' }]).populate('groupmajoritem');
         if (list) {
             data ={
