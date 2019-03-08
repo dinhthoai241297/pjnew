@@ -21,6 +21,9 @@ module.exports = {
             collection : 'questions',
             via :'character'
         },
+        p4: {
+            model :'p4'
+        }
     }
 };
 
